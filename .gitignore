@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Temporary and scratch files
+scratch/
+*.bak
+test_*.html
+pdf_render.html
+portfolio-react-source/
+*Interior Designer.html
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / logs
+*.log
+.env
+.env.local
