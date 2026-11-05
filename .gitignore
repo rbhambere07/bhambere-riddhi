@@ -1,4 +1,7 @@
-# Dependencies
+# Local development server
+server.js
+package.json
+package-lock.json
 node_modules/
 .npm/
 
