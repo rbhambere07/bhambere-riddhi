@@ -74,8 +74,9 @@ header nav a.active{color:var(--hi);font-weight:600}
 header nav a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1.5px;background:var(--hi);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
 header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 
+
 /* ==========================================================================
-   HERO SECTION: Pure White Canvas with Dark Brown & Orange Typography
+   DYNAMIC "WHAT IF?" SPATIAL CAROUSEL HERO SECTION
    ========================================================================== */
 .hero {
   position: relative;
@@ -83,47 +84,84 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: clamp(100px, 12vh, 125px) clamp(20px, 4vw, 56px) clamp(28px, 4vh, 42px);
+  padding: clamp(100px, 12vh, 128px) clamp(20px, 4vw, 56px) clamp(36px, 5vh, 56px);
   color: var(--ink);
   background-color: var(--bg);
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .hero-inner {
   position: relative;
   width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+}
+
+/* Top Meta Kicker */
+.hero-kicker-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(14px, 2vh, 22px);
+  padding: 6px 14px;
+  background: rgba(var(--ink-rgb), 0.04);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.hero-kicker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--hi);
+  box-shadow: 0 0 8px rgba(var(--hi-rgb), 0.6);
+  animation: pulseDot 2.2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.35); opacity: 1; }
 }
 
 .hero-headline {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2.4rem, 5.8vw, 5.5rem);
+  font-size: clamp(2.8rem, 6.5vw, 6.2rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.08;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
   color: var(--ink);
-  margin: 0 0 clamp(24px, 3.5vh, 36px);
-  white-space: nowrap;
+  margin: 0 0 clamp(16px, 2.5vh, 24px);
 }
 
 .hero-headline .hero-what-if {
   color: var(--hi);
   font-style: italic;
   font-weight: 700;
-  margin-left: 0.22em;
+  margin-left: 0.18em;
+  position: relative;
+  display: inline-block;
 }
 
 .hero-about-wrap {
-  max-width: 66ch;
+  max-width: 68ch;
+  margin-bottom: clamp(32px, 5vh, 48px);
 }
 
 .hero-about-body {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(1.12rem, 1.6vw, 1.34rem);
+  font-size: clamp(1.1rem, 1.5vw, 1.32rem);
   font-weight: 400;
-  line-height: 1.68;
+  line-height: 1.62;
   color: var(--dim);
-  margin: 0 0 16px;
-  letter-spacing: -0.005em;
+  margin: 0;
+  letter-spacing: -0.008em;
 }
 
 .hero-about-body b {
@@ -131,26 +169,339 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   font-weight: 600;
 }
 
-.hero-about-quote {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.22rem, 1.8vw, 1.52rem);
-  font-style: italic;
+/* Tab Switchers Above Carousel */
+.whatif-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: clamp(20px, 3vh, 32px);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.whatif-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.whatif-tabs::-webkit-scrollbar { display: none; }
+
+.whatif-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
   font-weight: 600;
-  line-height: 1.48;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.whatif-tab-btn:hover {
+  color: var(--ink);
+  background: rgba(var(--ink-rgb), 0.04);
+}
+
+.whatif-tab-btn.active {
+  color: var(--ink);
+  background: #FFFFFF;
+  border-color: var(--line);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.whatif-tab-btn.active .tab-num {
   color: var(--hi);
+  font-weight: 700;
+}
+
+.whatif-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.whatif-ctrl-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #FFFFFF;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.whatif-ctrl-btn:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.whatif-counter {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+  padding: 0 4px;
+}
+
+/* Carousel 3D Perspective Stage */
+.whatif-carousel-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 62vh, 640px);
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+  user-select: none;
+}
+
+.whatif-card-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Individual Spatial Perspective Card */
+.whatif-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #18120F;
+  border: 1px solid rgba(var(--ink-rgb), 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              opacity 0.65s ease, 
+              filter 0.65s ease,
+              box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(24px, 4vw, 44px);
+  box-sizing: border-box;
+}
+
+/* Photographic Space Background */
+.whatif-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 1;
+}
+
+.whatif-card-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 14, 11, 0.45) 0%, rgba(20, 14, 11, 0.2) 40%, rgba(14, 9, 7, 0.85) 100%);
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.whatif-card:hover .whatif-card-bg {
+  transform: scale(1.04);
+}
+
+/* Card Content Floating Layers */
+.whatif-card-top {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.whatif-chip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(20, 14, 11, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.whatif-chip-scale {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(254, 94, 50, 0.88);
+  color: #FFFFFF;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.whatif-card-bottom {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 820px;
+}
+
+.whatif-query-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
   margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+}
+
+.whatif-query-title .hi-phrase {
+  color: #FFB39E;
+  font-style: italic;
+}
+
+.whatif-project-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.whatif-tags-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.whatif-material-tag {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.whatif-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #FFFFFF;
+  color: var(--ink);
+  border-radius: 999px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.whatif-card:hover .whatif-explore-btn {
+  background: var(--hi);
+  color: #FFFFFF;
+  transform: translateX(4px);
+}
+
+/* Card 3D Depth Positioning */
+.whatif-card[data-state="active"] {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 1;
+  filter: blur(0px);
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.whatif-card[data-state="next"] {
+  transform: translate3d(clamp(40px, 8vw, 120px), 0, -180px) scale(0.92) rotateY(-8deg);
+  opacity: 0.55;
+  filter: blur(1.5px);
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.whatif-card[data-state="prev"] {
+  transform: translate3d(clamp(-120px, -8vw, -40px), 0, -180px) scale(0.92) rotateY(8deg);
+  opacity: 0.55;
+  filter: blur(1.5px);
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.whatif-card[data-state="hidden"] {
+  transform: translate3d(0, 0, -320px) scale(0.8);
+  opacity: 0;
+  filter: blur(4px);
+  z-index: 1;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
   .hero {
     padding-top: 96px;
-    padding-bottom: 32px;
+    padding-bottom: 28px;
   }
-  .hero-headline {
-    white-space: normal;
-    font-size: clamp(2.3rem, 8.8vw, 3.6rem);
+  .whatif-carousel-stage {
+    height: 520px;
+  }
+  .whatif-card {
+    padding: 20px;
+  }
+  .whatif-project-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .whatif-card[data-state="next"],
+  .whatif-card[data-state="prev"] {
+    opacity: 0;
+    pointer-events: none;
   }
 }
+
 
 /* marquee */
 .mq{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:16vh}
@@ -2516,15 +2867,132 @@ body.po{overflow:hidden}
 <main>
 <section class="hero pad" id="top">
   <div class="hero-inner">
+    
+    <!-- Top Kicker Badge -->
+    <div class="hero-kicker-strip">
+      <span class="hero-kicker-dot"></span>
+      <span>Interior Architect & Scenographer · Spatial Inquiries</span>
+    </div>
+
+    <!-- Main Editorial Headline -->
     <h1 class="hero-headline">I Design <span class="hero-what-if">“What If?”</span></h1>
+
+    <!-- Narrative Statement -->
     <div class="hero-about-wrap">
       <p class="hero-about-body">
         <b>Curiosity</b> is the starting point of my design process, pushing me to <b>question</b> what exists, <b>explore</b> what it could be, and <b>experiment</b> with ideas until they evolve into meaningful spatial experiences.
       </p>
-      <p class="hero-about-quote">
-        Every “what if?” becomes a different perspective.
-      </p>
     </div>
+
+    <!-- Interactive Navigation Bar for Spatial Carousel -->
+    <div class="whatif-nav-bar">
+      <div class="whatif-tabs" role="tablist" aria-label="Signature Spatial Perspectives">
+        <button class="whatif-tab-btn active" data-index="0" role="tab" aria-selected="true">
+          <span class="tab-num">01</span> Atrium Scenography
+        </button>
+        <button class="whatif-tab-btn" data-index="1" role="tab" aria-selected="false">
+          <span class="tab-num">02</span> Private Residence
+        </button>
+        <button class="whatif-tab-btn" data-index="2" role="tab" aria-selected="false">
+          <span class="tab-num">03</span> Retail Sanctuary
+        </button>
+      </div>
+
+      <div class="whatif-controls">
+        <button class="whatif-ctrl-btn" id="whatifPrev" aria-label="Previous spatial perspective">←</button>
+        <span class="whatif-counter" id="whatifCounter">01 / 03</span>
+        <button class="whatif-ctrl-btn" id="whatifNext" aria-label="Next spatial perspective">→</button>
+      </div>
+    </div>
+
+    <!-- 3D Spatial Perspective Carousel Stage -->
+    <div class="whatif-carousel-stage" id="whatifStage">
+      <div class="whatif-card-track" id="whatifTrack">
+        
+        <!-- CARD 1: Parallel Business Hotel -->
+        <article class="whatif-card" data-index="0" data-state="active" data-proj="parallel-business-hotel" onclick="handleCardClick(event, 0, 'parallel-business-hotel')">
+          <div class="whatif-card-bg" style="background-image: url('/assets/projects/parallel-business-hotel/reception.jpg');"></div>
+          <div class="whatif-card-scrim"></div>
+          
+          <div class="whatif-card-top">
+            <span class="whatif-chip-badge">● The Parallel Hotel · Hospitality</span>
+            <span class="whatif-chip-scale">1:100 Scale</span>
+          </div>
+
+          <div class="whatif-card-bottom">
+            <h2 class="whatif-query-title">
+              “What if an atrium felt like a <span class="hi-phrase">sunlit forest courtyard?</span>”
+            </h2>
+            <div class="whatif-project-row">
+              <div class="whatif-tags-wrap">
+                <span class="whatif-material-tag">Biophilic Canopy</span>
+                <span class="whatif-material-tag">Terrazzo Plinths</span>
+                <span class="whatif-material-tag">Warm Diffuse Light</span>
+              </div>
+              <span class="whatif-explore-btn">
+                Explore Space <span>→</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Residential 3BHK Interior -->
+        <article class="whatif-card" data-index="1" data-state="next" data-proj="3bhk-interior" onclick="handleCardClick(event, 1, '3bhk-interior')">
+          <div class="whatif-card-bg" style="background-image: url('/assets/projects/3bhk-interior/3bhk-01.jpg');"></div>
+          <div class="whatif-card-scrim"></div>
+          
+          <div class="whatif-card-top">
+            <span class="whatif-chip-badge">● 3BHK Residence · Ahmedabad</span>
+            <span class="whatif-chip-scale">1:20 Detail</span>
+          </div>
+
+          <div class="whatif-card-bottom">
+            <h2 class="whatif-query-title">
+              “What if private living dissolved the <span class="hi-phrase">rigid boundaries of light?</span>”
+            </h2>
+            <div class="whatif-project-row">
+              <div class="whatif-tags-wrap">
+                <span class="whatif-material-tag">Fluted Oak Paneling</span>
+                <span class="whatif-material-tag">Custom Joinery</span>
+                <span class="whatif-material-tag">Tactile Linen</span>
+              </div>
+              <span class="whatif-explore-btn">
+                Explore Space <span>→</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3: Forest Essentials Retail Sanctuary -->
+        <article class="whatif-card" data-index="2" data-state="prev" data-proj="forest-essentials" onclick="handleCardClick(event, 2, 'forest-essentials')">
+          <div class="whatif-card-bg" style="background-image: url('/assets/projects/forest-essentials/forest-essentials-overview.jpg');"></div>
+          <div class="whatif-card-scrim"></div>
+          
+          <div class="whatif-card-top">
+            <span class="whatif-chip-badge">● Forest Essentials · Scenography</span>
+            <span class="whatif-chip-scale">1:50 Spatial</span>
+          </div>
+
+          <div class="whatif-card-bottom">
+            <h2 class="whatif-query-title">
+              “What if retail was experienced as an <span class="hi-phrase">ancient Ayurvedic ritual?</span>”
+            </h2>
+            <div class="whatif-project-row">
+              <div class="whatif-tags-wrap">
+                <span class="whatif-material-tag">Curved Ochre Timber</span>
+                <span class="whatif-material-tag">Canopy Skylight</span>
+                <span class="whatif-material-tag">Brushed Copper</span>
+              </div>
+              <span class="whatif-explore-btn">
+                Explore Space <span>→</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -7101,6 +7569,148 @@ window.toggleFlhVolume = function(btn) {
 })();
 
 const h0=location.hash.slice(1);if(PJ.some(p=>p.id===h0))openP(h0,false);
+
+
+// ==========================================================================
+// DYNAMIC "WHAT IF?" SPATIAL CAROUSEL CONTROLLER
+// ==========================================================================
+(function initWhatIfCarousel() {
+  const cards = document.querySelectorAll('.whatif-card');
+  const tabs = document.querySelectorAll('.whatif-tab-btn');
+  const prevBtn = document.getElementById('whatifPrev');
+  const nextBtn = document.getElementById('whatifNext');
+  const counter = document.getElementById('whatifCounter');
+  const stage = document.getElementById('whatifStage');
+
+  if (!cards.length) return;
+
+  let currentIndex = 0;
+  const total = cards.length;
+  let autoTimer = null;
+
+  function updateCarousel(newIndex) {
+    currentIndex = (newIndex + total) % total;
+
+    cards.forEach((card, idx) => {
+      if (idx === currentIndex) {
+        card.setAttribute('data-state', 'active');
+      } else if (idx === (currentIndex + 1) % total) {
+        card.setAttribute('data-state', 'next');
+      } else if (idx === (currentIndex - 1 + total) % total) {
+        card.setAttribute('data-state', 'prev');
+      } else {
+        card.setAttribute('data-state', 'hidden');
+      }
+    });
+
+    tabs.forEach((tab, idx) => {
+      const isActive = idx === currentIndex;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    if (counter) {
+      counter.textContent = `0${currentIndex + 1} / 0${total}`;
+    }
+  }
+
+  // Window-level handler for card click
+  window.handleCardClick = function(event, cardIndex, projId) {
+    if (cardIndex !== currentIndex) {
+      event.preventDefault();
+      event.stopPropagation();
+      updateCarousel(cardIndex);
+      resetAutoTimer();
+    } else {
+      // If clicking the explore button or active card, open modal
+      if (typeof openP === 'function') {
+        openP(projId, true);
+      }
+    }
+  };
+
+  tabs.forEach((tab, idx) => {
+    tab.addEventListener('click', () => {
+      updateCarousel(idx);
+      resetAutoTimer();
+    });
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      updateCarousel(currentIndex - 1);
+      resetAutoTimer();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      updateCarousel(currentIndex + 1);
+      resetAutoTimer();
+    });
+  }
+
+  // 3D Parallax Tilt on Active Card
+  if (stage) {
+    stage.addEventListener('mousemove', (e) => {
+      const activeCard = document.querySelector('.whatif-card[data-state="active"]');
+      if (!activeCard) return;
+
+      const rect = activeCard.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      activeCard.style.transform = `translate3d(0, 0, 0) scale(1) rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 10).toFixed(2)}deg)`;
+    });
+
+    stage.addEventListener('mouseleave', () => {
+      const activeCard = document.querySelector('.whatif-card[data-state="active"]');
+      if (activeCard) {
+        activeCard.style.transform = 'translate3d(0, 0, 0) scale(1) rotateX(0deg) rotateY(0deg)';
+      }
+    });
+  }
+
+  // Auto-cycle every 7 seconds when idle
+  function startAutoTimer() {
+    autoTimer = setInterval(() => {
+      updateCarousel(currentIndex + 1);
+    }, 7000);
+  }
+
+  function resetAutoTimer() {
+    clearInterval(autoTimer);
+    startAutoTimer();
+  }
+
+  if (stage) {
+    stage.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    stage.addEventListener('mouseleave', startAutoTimer);
+  }
+
+  // Touch swipe support for mobile
+  let touchStartX = 0;
+  if (stage) {
+    stage.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    stage.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length > 0) {
+        const deltaX = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(deltaX) > 40) {
+          if (deltaX < 0) updateCarousel(currentIndex + 1);
+          else updateCarousel(currentIndex - 1);
+          resetAutoTimer();
+        }
+      }
+    }, { passive: true });
+  }
+
+  startAutoTimer();
+  updateCarousel(0);
+})();
+
 </script>
 </body>
 </html>
