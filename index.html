@@ -69,23 +69,6 @@ header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:30
 header b{font-weight:700;font-size:20px;letter-spacing:0}
 header nav{display:flex;gap:28px;font-size:15px}
 header nav a{position:relative;color:var(--dim);transition:color .25s ease}
-
-header.header-hero-mode {
-  background: transparent !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #FFFFFF !important;
-  transition: opacity 0.25s ease, background 0.3s ease, border-color 0.3s ease;
-}
-header.header-hero-mode b {
-  color: #FFFFFF !important;
-}
-header.header-hero-mode nav a {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
-header.header-hero-mode nav a:hover {
-  color: #FFFFFF !important;
-}
-
 header nav a:hover{color:var(--ink)}
 header nav a.active{color:var(--hi);font-weight:600}
 header nav a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1.5px;background:var(--hi);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
@@ -2524,61 +2507,22 @@ body.po{overflow:hidden}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
 
-
 /* ==========================================================================
-   SCROLL-DRIVEN HERO STAGE: DESIGN WORD ZOOMS CENTER & BLACKOUT
+   EXACT ORYZO PHOTOREALISTIC DRAFTING DESK HERO
    ========================================================================== */
-.oryzo-scroll-stage {
+.oryzo-hero {
   position: relative;
   width: 100%;
-  height: 220vh; /* Smooth scroll duration */
-}
-
-.oryzo-hero {
-  position: sticky;
-  top: 0;
-  width: 100%;
   height: 100vh;
-  min-height: 600px;
+  min-height: 640px;
   overflow: hidden;
-  background: #000000;
+  background: #241A13;
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
-  z-index: 20;
 }
-
-.oryzo-blackout-overlay {
-  position: absolute;
-  inset: 0;
-  background: #000000;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 2;
-  will-change: opacity;
-}
-
-.oryzo-prefix-i {
-  display: inline-block;
-  transition: opacity 0.2s ease;
-  will-change: opacity;
-}
-
-.oryzo-word-design {
-  display: inline-block;
-  will-change: transform, text-shadow;
-  transform-origin: center center;
-  position: relative;
-  z-index: 10;
-}
-
-.oryzo-hero-ui-fade {
-  will-change: opacity, transform;
-  transition: opacity 0.15s ease-out;
-}
-
 
 .oryzo-desk-bg {
   position: absolute;
@@ -2925,9 +2869,7 @@ header nav a.active {
 <header><b>Riddhi Bhambere</b><nav><a href="#experience">Experience</a><a href="#curated">Curated If’s</a><a href="#work">Random If’s</a><a href="#contact">Collaboration</a></nav></header>
 
 <main>
-<div class="oryzo-scroll-stage" id="heroScrollStage">
 <section class="oryzo-hero" id="top">
-  <div class="oryzo-blackout-overlay" id="blackoutOverlay"></div>
   <!-- Full-Bleed Photorealistic Desk Canvas -->
   <div class="oryzo-desk-bg" id="deskBg"></div>
   <div class="oryzo-vignette-overlay"></div>
@@ -2936,7 +2878,7 @@ header nav a.active {
   <div class="oryzo-hero-inner" id="heroInner">
     
     <!-- Top Meta Row -->
-    <div class="oryzo-top-strip oryzo-hero-ui-fade">
+    <div class="oryzo-top-strip">
       <div class="oryzo-meta-left">
         <span class="oryzo-status-dot"></span>
         <span class="oryzo-kicker">MADE FOR LIVING. BUILT FOR SPACES.</span>
@@ -2945,18 +2887,18 @@ header nav a.active {
 
     <!-- Main Title: I DESIGN (matching ORYZO) -->
     <div class="oryzo-title-wrap">
-      <h1 class="oryzo-headline"><span class="oryzo-prefix-i" id="heroPrefixI">I </span><span class="oryzo-word-design" id="heroWordDesign">DESIGN</span></h1>
+      <h1 class="oryzo-headline">I DESIGN</h1>
     </div>
 
     <!-- Right Side Copy over Cutting Mat -->
-    <div class="oryzo-right-editorial oryzo-hero-ui-fade">
+    <div class="oryzo-right-editorial">
       <p class="oryzo-editorial-text">
         Designed to question, explore, and shape spaces in all the right ways. Turning curiosity into built reality.
       </p>
     </div>
 
     <!-- Bottom Left Frosted Glass Card (matching Lusion card) -->
-    <div class="oryzo-frosted-card oryzo-hero-ui-fade">
+    <div class="oryzo-frosted-card">
       <div class="card-eyebrow">
         DESIGNED BY RIDDHI BHAMBERE,<br>
         INTERIOR ARCHITECT & SCENOGRAPHER.
@@ -2968,7 +2910,7 @@ header nav a.active {
     </div>
 
     <!-- Bottom Center Scroll Indicator -->
-    <div class="oryzo-scroll-pill oryzo-hero-ui-fade">
+    <div class="oryzo-scroll-pill">
       <a href="#experience" class="scroll-pill-link" aria-label="Scroll to continue">
         <span class="scroll-pill-circle">⌄</span>
         <span class="scroll-pill-txt">SCROLL TO CONTINUE</span>
@@ -2976,7 +2918,7 @@ header nav a.active {
     </div>
 
     <!-- Bottom Right Project Video Chip -->
-    <div class="oryzo-video-chip oryzo-hero-ui-fade" onclick="openP('parallel-business-hotel', true)" role="button" tabindex="0" aria-label="Explore The Parallel Hotel">
+    <div class="oryzo-video-chip" onclick="openP('parallel-business-hotel', true)" role="button" tabindex="0" aria-label="Explore The Parallel Hotel">
       <div class="video-chip-thumb">
         <img src="/assets/projects/parallel-business-hotel/reception.jpg" alt="The Parallel Hotel Atrium">
         <div class="video-chip-play">▶</div>
@@ -2990,7 +2932,7 @@ header nav a.active {
   </div>
 
   <!-- Far Right Edge Vertical Tab (matching ORYZO-1 MODEL tab) -->
-  <div class="oryzo-edge-tab oryzo-hero-ui-fade">
+  <div class="oryzo-edge-tab">
     <span class="tab-dot">●</span>
     <span class="tab-text">STUDIO ARCHIVE · 2026</span>
   </div>
