@@ -75,13 +75,17 @@ header nav a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;heig
 header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 
 
+
 /* ==========================================================================
-   ARCHITECTURAL EDITORIAL HERO SECTION (BALANCED 2-COLUMN GRID)
+   ARCHITECTURAL EDITORIAL HERO SECTION (BALANCED SPREAD)
    ========================================================================== */
 .hero {
   position: relative;
-  min-height: auto;
-  padding: clamp(96px, 12vh, 130px) clamp(20px, 4vw, 56px) clamp(48px, 6vh, 64px);
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(100px, 14vh, 140px) clamp(20px, 4vw, 56px) clamp(48px, 6vh, 72px);
   color: var(--ink);
   background-color: var(--bg);
   box-sizing: border-box;
@@ -92,29 +96,33 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   width: 100%;
   max-width: 1560px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: clamp(36px, 6vw, 80px);
-  align-items: start;
-}
-
-/* Left Column: Title & Discipline Focus */
-.hero-col-primary {
   display: flex;
   flex-direction: column;
+  gap: clamp(32px, 5vh, 48px);
 }
 
-.hero-kicker-badge {
+/* Top Meta Row */
+.hero-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.hero-kicker {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--hi);
-  margin-bottom: clamp(16px, 2.5vh, 24px);
+  color: var(--ink);
 }
 
 .hero-kicker-dot {
@@ -122,17 +130,17 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   height: 7px;
   border-radius: 50%;
   background: var(--hi);
-  box-shadow: 0 0 8px rgba(var(--hi-rgb), 0.5);
 }
 
+/* Grand Headline */
 .hero-headline {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2.6rem, 5.8vw, 5.2rem);
+  font-size: clamp(3.2rem, 7.8vw, 7.2rem);
   font-weight: 800;
   letter-spacing: -0.025em;
-  line-height: 1.04;
+  line-height: 1.02;
   color: var(--ink);
-  margin: 0 0 clamp(24px, 3.5vh, 36px);
+  margin: 0;
 }
 
 .hero-headline .hero-what-if {
@@ -143,96 +151,66 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   display: inline-block;
 }
 
-/* Spatial Focus Pill Tags */
-.hero-disciplines-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 8px;
+/* Bottom Split Row */
+.hero-split-row {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: start;
+  padding-top: clamp(24px, 4vh, 36px);
+  border-top: 1px solid var(--line);
 }
 
-.hero-disc-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: rgba(var(--ink-rgb), 0.035);
-  border: 1px solid var(--line);
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 12.5px;
-  font-weight: 500;
-  color: var(--ink);
-  letter-spacing: 0.01em;
-  transition: all 0.25s ease;
-}
-
-.hero-disc-pill:hover {
-  border-color: var(--hi);
-  color: var(--hi);
-  background: rgba(var(--hi-rgb), 0.04);
-  transform: translateY(-1px);
-}
-
-.hero-disc-pill span.pill-num {
-  font-family: ui-monospace, monospace;
-  font-size: 10.5px;
-  font-weight: 700;
-  color: var(--dim);
-}
-
-/* Right Column: Framed Architectural Philosophy Card */
-.hero-col-secondary {
+.hero-quote-col {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
-.hero-statement-card {
-  position: relative;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: clamp(24px, 4vw, 40px);
-  background: rgba(var(--ink-rgb), 0.015);
-  box-shadow: 0 12px 36px -12px rgba(var(--ink-rgb), 0.04);
+.hero-about-quote {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.3rem, 1.9vw, 1.7rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.38;
+  color: var(--hi);
+  margin: 0;
 }
 
-.hero-statement-card::before,
-.hero-statement-card::after {
-  content: '+';
-  position: absolute;
-  font-family: ui-monospace, monospace;
-  font-size: 13px;
-  color: var(--dim);
-  opacity: 0.45;
-  pointer-events: none;
-}
-.hero-statement-card::before { top: 10px; left: 12px; }
-.hero-statement-card::after { bottom: 10px; right: 12px; }
-
-.hero-card-header {
-  display: flex;
-  justify-content: space-between;
+.hero-scroll-link {
+  display: inline-flex;
   align-items: center;
-  padding-bottom: 16px;
-  margin-bottom: 20px;
-  border-bottom: 1px dashed var(--line);
+  gap: 8px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 10.5px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--dim);
+  color: var(--ink);
+  width: fit-content;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.hero-scroll-link:hover {
+  color: var(--hi);
+  transform: translateY(2px);
+}
+
+.hero-narrative-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .hero-about-body {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(1.02rem, 1.35vw, 1.2rem);
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
   font-weight: 400;
   line-height: 1.68;
-  color: var(--ink);
-  opacity: 0.9;
-  margin: 0 0 20px;
+  color: var(--dim);
+  margin: 0;
   letter-spacing: -0.005em;
+  max-width: 54ch;
 }
 
 .hero-about-body b {
@@ -240,70 +218,30 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   font-weight: 600;
 }
 
-.hero-about-quote {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.15rem, 1.55vw, 1.35rem);
-  font-style: italic;
-  font-weight: 600;
-  line-height: 1.45;
-  color: var(--hi);
-  margin: 0 0 28px;
-  padding-left: 14px;
-  border-left: 2px solid var(--hi);
-}
-
-.hero-action-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-}
-
-.hero-cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: #FFFFFF;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(var(--ink-rgb), 0.15);
-}
-
-.hero-cta-btn:hover {
-  background: var(--hi);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(var(--hi-rgb), 0.3);
-}
-
-.hero-meta-coords {
+.hero-location-tag {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--dim);
+  opacity: 0.75;
 }
 
-@media (max-width: 900px) {
-  .hero-inner {
+@media (max-width: 860px) {
+  .hero-split-row {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 28px;
   }
   .hero {
-    padding-top: 96px;
-    padding-bottom: 36px;
+    min-height: auto;
+    padding-top: 100px;
+    padding-bottom: 40px;
+  }
+  .hero-headline {
+    font-size: clamp(2.6rem, 10vw, 4.4rem);
   }
 }
+
 
 
 /* marquee */
@@ -2671,55 +2609,41 @@ body.po{overflow:hidden}
 <section class="hero pad" id="top">
   <div class="hero-inner">
     
-    <!-- Left Column: Title & Discipline Focus -->
-    <div class="hero-col-primary">
-      <div class="hero-kicker-badge">
+    <!-- Top Meta Index Line -->
+    <div class="hero-meta-top">
+      <div class="hero-kicker">
         <span class="hero-kicker-dot"></span>
         <span>Interior Architecture & Scenography</span>
       </div>
-
-      <h1 class="hero-headline">
-        I Design <span class="hero-what-if">“What If?”</span>
-      </h1>
-
-      <div class="hero-disciplines-row">
-        <span class="hero-disc-pill"><span class="pill-num">01</span> Hospitality & Stays</span>
-        <span class="hero-disc-pill"><span class="pill-num">02</span> Residential Living</span>
-        <span class="hero-disc-pill"><span class="pill-num">03</span> Brand Scenography</span>
-        <span class="hero-disc-pill"><span class="pill-num">04</span> Spatial Detailing</span>
-      </div>
+      <span>Spatial Inquiries · Studio Archive 2026</span>
     </div>
 
-    <!-- Right Column: Framed Architectural Statement Card -->
-    <div class="hero-col-secondary">
-      <div class="hero-statement-card">
-        <div class="hero-card-header">
-          <span>Sheet 00 · Spatial Inquiries</span>
-          <span>Ahmedabad, IN</span>
-        </div>
+    <!-- Main Architectural Headline -->
+    <h1 class="hero-headline">
+      I Design <span class="hero-what-if">“What If?”</span>
+    </h1>
 
-        <p class="hero-about-body">
-          <b>Curiosity</b> is the starting point of my design process, pushing me to <b>question</b> what exists, <b>explore</b> what it could be, and <b>experiment</b> with ideas until they evolve into meaningful spatial experiences.
-        </p>
-
+    <!-- Bottom Balanced 2-Column Split Spread -->
+    <div class="hero-split-row">
+      <div class="hero-quote-col">
         <p class="hero-about-quote">
           Every “what if?” becomes a different perspective.
         </p>
+        <a href="#experience" class="hero-scroll-link">
+          Explore Selected Works <span>↓</span>
+        </a>
+      </div>
 
-        <div class="hero-action-row">
-          <a href="#experience" class="hero-cta-btn">
-            Selected Works <span>↓</span>
-          </a>
-          <span class="hero-meta-coords">23.0225° N · 72.5714° E</span>
-        </div>
+      <div class="hero-narrative-col">
+        <p class="hero-about-body">
+          <b>Curiosity</b> is the starting point of my design process, pushing me to <b>question</b> what exists, <b>explore</b> what it could be, and <b>experiment</b> with ideas until they evolve into meaningful spatial experiences.
+        </p>
+        <span class="hero-location-tag">Ahmedabad, India · 23.0225° N, 72.5714° E</span>
       </div>
     </div>
 
   </div>
 </section>
-
-<span class="tag pad" style="margin-top:clamp(32px,4vh,48px);margin-bottom:18px">What I do</span>
-<div class="mq" aria-label="Services"><div class="track" id="mq1"></div></div>
 
 <div class="band" aria-hidden="true"><div class="t"><span>WHAT IF ✦</span><span>WHAT IF ✦</span><span>WHAT IF ✦</span><span>WHAT IF ✦</span><span>WHAT IF ✦</span><span>WHAT IF ✦</span><span>WHAT IF ✦</span><span>WHAT IF ✦</span></div></div>
 
@@ -2944,38 +2868,7 @@ Download CV
 <div id="img-lightbox" role="dialog" aria-modal="true" aria-label="High Resolution Image Viewer" aria-hidden="true"><div class="lb-backdrop"></div><div class="lb-container"><div class="lb-topbar"><span class="lb-caption"></span><div class="lb-actions"><a class="lb-dl-btn" href="#" download title="Download full-resolution photo" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>Download</span></a><button class="lb-close-btn" id="lbCloseBtn" type="button" aria-label="Close high-res viewer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div></div><div class="lb-img-wrap" id="lbImgWrap"><img class="lb-img" id="lbImg" src="" alt="High resolution view"></div><div class="lb-hint">Click outside or press Esc to close</div></div></div>
 
 <script>
-const S=[["Residential","Full-home design: layouts, joinery, lighting, furniture and styling."],["Commercial","Offices and retail planned around how people actually move and work."],["Hospitality","Cafes, restaurants and stays designed for mood, durability and service flow."],["Styling","Final layers: art, textiles and objects that make a room feel finished."],["Site care","I stay on site through build, so the drawings become the real thing."]];
 const C=[["Forest Essentials","2025","Commercial Project"],["Giva","2024","Commercial Project"],["Lego Bleachers","2024","Vertical Transport"],["Reflective Partition","2023","Partition Design"]];
-const mq=document.getElementById('mq1');
-const row=S.map(s=>`<div class="it"><h3>${s[0]}</h3><p>${s[1]}</p></div>`).join('');
-mq.innerHTML=row+row;
-
-// Slow down marquee on hover instead of stopping completely
-const mqWrap=mq.closest('.mq')||mq;
-if(mqWrap){
- let curRate=1.0,tgtRate=1.0,rafId=null;
- const getAnim=()=>(mq.getAnimations&&mq.getAnimations()[0])||null;
- function tickRate(){
-  const a=getAnim();
-  if(a){
-   curRate+=(tgtRate-curRate)*0.1;
-   a.playbackRate=curRate;
-   if(Math.abs(tgtRate-curRate)>0.01){
-    rafId=requestAnimationFrame(tickRate);
-   }else{
-    curRate=tgtRate;
-    a.playbackRate=tgtRate;
-    rafId=null;
-   }
-  }
- }
- function setSpeed(rate){
-  tgtRate=rate;
-  if(!rafId)rafId=requestAnimationFrame(tickRate);
- }
- mqWrap.addEventListener('pointerenter',()=>setSpeed(0.25));
- mqWrap.addEventListener('pointerleave',()=>setSpeed(1.0));
-}
 const bandWrap=document.querySelector('.band');
 const bandTrack=bandWrap?bandWrap.querySelector('.t'):null;
 if(bandWrap&&bandTrack){
