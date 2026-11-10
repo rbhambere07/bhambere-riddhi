@@ -70,7 +70,7 @@ header b,#pre span,.mail,.hist b,.q blockquote{font-family:'Playfair Display','N
 #pre small{font-size:15px;color:var(--dim);align-self:flex-start}
 
 /* header */
-header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:18px clamp(20px,4vw,56px);color:var(--ink);background:rgba(247,243,230,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:background .3s,border-color .3s}
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:15px clamp(20px,4vw,56px);color:var(--ink);background:rgba(247,243,230,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:background .3s,border-color .3s}
 header b{font-weight:700;font-size:20px;letter-spacing:0}
 header nav{display:flex;gap:28px;font-size:15px}
 header nav a{position:relative;color:var(--dim);transition:color .25s ease}
@@ -86,11 +86,11 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
    ========================================================================== */
 .hero {
   position: relative;
-  min-height: calc(100vh - 100px);
+  min-height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(100px, 14vh, 140px) clamp(20px, 4vw, 56px) clamp(48px, 6vh, 72px);
+  justify-content: flex-start;
+  padding: clamp(72px, 8.5vh, 88px) clamp(20px, 4vw, 56px) clamp(44px, 6vh, 64px);
   color: var(--ink);
   background-color: var(--bg);
   box-sizing: border-box;
@@ -210,8 +210,8 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   }
   .hero {
     min-height: auto;
-    padding-top: 100px;
-    padding-bottom: 40px;
+    padding-top: 76px;
+    padding-bottom: 36px;
   }
   .hero-headline {
     font-size: clamp(2.6rem, 10vw, 4.4rem);
