@@ -4,39 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Riddhi Bhambere — Interior Designer</title>
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#F7F3E6">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@300;400;500&family=Playfair+Display:wght@600;700;800;900&family=Inter:wght@400;500;600&family=Noto+Serif+Devanagari:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   /* ==========================================================================
-     GLOBAL THEME PALETTE: White Base + Dark Brown & Orange Text + Acid Chartreuse Odd Note
-
-     EASY PALETTE CUSTOMIZER:
-     Edit hex codes in this single block anytime! Everything across the website
-     (typography, cards, buttons, tags, CAD viewer, 3D models) adapts instantly.
+     BRAND PALETTE SYSTEM
+     Electric (#303A95) · Sky (#A9D7F3) · Neon (#D8E022)
+     Tangerine (#F8982E) · Leche (#F7F3E6) · Cold Brew (#231F20)
      ========================================================================== */
 
-  /* --- 1. Pure White Base --- */
-  --bg: #FFFFFF;              /* Pure white canvas */
-  --bg-card: #FFFFFF;         /* Pure white for cards, viewports, drawers */
-  --line: #EAE5DE;            /* Clean warm architectural dividers */
+  /* --- 1. Canvas & Foundation (Leche Base) --- */
+  --bg: #F7F3E6;              /* Leche: Warm tactile milk / artisanal cream base */
+  --bg-card: #FFFFFF;         /* Crisp White card & drawer surfaces for clean lift */
+  --line: #E5DEC9;            /* Refined warm architectural divider rules */
 
-  /* --- 2. Dark Brown & Orange Typography --- */
-  --ink: #2A1F1A;             /* Deep espresso / charred dark brown (body & headings) */
-  --dim: #7A6960;             /* Warm cocoa / stone brown (secondary metadata) */
-  --hi: #FE5E32;              /* Architectural Orange (kicker tags, accents, links, highlights) */
+  /* --- 2. Typography & Contrast (Cold Brew) --- */
+  --ink: #231F20;             /* Cold Brew: Rich deep espresso blackish-brown */
+  --dim: #6E6159;             /* Muted espresso / cocoa for metadata & captions */
 
-  /* --- 3. The Weird Part (~20%, used sparingly) --- */
-  --odd: #C8D400;             /* Acid chartreuse (chaos badges, HUD compass, reticles) */
-  --odd-ink: #1F2200;         /* Dark contrast text over odd note */
+  /* --- 3. Signature Accent Palette --- */
+  --hi: #F8982E;              /* Tangerine: Vibrant citrus orange */
+  --electric: #303A95;        /* Electric: Deep vibrant royal indigo / cobalt blue */
+  --neon: #D8E022;            /* Neon: Electric chartreuse / lime yellow-green */
+  --sky: #A9D7F3;             /* Sky: Soft pastel sky blue */
 
-  /* --- RGB Channels for Translucency & Canvas 3D Rendering --- */
-  --ink-rgb: 42, 31, 26;
-  --dim-rgb: 122, 105, 96;
-  --hi-rgb: 254, 94, 50;
-  --odd-rgb: 200, 212, 0;
+  /* Functional Token Mappings */
+  --odd: var(--neon);         /* Neon for HUD badges, compass reticles, accents */
+  --odd-ink: #231F20;         /* Dark contrast text over Neon */
 
-  /* Aliases & layout */
+  /* --- RGB Channels for Translucency, Canvas 3D & Shadows --- */
+  --bg-rgb: 247, 243, 230;
+  --ink-rgb: 35, 31, 32;
+  --dim-rgb: 110, 97, 89;
+  --hi-rgb: 248, 152, 46;
+  --electric-rgb: 48, 58, 149;
+  --neon-rgb: 216, 224, 34;
+  --sky-rgb: 169, 215, 243;
+  --odd-rgb: 216, 224, 34;
   --hi2: var(--odd);
   --hi3: var(--ink);
   color-scheme: light;
@@ -44,8 +49,8 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-::selection{background:var(--odd);color:var(--odd-ink)}
-::-moz-selection{background:var(--odd);color:var(--odd-ink)}
+::selection{background:var(--neon);color:var(--ink)}
+::-moz-selection{background:var(--neon);color:var(--ink)}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);overflow-x:hidden;max-width:100%}
 body{margin:0;background:var(--bg);background-attachment:fixed;color:var(--ink);font:400 18px/1.6 'Inter',system-ui,sans-serif;overflow-x:hidden;max-width:100%}
@@ -65,13 +70,13 @@ header b,#pre span,.mail,.hist b,.q blockquote{font-family:'Playfair Display','N
 #pre small{font-size:15px;color:var(--dim);align-self:flex-start}
 
 /* header */
-header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:18px clamp(20px,4vw,56px);color:var(--ink);background:rgba(255,255,255,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(234,229,222,0.75);transition:background .3s,border-color .3s}
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:18px clamp(20px,4vw,56px);color:var(--ink);background:rgba(247,243,230,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:background .3s,border-color .3s}
 header b{font-weight:700;font-size:20px;letter-spacing:0}
 header nav{display:flex;gap:28px;font-size:15px}
 header nav a{position:relative;color:var(--dim);transition:color .25s ease}
 header nav a:hover{color:var(--ink)}
-header nav a.active{color:var(--hi);font-weight:600}
-header nav a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1.5px;background:var(--hi);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+header nav a.active{color:var(--electric);font-weight:600}
+header nav a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;background:var(--electric);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
 header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 
 
@@ -144,7 +149,7 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   font-style: italic;
   font-weight: 600;
   line-height: 1.38;
-  color: var(--hi);
+  color: var(--electric);
   margin: 0;
 }
 
@@ -163,7 +168,7 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 }
 
 .hero-scroll-link:hover {
-  color: var(--hi);
+  color: var(--electric);
   transform: translateY(2px);
 }
 
@@ -223,7 +228,7 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 .mq p{margin:0;color:var(--dim);font-size:15px;max-width:26ch}
 @keyframes slide{to{transform:translateX(-50%)}}
 
-.band{color:var(--hi);overflow:hidden;padding:2.4vh 0;margin-bottom:16vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band{color:var(--hi);background:rgba(var(--sky-rgb), 0.18);overflow:hidden;padding:2.4vh 0;margin-bottom:16vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .band .t{display:flex;width:max-content;animation:slide 14s linear infinite}
 .band span{font-family:'Playfair Display',Georgia,serif;font-weight:800;font-size:clamp(2.2rem,6.5vw,5.5rem);letter-spacing:-.02em;line-height:1;padding-right:.5em;white-space:nowrap}
 
@@ -615,9 +620,9 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:12px;margin-top:8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x mandatory}
 .cards::-webkit-scrollbar{display:none}
 .cards .card{scroll-snap-align:start}
-.card{position:relative;aspect-ratio:3/4;min-height:420px;background:#f3f2f8;border:1px solid var(--line);border-radius:30px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.card{position:relative;aspect-ratio:3/4;min-height:420px;background:var(--bg-card);border:1px solid var(--line);border-radius:30px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1)}
 .card:hover{transform:translateY(-8px)}
-.card .ph{position:absolute;inset:12px;border-radius:18px;display:flex;justify-content:center;padding-top:20px;text-align:center;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.6;color:var(--dim);background-color:#F6F4F0;background-image:linear-gradient(rgba(var(--ink-rgb), .07) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--ink-rgb), .07) 1px,transparent 1px);background-size:36px 36px}
+.card .ph{position:absolute;inset:12px;border-radius:18px;display:flex;justify-content:center;padding-top:20px;text-align:center;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.6;color:var(--dim);background-color:var(--bg);background-image:linear-gradient(rgba(var(--ink-rgb), .07) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--ink-rgb), .07) 1px,transparent 1px);background-size:36px 36px}
 .card .fold{position:absolute;left:12px;right:12px;bottom:12px;top:52%;background:#fff;color:var(--ink);border-radius:0 18px 18px 18px;padding:14px 20px 18px;display:flex;flex-direction:column;justify-content:flex-start;gap:6px;transition:top .5s cubic-bezier(.16,1,.3,1)}
 .card:hover .fold{top:55%}
 .card .fold::before{content:"";position:absolute;left:0;top:-30px;width:calc(43% - 40px);height:32px;background:#fff;border-radius:16px 0 0 0}
@@ -2014,7 +2019,7 @@ body.po{overflow:hidden}
     padding:16px;
   }
 }
-.gi{border-radius:16px;display:grid;place-items:center;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);background-color:#efeef6;background-image:linear-gradient(rgba(var(--ink-rgb), .07) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--ink-rgb), .07) 1px,transparent 1px);background-size:36px 36px;min-height:300px}
+.gi{border-radius:16px;display:grid;place-items:center;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);background-color:var(--bg);background-image:linear-gradient(rgba(var(--ink-rgb), .07) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--ink-rgb), .07) 1px,transparent 1px);background-size:36px 36px;min-height:300px}
 .gi:nth-child(4n+2),.gi:nth-child(4n+3){background-color:#e4e2f0}
 
 /* Project in Motion Section (FLH Horizontal & Khushburat Vertical Looping Videos) */
@@ -2616,7 +2621,7 @@ body.po{overflow:hidden}
 <div class="ph" style="background-image:url('/assets/projects/3bhk-interior/3bhk-01.jpg');background-size:cover;background-position:center;color:transparent">3BHK Interior</div>
 <div class="fold"><div class="hd"><span class="n">01</span><span class="ar">↗</span></div><div class="ft"><small>Residential Design · 2026</small><h3>3BHK Interior</h3><p>A modern, elegant, and welcoming home that balances aesthetics with everyday functionality.</p></div></div>
 </article>
-<article class="card" data-proj="flh" style="--nc:var(--ink)">
+<article class="card" data-proj="flh" style="--nc:var(--electric)">
 <div class="ph" style="background-image:url('/assets/projects/flh/flh-08.jpg');background-size:cover;background-position:center;color:transparent">FLH - Feels like home</div>
 <div class="fold"><div class="hd"><span class="n">02</span><span class="ar">↗</span></div><div class="ft"><small>Co-Living & Hostels · 2026</small><h3>FLH - Feels like home</h3><p>A Student Living & Co-living Spaces branding through three different user persona.</p></div></div>
 </article>
