@@ -60,6 +60,7 @@ body{
   font:400 18px/1.64 'Plus Jakarta Sans','Inter',system-ui,sans-serif;
   overflow-x:hidden;
   max-width:100%;
+  transition:background-color .42s cubic-bezier(.16,1,.3,1),color .35s ease;
 }
 main { overflow-x: clip; max-width: 100%; }
 body::before{
@@ -114,7 +115,7 @@ header{
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
   border-bottom:1px solid var(--line);
-  transition:background .3s,border-color .3s;
+  transition:background .35s ease,border-color .35s ease,color .35s ease;
 }
 header b{font-weight:800;font-size:21px;letter-spacing:-0.03em;display:inline-flex;align-items:center;gap:10px}
 header b::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--hi);flex-shrink:0}
@@ -445,54 +446,7 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 .cl h2{margin-bottom:44px}
 .cl ul{list-style:none;margin:0;padding:0}
 
-.random-cursor-preview{
-  position:fixed;
-  top:0;
-  left:0;
-  width:clamp(220px,22vw,310px);
-  aspect-ratio:4/3;
-  pointer-events:none;
-  z-index:48;
-  border-radius:12px;
-  border:6px solid #FFFFFF;
-  background:#FFFFFF;
-  box-shadow:0 24px 52px -12px rgba(var(--ink-rgb),0.28), 0 0 0 1px var(--line);
-  overflow:hidden;
-  opacity:0;
-  visibility:hidden;
-  transform:translate3d(-999px,-999px,0) scale(0.86);
-  transition:opacity .22s ease, visibility .22s ease;
-  will-change:transform;
-}
-.random-cursor-preview.is-visible{
-  opacity:1;
-  visibility:visible;
-}
-.random-cursor-preview img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:6px;
-  display:block;
-}
-.random-cursor-preview .rcp-cap{
-  position:absolute;
-  left:10px;
-  right:10px;
-  bottom:10px;
-  padding:6px 10px;
-  border-radius:6px;
-  background:rgba(255,255,255,0.94);
-  color:var(--ink);
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:10.5px;
-  font-weight:700;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+
 
 /* say */
 .say{padding-bottom:16vh}
@@ -2719,6 +2673,80 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
     --cad-box-ink:#FE5E32;
     --cad-arm-ink:#FE5E32;
   }
+
+  /* Narrative Pill Badge (e.g. Hovering 'I Design' -> 'Defaults are just unasked questions.') */
+  .cad-pill{
+    position:absolute;
+    left:22px;
+    top:-20px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 22px 11px 16px;
+    border-radius:999px;
+    background:var(--cobalt, #2338A8);
+    color:#FFFFFF;
+    font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    white-space:nowrap;
+    pointer-events:none;
+    box-shadow:0 20px 48px -8px rgba(35,56,168,0.5), 0 0 0 1.5px rgba(255,255,255,0.22), 0 0 24px -2px rgba(35,56,168,0.4);
+    opacity:0;
+    visibility:hidden;
+    transform:translate3d(0,10px,0) scale(0.75);
+    transform-origin:left center;
+    transition:opacity .25s ease, transform .35s cubic-bezier(0.34, 1.45, 0.64, 1), visibility .25s ease;
+    will-change:transform,opacity;
+    z-index:100;
+  }
+  .cad-pill.flip-left{
+    left:auto;
+    right:22px;
+    transform-origin:right center;
+  }
+  .cad-pill-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#FFFFFF;
+    flex-shrink:0;
+    box-shadow:0 0 10px rgba(255,255,255,0.95);
+    animation:pillPulse 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes pillPulse{
+    0%{ transform:scale(0.9); box-shadow:0 0 6px rgba(255,255,255,0.7); }
+    100%{ transform:scale(1.25); box-shadow:0 0 14px rgba(255,255,255,1); }
+  }
+  .cad-pill-text{
+    line-height:1;
+    display:inline-block;
+  }
+  #cad-cursor.has-pill .cad-pill{
+    opacity:1;
+    visibility:visible;
+    transform:translate3d(0,0,0) scale(1);
+  }
+  #cad-cursor.has-pill .cad-reticle{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--cobalt,#2338A8);
+    border:2px solid #FFFFFF;
+    box-shadow:0 0 0 4px rgba(35,56,168,0.35), 0 0 14px rgba(35,56,168,0.6);
+    transition:width .2s ease,height .2s ease,background-color .2s ease;
+  }
+  #cad-cursor.has-pill .cad-arm-l,
+  #cad-cursor.has-pill .cad-arm-r,
+  #cad-cursor.has-pill .cad-arm-t,
+  #cad-cursor.has-pill .cad-arm-b{
+    opacity:0;
+    transform:scale(0.2);
+    transition:opacity .2s ease,transform .2s ease;
+  }
+
+
 }
 
 /* ==========================================================================
@@ -3162,9 +3190,9 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
   <div class="hero-inner">
     <div class="hero-copy">
       <div class="hero-eyebrow">Giving imagination an address.</div>
-      <h1 class="hero-headline"><span class="hero-design-line">I Design</span><span class="hero-what-if">“What If?”</span></h1>
-      <p class="hero-tagline">Curiosity is the starting point of my design process, pushing me to question what exists, explore what it could be, and experiment with ideas until they evolve into meaningful spatial experiences.</p>
-      <div class="hero-cue"><span>Every “what if?” becomes a different perspective of design.</span></div>
+      <h1 class="hero-headline"><span class="hero-design-line" data-cursor-pill="Defaults are just unasked questions.">I Design</span><span class="hero-what-if">“What If?”</span></h1>
+      <p class="hero-tagline" data-cursor-pill="Overthinking spaces professionally.">Curiosity is the starting point of my design process, pushing me to question what exists, explore what it could be, and experiment with ideas until they evolve into meaningful spatial experiences.</p>
+      <div class="hero-cue" data-cursor-pill="Over-analyzing chair heights for fun."><span>Every “what if?” becomes a different perspective of design.</span></div>
     </div>
   </div>
 </section>
@@ -3173,44 +3201,44 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
   <span class="tag">Introduction</span>
   <div class="intro-grid">
     <div class="intro-lead rv">
-      <h2 id="introLeadTitle"><span class="il-line">I don’t always</span><span class="il-line">think outside the box.</span><span class="il-line">Sometimes I question</span><b class="il-line">why there’s a box.</b></h2>
+      <h2 id="introLeadTitle"><span class="il-line">I don’t always</span><span class="il-line">think outside the box.</span><span class="il-line">Sometimes I question</span><b class="il-line" data-cursor-pill="Who approved four right angles anyway?">why there’s a box.</b></h2>
     </div>
     <div class="intro-body rv">
-      <p class="intro-p"><strong>I’m Riddhi Bhambere</strong><br>Design, for me, is a way to observe the world closely, reinterpret what exists, and create environments that connect with people.</p>
+      <p class="intro-p" data-cursor-pill="Plotting spatial drama in millimeter accuracy."><strong>I’m Riddhi Bhambere</strong><br>Design, for me, is a way to observe the world closely, reinterpret what exists, and create environments that connect with people.</p>
       <ul class="intro-meta">
-        <li><span class="im-k">Focus</span><span class="im-v">Curiosity Driven Exploration · Human Centred Thinking · Conceptual Design · Experimental Approach · Contextual Understanding · Creative Problem Solving</span></li>
-        <li><span class="im-k">Discipline</span><span class="im-v">Institutional Design · Commercial Design · Hospitality Design · Experience Design · Exhibition Design</span></li>
+        <li data-cursor-pill="Where function meets main character energy."><span class="im-k">Focus</span><span class="im-v">Curiosity Driven Exploration · Human Centred Thinking · Conceptual Design · Experimental Approach · Contextual Understanding · Creative Problem Solving</span></li>
+        <li data-cursor-pill="Designing everywhere humans exist (and complain)."><span class="im-k">Discipline</span><span class="im-v">Institutional Design · Commercial Design · Hospitality Design · Experience Design · Exhibition Design</span></li>
         <li class="im-tools-row">
           <span class="im-k">Software Known</span>
           <div class="im-v intro-tools" aria-label="Technical software skills">
-            <span class="intro-tool" title="Adobe Illustrator" aria-label="Adobe Illustrator">
+            <span class="intro-tool" data-cursor-pill="Vector perfectionist mode." title="Adobe Illustrator" aria-label="Adobe Illustrator">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#1B1918"/><text x="12" y="16" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="10.5" font-weight="700">Ai</text></svg>
             </span>
-            <span class="intro-tool" title="Adobe InDesign" aria-label="Adobe InDesign">
+            <span class="intro-tool" data-cursor-pill="Spinning wheel of death survivor." title="Adobe InDesign" aria-label="Adobe InDesign">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#1B1918"/><text x="12" y="16" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="10.5" font-weight="700">Id</text></svg>
             </span>
-            <span class="intro-tool" title="Autodesk AutoCAD" aria-label="Autodesk AutoCAD">
+            <span class="intro-tool" data-cursor-pill="Ctrl+S every 4 seconds." title="Autodesk AutoCAD" aria-label="Autodesk AutoCAD">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="3,3 22,2 22,20 3,22" fill="#8C8985"/><polygon points="2,4 5,2 5,21 2,19" fill="#5A5855"/><rect x="4.5" y="2.5" width="16.5" height="17" rx="1.5" fill="#1B1918"/><text x="12.8" y="15.2" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="11" font-weight="700">A</text></svg>
             </span>
-            <span class="intro-tool" title="Enscape" aria-label="Enscape">
+            <span class="intro-tool" data-cursor-pill="Turn the sun down 10%." title="Enscape" aria-label="Enscape">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,1.5 21.5,7 21.5,17 12,22.5 2.5,17 2.5,7" fill="#1B1918"/><polygon points="12,4.5 18,8 12,11.5 6,8" fill="#FFFFFF"/><polygon points="5.5,10 12,13.8 18.5,10 18.5,12.5 12,16.4 5.5,12.5" fill="#FFFFFF"/></svg>
             </span>
-            <span class="intro-tool" title="Google Excel" aria-label="Google Excel">
+            <span class="intro-tool" data-cursor-pill="Budget? What budget?" title="Google Excel" aria-label="Google Excel">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="15" height="20" rx="1.8" fill="#8C8985"/><rect x="13.5" y="2" width="7.5" height="20" rx="1.2" fill="#A6A39F"/><path d="M6 8.5h15M6 15h15M13.5 2v20" stroke="#FFFFFF" stroke-width="0.9" opacity="0.55"/><rect x="1.5" y="6.5" width="11" height="11" rx="2" fill="#1B1918"/><text x="7" y="15.2" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="9" font-weight="800">X</text></svg>
             </span>
-            <span class="intro-tool" title="Adobe Photoshop" aria-label="Adobe Photoshop">
+            <span class="intro-tool" data-cursor-pill="Fixing client revisions in post." title="Adobe Photoshop" aria-label="Adobe Photoshop">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#1B1918"/><text x="12" y="16" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="10.2" font-weight="700">Ps</text></svg>
             </span>
-            <span class="intro-tool" title="Figma" aria-label="Figma">
+            <span class="intro-tool" data-cursor-pill="Because making moodboards in AutoCAD is illegal." title="Figma" aria-label="Figma">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 2h3.5v6.5H8.5a3.25 3.25 0 0 1 0-6.5zm3.5 0h3.5a3.25 3.25 0 0 1 0 6.5H12V2zm0 6.5h3.5a3.25 3.25 0 1 1 0 6.5 3.25 3.25 0 0 1-3.5-3.25V8.5zm-3.5 0H12V15H8.5a3.25 3.25 0 0 1 0-6.5zm0 6.5H12v3.25A3.25 3.25 0 1 1 8.5 15z" fill="#1B1918"/></svg>
             </span>
-            <span class="intro-tool" title="SketchUp" aria-label="SketchUp">
+            <span class="intro-tool" data-cursor-pill="Push, pull, pray it doesn’t freeze." title="SketchUp" aria-label="SketchUp">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 21,6.8 21,17.2 12,22 3,17.2 3,6.8" fill="#1B1918"/><path d="M12 4.5l6.5 3.5-3.3 1.8-3.2-1.7-3.2 1.7-3.3-1.8zm-6.8 6l4 2.2v3.8l-4-2.1zm13.6 0v3.9l-4 2.1v-3.8z" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/></svg>
             </span>
-            <span class="intro-tool" title="V-Ray" aria-label="V-Ray">
+            <span class="intro-tool" data-cursor-pill="RIP laptop cooling fan." title="V-Ray" aria-label="V-Ray">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="#1B1918"/><path d="M6.6 7.5h3.4l2.4 7.3 3.2-7.3h2.2l-4.7 10.6h-2.1z" fill="#FFFFFF"/><circle cx="17.2" cy="6.6" r="1.4" fill="#FFFFFF"/></svg>
             </span>
-            <span class="intro-tool" title="Google Document" aria-label="Google Document">
+            <span class="intro-tool" data-cursor-pill="Specs, schedules, and sanity checks." title="Google Document" aria-label="Google Document">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.5h9l5 5V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V2.5z" fill="#1B1918"/><polygon points="14,2.5 19,7.5 14,7.5" fill="#5A5855"/><path d="M8.5 11.5h7M8.5 14.5h7M8.5 17.5h4.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/></svg>
             </span>
           </div>
@@ -3224,16 +3252,16 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="tag">Experience</span>
 <div class="cards">
 <article class="card" data-proj="3bhk-interior" style="--nc:var(--hi)">
-<div class="ph" style="bottom:auto;height:58%;background-image:url('/assets/projects/3bhk-interior/cover.jpg');background-size:auto 122%;background-position:41% 33%;background-repeat:no-repeat;color:transparent">3BHK Interior</div>
-<div class="fold"><div class="hd"><span class="n">01</span><span class="ar">↗</span></div><div class="ft"><small>Residential Design · 2026</small><h3>3BHK Interior</h3><p>A modern, elegant, and welcoming home that balances aesthetics with everyday functionality.</p></div></div>
+<div class="ph" data-cursor-pill="Beige is not the only neutral." style="bottom:auto;height:58%;background-image:url('/assets/projects/3bhk-interior/cover.jpg');background-size:auto 122%;background-position:41% 33%;background-repeat:no-repeat;color:transparent">3BHK Interior</div>
+<div class="fold"><div class="hd"><span class="n">01</span><span class="ar">↗</span></div><div class="ft"><small>Residential Design · 2026</small><h3>3BHK Interior</h3><p data-cursor-pill="Storage so seamless nobody finds the mess.">A modern, elegant, and welcoming home that balances aesthetics with everyday functionality.</p></div></div>
 </article>
 <article class="card" data-proj="flh" style="--nc:var(--ink)">
-<div class="ph" style="bottom:auto;height:58%;background-color:#181615;background-image:url('/assets/projects/flh/cover.jpg');background-size:auto 116%;background-position:49% 96%;background-repeat:no-repeat;color:transparent">FLH: Feels like home</div>
-<div class="fold"><div class="hd"><span class="n">02</span><span class="ar">↗</span></div><div class="ft"><small>Coliving & Hostels · 2026</small><h3>FLH: Feels like home</h3><p>A Student Living & Coliving Spaces branding through three different user persona.</p></div></div>
+<div class="ph" data-cursor-pill="Proof student housing can have taste." style="bottom:auto;height:58%;background-color:#181615;background-image:url('/assets/projects/flh/cover.jpg');background-size:auto 116%;background-position:49% 96%;background-repeat:no-repeat;color:transparent">FLH: Feels like home</div>
+<div class="fold"><div class="hd"><span class="n">02</span><span class="ar">↗</span></div><div class="ft"><small>Coliving & Hostels · 2026</small><h3>FLH: Feels like home</h3><p data-cursor-pill="Designing spaces so strangers don't murder each other.">A Student Living & Coliving Spaces branding through three different user persona.</p></div></div>
 </article>
 <article class="card" data-proj="khushburat" style="--nc:var(--hi)">
-<div class="ph" style="bottom:auto;height:58%;background-image:url('/assets/projects/khushburat/cover.jpg');background-size:cover;background-position:center 55%;color:transparent">Khushburat</div>
-<div class="fold"><div class="hd"><span class="n">03</span><span class="ar">↗</span></div><div class="ft"><small>Product Brand Shoot · 2026</small><h3>Khushburat</h3><p>A product brand shoot staged in a residential space, designing refined interior backdrops for brand storytelling.</p></div></div>
+<div class="ph" data-cursor-pill="Moved this vase 47 times." style="bottom:auto;height:58%;background-image:url('/assets/projects/khushburat/cover.jpg');background-size:cover;background-position:center 55%;color:transparent">Khushburat</div>
+<div class="fold"><div class="hd"><span class="n">03</span><span class="ar">↗</span></div><div class="ft"><small>Product Brand Shoot · 2026</small><h3>Khushburat</h3><p data-cursor-pill="Making random corners look expensive.">A product brand shoot staged in a residential space, designing refined interior backdrops for brand storytelling.</p></div></div>
 </article>
 </div>
 </section>
@@ -3266,7 +3294,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="card-year">Now · 2026</span>
 <span class="card-type">Thesis Project</span>
 </div>
-<h3 class="card-title">Independent Joy</h3>
+<h3 class="card-title" data-cursor-pill="Architecture you feel in the dark.">Independent Joy</h3>
 <p class="card-desc">Tactile spatial thesis exploring emotional independence through curved acoustic studio pods, private sanctuaries, and an intimate central courtyard.</p>
 <div class="card-action">
 <span class="action-txt">Explore Project Brief</span>
@@ -3292,7 +3320,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="card-year">2026 · Ahmedabad</span>
 <span class="card-type">Adaptive Reuse · Hospitality</span>
 </div>
-<h3 class="card-title">Parallel Business Hotel</h3>
+<h3 class="card-title" data-cursor-pill="Hospitality born from institutional bones.">Parallel Business Hotel</h3>
 <p class="card-desc">Adaptive reuse transforming an educational building into a business hotel through mirrored architectural forms, parallel guest suites, and central atrium axis.</p>
 <div class="card-action">
 <span class="action-txt">Explore Project Brief</span>
@@ -3318,7 +3346,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="card-year">2026 · Uttar Pradesh</span>
 <span class="card-type">Institution Design</span>
 </div>
-<h3 class="card-title">क ख ग पाठशाला</h3>
+<h3 class="card-title" data-cursor-pill="Built for kids who can’t sit still.">क ख ग पाठशाला</h3>
 <p class="card-desc">A preschool responsive to climate and designed for children aged 3–6, integrating spatial planning centred around young learners, cooling courtyards, and active learning environments.</p>
 <div class="card-action">
 <span class="action-txt">Explore Project Brief</span>
@@ -3344,7 +3372,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="card-year">2026 · Ahmedabad</span>
 <span class="card-type">Residential Design · 2 Storey 4BHK</span>
 </div>
-<h3 class="card-title">Volume 01</h3>
+<h3 class="card-title" data-cursor-pill="Every wall wanted to be the main character.">Volume 01</h3>
 <p class="card-desc">A residential space where contrasting materials, bold feature walls, and curated colour palettes give each room its own identity, seamlessly connected to landscaped greens.</p>
 <div class="card-action">
 <span class="action-txt">Explore Project Brief</span>
@@ -3361,18 +3389,14 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="tag">Random If’s</span>
 <h2 class="rv">Spaces for <b>people</b> who care how things <b>feel</b>.</h2>
 <ul id="clients" class="hist"></ul>
-<div class="random-cursor-preview" id="randomCursorPreview" aria-hidden="true">
-  <img id="rcpImg" src="" alt="">
-  <div class="rcp-cap"><span id="rcpName"></span><span id="rcpYear"></span></div>
-</div>
 </section>
 
 
 
 <section class="manifesto-section" id="manifesto">
-  <div class="manifesto-stage">
+  <div class="manifesto-stage" data-cursor-pill="My brain at 2:00 AM.">
     <div class="manifesto-corner">
-      <h2 id="manifestoTitle"><span class="il-line">It’s not</span><span class="il-line">a question.</span><span class="il-line">It is a design</span><b class="il-line">methodology!</b></h2>
+      <h2 id="manifestoTitle" data-cursor-pill="Don’t argue with my process."><span class="il-line">It’s not</span><span class="il-line">a question.</span><span class="il-line">It is a design</span><b class="il-line">methodology!</b></h2>
     </div>
     <svg
       class="manifesto-svg"
@@ -3440,27 +3464,27 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 
 <section class="con pad" id="contact">
 <span class="tag">Let’s collaborate</span>
-<h2>Let’s discuss<br><b>“What next?”</b></h2>
+<h2 data-cursor-pill="Tell me your budget, honestly.">Let’s discuss<br><b>“What next?”</b></h2>
 <div class="cc">
 <div>
 <div class="mail-row">
-<a class="mail" href="https://mail.google.com/mail/?view=cm&fs=1&to=riddhibhambere@gmail.com&su=Project%20Inquiry%20%7C%20Let%27s%20Collaborate" target="_blank" rel="noopener noreferrer">riddhibhambere@gmail.com</a>
+<a class="mail" data-cursor-pill="Send floor plans, not pleasantries." href="https://mail.google.com/mail/?view=cm&fs=1&to=riddhibhambere@gmail.com&su=Project%20Inquiry%20%7C%20Let%27s%20Collaborate" target="_blank" rel="noopener noreferrer">riddhibhambere@gmail.com</a>
 <a class="mail-btn" href="https://mail.google.com/mail/?view=cm&fs=1&to=riddhibhambere@gmail.com&su=Project%20Inquiry%20%7C%20Let%27s%20Collaborate" target="_blank" rel="noopener noreferrer" title="Compose email draft to riddhibhambere@gmail.com">
 <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
 Mail
 </a>
 </div>
 <div class="cv-btn-wrap">
-<a class="cv-btn" id="cvBtn" href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf">
+<a class="cv-btn" id="cvBtn" href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf" data-cursor-pill="The official story (with zero fluff).">
 <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 Download CV
 </a>
 </div>
 </div>
 <ul>
-<li><a href="https://www.instagram.com/riddhi_bhambere?cplk=MWsycXZsYmY1MGE1Yw==" target="_blank" rel="noopener noreferrer">Instagram <span>↗</span></a></li>
-<li><a href="https://www.linkedin.com/in/bhambere-riddhi-9b8a4a411?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer">LinkedIn <span>↗</span></a></li>
-<li><a href="https://www.behance.net/riddhibhamber" target="_blank" rel="noopener noreferrer">Behance <span>↗</span></a></li>
+<li><a href="https://www.instagram.com/riddhi_bhambere?cplk=MWsycXZsYmY1MGE1Yw==" target="_blank" rel="noopener noreferrer" data-cursor-pill="Where I drop the professional filter.">Instagram <span>↗</span></a></li>
+<li><a href="https://www.linkedin.com/in/bhambere-riddhi-9b8a4a411?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" data-cursor-pill="Let’s skip the small talk and build something.">LinkedIn <span>↗</span></a></li>
+<li><a href="https://www.behance.net/riddhibhamber" target="_blank" rel="noopener noreferrer" data-cursor-pill="Where my laptop fan came to suffer in 4K.">Behance <span>↗</span></a></li>
 </ul>
 </div>
 </section>
@@ -3469,12 +3493,17 @@ Download CV
 <div id="proj" role="dialog" aria-modal="true" aria-label="Project brief" aria-hidden="true"><div class="pbar pad"><button class="pback" id="pback" type="button">← Back</button><span id="pcount"></span></div><div id="pbody"></div></div>
 <div id="cv-modal" role="dialog" aria-modal="true" aria-label="Curriculum Vitae Preview" aria-hidden="true"><div class="cv-modal-header pad"><button class="cv-modal-close" id="cvModalClose" type="button">← Back to Portfolio</button><span class="cv-modal-title">Riddhi Bhambere · Curriculum Vitae</span><a class="cv-modal-dl" href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download PDF</a></div><div class="cv-modal-body"><img class="cv-preview-sheet" src="/assets/Riddhi_Bhambere_CV_preview.png" alt="Riddhi Bhambere Interior Design Curriculum Vitae Preview"></div></div>
 <div id="img-lightbox" role="dialog" aria-modal="true" aria-label="High Resolution Image Viewer" aria-hidden="true"><div class="lb-backdrop"></div><div class="lb-container"><div class="lb-topbar"><div class="lb-actions"><a class="lb-dl-btn" href="#" download title="Download full-resolution photo" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>Download</span></a><button class="lb-close-btn" id="lbCloseBtn" type="button" aria-label="Close high-res viewer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div></div><div class="lb-img-wrap" id="lbImgWrap"><img class="lb-img" id="lbImg" src="" alt="High resolution view"></div><div class="lb-hint">Click outside or press Esc to close</div></div></div>
-<div id="cad-cursor" aria-hidden="true"><div class="cad-crosshair" id="cadCrosshair"><span class="cad-reticle"></span><span class="cad-arm-l"></span><span class="cad-arm-r"></span><span class="cad-arm-t"></span><span class="cad-arm-b"></span></div></div>
+<div id="cad-cursor" aria-hidden="true"><div class="cad-crosshair" id="cadCrosshair"><span class="cad-reticle"></span><span class="cad-arm-l"></span><span class="cad-arm-r"></span><span class="cad-arm-t"></span><span class="cad-arm-b"></span><div class="cad-pill" id="cadPill"><span class="cad-pill-dot"></span><span class="cad-pill-text" id="cadPillText">Defaults are just unasked questions.</span></div></div></div>
 
 <script>
-const C=[["Forest Essentials","2025","Commercial Project","/assets/projects/forest-essentials/forest-essentials-overview.jpg"],["Giva","2024","Commercial Project","/assets/projects/giva/giva-window-display-box.jpg"],["Lego Bleachers","2024","Vertical Transport","/assets/projects/staircase-design/staircase-atrium-daylight-bleachers.jpg"],["Reflective Partition","2023","Partition Design","/assets/projects/reflective-partition/reflective-partition-perspective.jpg"]];
+const C=[
+  ["Forest Essentials","2025","Commercial Project","/assets/projects/forest-essentials/forest-essentials-overview.jpg","Smells like expensive sandalwood."],
+  ["Giva","2024","Commercial Project","/assets/projects/giva/giva-window-display-box.jpg","Silver deserves golden hour too."],
+  ["Lego Bleachers","2024","Vertical Transport","/assets/projects/staircase-design/staircase-atrium-daylight-bleachers.jpg","Stairs built for gossiping, not walking."],
+  ["Reflective Partition","2023","Partition Design","/assets/projects/reflective-partition/reflective-partition-perspective.jpg","Narcissistic wall that mirrors everything."]
+];
 const cl=document.getElementById('clients');
-cl.innerHTML=C.map((c,i)=>`<li data-idx="${i}" data-name="${c[0]}" data-year="${c[1]}" data-preview="${c[3]}"><span>${c[1]}</span><b>${c[0]}</b><span>${c[2]}</span></li>`).join('');
+cl.innerHTML=C.map((c,i)=>`<li data-idx="${i}" data-name="${c[0]}" data-year="${c[1]}" data-preview="${c[3]}" data-cursor-pill="${c[4]}"><span>${c[1]}</span><b>${c[0]}</b><span>${c[2]}</span></li>`).join('');
 // motto letter reveal on scroll
 const m=document.getElementById('motto');
 if(m){
@@ -7586,74 +7615,7 @@ window.toggleFlhVolume = function(btn) {
   updateActiveNav();
 })();
 
-// Random If's floating velocity-tilted preview card
-(function initRandomCursorPreview(){
-  const list = document.getElementById('clients');
-  const box = document.getElementById('randomCursorPreview');
-  const img = document.getElementById('rcpImg');
-  const nameEl = document.getElementById('rcpName');
-  const yearEl = document.getElementById('rcpYear');
-  if (!list || !box || !img) return;
-  if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
 
-  // Preload project thumbnails subtly for zero-lag hover switching
-  C.forEach(item => {
-    if (item[3]) {
-      const preload = new Image();
-      preload.src = item[3];
-    }
-  });
-
-  let active = false, targetX = 0, targetY = 0, curX = 0, curY = 0, prevX = 0, curScale = 0.86, targetScale = 0.86, rafId = 0;
-
-  function tick(){
-    curX += (targetX - curX) * 0.12;
-    curY += (targetY - curY) * 0.12;
-    curScale += (targetScale - curScale) * 0.15;
-    const vx = targetX - prevX;
-    prevX += (targetX - prevX) * 0.25;
-    const tilt = Math.max(-9, Math.min(9, vx * 0.14));
-    box.style.transform = `translate3d(${curX}px, ${curY}px, 0) rotate(${tilt.toFixed(2)}deg) scale(${curScale.toFixed(3)})`;
-    if (active || Math.abs(targetX - curX) > 0.5 || Math.abs(targetY - curY) > 0.5 || Math.abs(targetScale - curScale) > 0.005) {
-      rafId = requestAnimationFrame(tick);
-    } else {
-      rafId = 0;
-    }
-  }
-
-  list.addEventListener('pointermove', e => {
-    const li = e.target.closest('li[data-preview]');
-    if (!li) return;
-    const src = li.getAttribute('data-preview');
-    if (src && img.dataset.cur !== src) {
-      img.dataset.cur = src;
-      img.src = src;
-      if (nameEl) nameEl.textContent = li.getAttribute('data-name') || '';
-      if (yearEl) yearEl.textContent = li.getAttribute('data-year') || '';
-    }
-    const offsetW = box.offsetWidth || 260;
-    const offsetH = box.offsetHeight || 195;
-    targetX = Math.min(window.innerWidth - offsetW - 24, Math.max(16, e.clientX + 26));
-    targetY = Math.min(window.innerHeight - offsetH - 24, Math.max(16, e.clientY - offsetH * 0.52));
-    targetScale = 1;
-    if (!active) {
-      active = true;
-      curX = targetX;
-      curY = targetY;
-      prevX = targetX;
-      curScale = 0.86;
-      box.classList.add('is-visible');
-    }
-    if (!rafId) rafId = requestAnimationFrame(tick);
-  });
-
-  list.addEventListener('pointerleave', () => {
-    active = false;
-    targetScale = 0.86;
-    box.classList.remove('is-visible');
-    if (!rafId) rafId = requestAnimationFrame(tick);
-  });
-})();
 
 /** Scale each .il-line inside stacked quote headings to fit edge-to-edge cleanly. */
 (function initStackedEdgeQuotes(){
@@ -7971,6 +7933,9 @@ window.toggleFlhVolume = function(btn) {
   const cross = document.getElementById('cadCrosshair');
   if (!root || !cross) return;
 
+  const pill = document.getElementById('cadPill');
+  const pillText = document.getElementById('cadPillText');
+
   const fineQuery = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)');
   const INTERACTIVE_SEL = 'a, button, [role="button"], input, textarea, select, label, .curated-card, .card, .gitem img, .pcad-card, .c-nav-btn, .pback, .pnext, .cv-btn, .mail-btn, .cl li, .lb-dl-btn, .lb-close-btn';
   const DRAG_SEL = '.pk-c';
@@ -7985,12 +7950,25 @@ window.toggleFlhVolume = function(btn) {
     root.classList.toggle('is-hover', !!(el && el.closest(INTERACTIVE_SEL)));
     root.classList.toggle('is-drag', !!(el && el.closest(DRAG_SEL)));
     root.classList.toggle('on-dark', !!(el && el.closest(DARK_SEL)));
+
+    const pillEl = el && el.closest('[data-cursor-pill]');
+    if (pillEl) {
+      const msg = pillEl.getAttribute('data-cursor-pill');
+      if (msg && pillText) pillText.textContent = msg;
+      root.classList.add('has-pill');
+    } else {
+      root.classList.remove('has-pill');
+    }
   }
 
   function showAt(x, y, target) {
     lastX = x;
     lastY = y;
     cross.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    if (pill) {
+      const pW = pill.offsetWidth || 220;
+      pill.classList.toggle('flip-left', x + pW + 28 > window.innerWidth);
+    }
     if (!visible) {
       visible = true;
       root.classList.add('is-visible');
@@ -8025,18 +8003,18 @@ window.toggleFlhVolume = function(btn) {
 
   document.addEventListener('mouseleave', () => {
     visible = false;
-    root.classList.remove('is-visible', 'is-down');
+    root.classList.remove('is-visible', 'is-down', 'has-pill');
   });
 
   window.addEventListener('blur', () => {
     visible = false;
-    root.classList.remove('is-visible', 'is-down');
+    root.classList.remove('is-visible', 'is-down', 'has-pill');
   });
 
   window.addEventListener('touchstart', () => {
     document.documentElement.classList.add('cad-touch');
     visible = false;
-    root.classList.remove('is-visible', 'is-down');
+    root.classList.remove('is-visible', 'is-down', 'has-pill');
   }, { passive: true });
 })();
 
