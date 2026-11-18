@@ -22,3 +22,5 @@ desktop.ini
 *.log
 .env
 .env.local
+
+*.backup*

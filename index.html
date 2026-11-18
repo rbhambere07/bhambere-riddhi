@@ -6,6 +6,8 @@
 <title>Riddhi Bhambere — Interior Designer</title>
 <meta name="theme-color" content="#FFFFFF">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Caveat:wght@600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600&family=Noto+Serif+Devanagari:wght@600;700&display=swap" rel="stylesheet">
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
 <style>
 :root {
   /* ==========================================================================
@@ -51,7 +53,43 @@
 ::selection{background:var(--odd);color:var(--odd-ink)}
 ::-moz-selection{background:var(--odd);color:var(--odd-ink)}
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);overflow-x:hidden;max-width:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px);overflow-x:hidden;max-width:100%}
+
+/* --- Studio Freight Lenis Smooth Scrolling Engine --- */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Minimalist architectural custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(27, 25, 24, 0.16);
+  border-radius: 4px;
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+  transition: background .2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(27, 25, 24, 0.35);
+}
 body{
   margin:0;
   background-color:var(--bg);
@@ -93,11 +131,115 @@ header b,.mail,.hist b{font-family:'Bricolage Grotesque',sans-serif}
   background:var(--hi);
 }
 
-/* preloader (instant Warm Chalk lift) */
-#pre{position:fixed;inset:0;z-index:90;background:var(--bg);color:var(--hi);display:flex;align-items:flex-end;justify-content:space-between;padding:clamp(24px,4vw,56px);transition:transform .55s cubic-bezier(.76,0,.24,1),visibility 0s .55s}
-#pre.done{transform:translateY(-102%);pointer-events:none;visibility:hidden}
-#pre span{font-weight:400;font-style:italic;font-size:clamp(5rem,18vw,14rem);line-height:.88;letter-spacing:-.02em;color:var(--hi)}
-#pre small{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);align-self:flex-start}
+/* ==========================================================================
+   PRELOADER: Huy Nguyen Exact Stacking Card Flip Sequence
+   ========================================================================== */
+#pre {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: transparent;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: clamp(32px, 6vh, 56px);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.55s cubic-bezier(0.6, 0.01, 0.05, 1), visibility 0s 0.55s;
+}
+#pre.done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.pre-matrix-hud {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: clamp(260px, 34vw, 380px);
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(var(--ink-rgb), 0.14);
+  border-radius: 18px;
+  box-shadow: 0 20px 48px -12px rgba(27, 25, 24, 0.18), 0 4px 12px rgba(27, 25, 24, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  user-select: none;
+  pointer-events: auto;
+}
+.pre-matrix-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.pre-matrix-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  background: var(--hi);
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(var(--hi-rgb), 0.5);
+  animation: pulseLiveDot 1.4s infinite;
+}
+.pre-matrix-title {
+  color: var(--ink);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-size: 13px;
+}
+.pre-matrix-center {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.pre-matrix-pct {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(32px, 3.8vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.pre-matrix-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(var(--ink-rgb), 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+.pre-matrix-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--hi), var(--cobalt));
+  border-radius: 999px;
+  transition: width 0.08s linear;
+}
+.pre-matrix-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+  text-transform: uppercase;
+  opacity: 0.85;
+}
 
 /* header */
 header{
@@ -114,7 +256,7 @@ header{
   background:rgba(255,255,255,0.9);
   backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
+  border-bottom:none;
   transition:background .35s ease,border-color .35s ease,color .35s ease;
 }
 header b{font-weight:800;font-size:21px;letter-spacing:-0.03em;display:inline-flex;align-items:center;gap:10px}
@@ -127,129 +269,329 @@ header nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:
 header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 
 /* ==========================================================================
-   HERO SECTION: Warm Limestone Gallery × Borderless Floating 3D Sculpture
+   Hero Section: Editorial Strata Layout with 3D Block Gravity Lift
+   - Top Right: Curiosity Description + Live Perspective Tag
+   - Center: Expansive Open 3D Voxel Field
+   - Bottom Left: Display Title (I DESIGN / WHAT IF?) + Address Subtitle + CTAs
+   - Bottom Right: Scroll Cue
    ========================================================================== */
 .hero {
   position: relative;
-  min-height: clamp(600px, 90svh, 860px);
+  height: 100svh;
+  max-height: 100svh;
+  min-height: 580px;
   display: flex;
-  align-items: center;
-  padding: clamp(92px, 11vh, 120px) clamp(20px, 4.5vw, 64px) clamp(48px, 7vh, 72px);
-  color: var(--ink);
-  background: transparent;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(64px + clamp(12px, 2vh, 26px)) clamp(20px, 4.5vw, 64px) clamp(22px, 3.8vh, 44px);
+  color: #1B1918;
+  background: #FFFFFF;
   box-sizing: border-box;
   overflow: hidden;
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
+}
+
+.hero-stardust-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .hero-inner {
   position: relative;
+  z-index: 2;
   width: 100%;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: center;
+  max-width: none;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+body:not(.go) .hero-inner {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+}
+body.go .hero-inner {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hero-copy {
-  position: relative;
-  z-index: 4;
-  min-width: 0;
+
+.hero-inner a,
+.hero-inner button,
+.hero-inner p,
+.hero-inner h1,
+.hero-inner span,
+.hero-inner div {
+  pointer-events: auto;
+}
+
+/* TOP ROW: Top Right Alignment for Curiosity Statement */
+.hero-top-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-shrink: 0;
+  padding-top: clamp(2px, 1vh, 14px);
+}
+
+.hero-top-right {
+  width: fit-content;
   max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  text-align: left;
+  gap: clamp(8px, 1.4vh, 14px);
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hero-eyebrow {
+.hero-curiosity-desc {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12px;
+  font-size: clamp(13px, 1.05vw, 15.5px);
+  font-weight: 500;
+  line-height: 1.55;
+  color: #1B1918;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.hero-whatif-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(12px, 0.9vw, 13.5px);
+  font-weight: 600;
+  color: var(--hi);
+  margin: 0;
+  letter-spacing: 0.01em;
+  padding: 2px 0;
+}
+
+.hero-whatif-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  background: var(--hi);
+  box-shadow: 0 0 8px rgba(208, 90, 63, 0.6);
+  flex-shrink: 0;
+  animation: pulseLiveDot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseLiveDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
+}
+
+.hero-whatif-text {
+  white-space: normal;
+}
+
+/* BOTTOM ROW: Bottom Left Title + Address + CTAs, Bottom Right Scroll Cue */
+.hero-bottom-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-shrink: 0;
+  gap: 32px;
+}
+
+.hero-bottom-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: clamp(340px, 62vw, 840px);
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-kicker-tag {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--cobalt);
-  margin: 0 0 clamp(18px, 3vh, 26px);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  color: var(--hi);
+  margin-bottom: clamp(6px, 1vh, 12px);
+  margin-left: -0.5px;
 }
 
-.hero-eyebrow::before {
-  content: "";
-  width: 24px;
-  height: 1.5px;
-  background: var(--hi);
-}
-
-.hero-headline {
+.hero-display-title {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(5.2rem, 8.7vw, 9.1rem);
+  font-size: clamp(44px, 6.6vw, 98px);
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.88;
-  color: var(--ink);
-  margin: 0 0 clamp(22px, 3.2vh, 32px);
+  line-height: 0.96;
+  letter-spacing: 0.02em;
+  color: #111111;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: fit-content;
-  max-width: 100%;
+  text-transform: uppercase;
+  user-select: none;
 }
 
-.hero-headline .hero-design-line {
+.hero-title-line {
   display: block;
   white-space: nowrap;
-  width: fit-content;
-  line-height: 0.88;
+}
+.hero-title-line:first-child {
+  /* Edge-to-edge baseline justification with 'WHAT IF?' */
+  letter-spacing: 0.0466em;
 }
 
-.hero-headline .hero-what-if {
-  display: block;
-  white-space: nowrap;
-  font-family: 'Instrument Serif', Georgia, serif;
+.hero-address-subtitle {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(17px, 1.7vw, 26px);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(4.9rem, 8.2vw, 8.6rem);
-  line-height: 0.88;
-  color: var(--hi);
-  margin-top: clamp(10px, 1.3vw, 18px);
-  letter-spacing: -0.025em;
-  position: relative;
-  width: fit-content;
-  max-width: 100%;
+  line-height: 1.35;
+  color: #55524E;
+  margin: clamp(10px, 1.8vh, 18px) 0 clamp(16px, 2.5vh, 26px) 0;
+  letter-spacing: 0.015em;
+  /* Optical flush alignment with the headline */
+  margin-left: -0.5px;
 }
 
-.hero-tagline {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  font-size: clamp(1.06rem, 1.38vw, 1.25rem);
-  font-weight: 400;
-  line-height: 1.56;
-  color: var(--dim);
-  max-width: min(54ch, 100%);
-  margin: 0 0 clamp(22px, 3.2vh, 32px);
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.hero-tagline b {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.hero-cue {
-  display: block;
+.hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  background: var(--hi);
+  color: #FFFFFF;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(9.5px, 0.74vw, 10.5px);
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: 0.085em;
-  line-height: 1.45;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--dim);
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.2s ease;
+  box-shadow: 0 4px 14px rgba(208, 90, 63, 0.25);
+}
+
+.hero-btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(208, 90, 63, 0.4);
+  background: #C44E33;
+  color: #FFFFFF;
+}
+
+.hero-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 24px;
+  border-radius: 9999px;
+  background: rgba(27, 25, 24, 0.04);
+  color: #1B1918;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(27, 25, 24, 0.12);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease;
+}
+
+.hero-btn-secondary:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: rgba(27, 25, 24, 0.09);
+  border-color: rgba(27, 25, 24, 0.22);
+  color: #111111;
+}
+
+.hero-bottom-right {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 6px;
+}
+
+.hero-scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #787571;
+  text-decoration: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.hero-scroll-cue:hover {
+  color: var(--hi);
+  transform: translateY(3px);
+}
+
+.hero-scroll-cue svg {
+  animation: floatArrow 2s ease-in-out infinite;
+}
+
+@keyframes floatArrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* Responsive Scaling on Mobile & Tablets */
+@media (max-width: 860px) {
+  .hero {
+    height: auto;
+    max-height: none;
+    min-height: auto;
+    padding: 88px 24px 56px;
+  }
+  .hero-inner {
+    height: auto;
+    gap: 48px;
+  }
+  .hero-top-row {
+    justify-content: flex-start;
+  }
+  .hero-top-right {
+    max-width: 100%;
+  }
+  .hero-bottom-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  .hero-bottom-left {
+    max-width: 100%;
+  }
+  .hero-display-title {
+    font-size: clamp(38px, 10vw, 64px);
+  }
+  .hero-bottom-right {
+    display: none;
+  }
+  .pre-card-box {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
 }
 
 /* introduction / about section */
 .intro-section {
   padding-top: clamp(56px, 8.5vh, 96px);
   padding-bottom: clamp(60px, 9.5vh, 104px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
   scroll-margin-top: 72px;
 }
 .intro-grid {
@@ -313,7 +655,7 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   list-style: none;
   margin: 12px 0 0;
   padding: 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
 }
 .intro-meta li {
   display: grid;
@@ -660,7 +1002,7 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   background:rgba(255,255,255,0.96);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
+  border-bottom:none;
   z-index:10;
   transform:translate3d(0,-14px,0);
   opacity:0;
@@ -761,7 +1103,7 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
 .con ul a span{color:var(--cobalt)}
 .con ul a:hover{padding-left:18px;color:var(--hi);background:rgba(var(--hi-rgb),0.05)}
 .mail{display:inline-block;font-weight:700;font-size:clamp(1.35rem,2.2vw,2rem);letter-spacing:-.025em;line-height:1.18;margin:0;color:var(--ink);border-bottom:2px solid var(--hi);padding-bottom:4px;width:fit-content;max-width:100%;overflow-wrap:anywhere;transition:color .25s ease,border-bottom-color .25s ease}
-.foot{padding-top:28px;padding-bottom:32px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--dim);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line)}
+.foot{padding-top:28px;padding-bottom:32px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--dim);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:none}
 
 /* experience folder cards — warm rag limestone & architectural specimen folders */
 .xp{padding-top:clamp(56px,8.5vh,96px);padding-bottom:clamp(64px,10vh,112px)}
@@ -885,7 +1227,8 @@ header nav a:hover::after,header nav a.active::after{transform:scaleX(1)}
   position:relative;
   background:transparent;
   color:var(--ink);
-  border-top:1px solid var(--line);
+  border-top:none;
+  scroll-margin-top:84px;
 }
 .curated-section .tag{
   color:var(--hi);
@@ -2543,30 +2886,36 @@ body.po{overflow:hidden}
 /* Softer & Cinematic Scroll + Entrance Motion System (~0.8s-1.0s glides) */
 body:not(.go) header{opacity:0;transform:translate3d(0,-18px,0)}
 body.go header{opacity:1;transform:translate3d(0,0,0);transition:opacity .82s cubic-bezier(.22,1,.36,1),transform .82s cubic-bezier(.22,1,.36,1),background .35s,border-color .35s}
-body:not(.go) .hero-eyebrow{opacity:0;transform:translate3d(0,22px,0)}
-body:not(.go) .hero-headline{opacity:0;transform:translate3d(0,28px,0)}
-body:not(.go) .hero-tagline{opacity:0;transform:translate3d(0,24px,0)}
-body:not(.go) .hero-cue{opacity:0;transform:translate3d(0,18px,0)}
-body.go .hero-eyebrow{opacity:1;transform:none;transition:opacity .82s cubic-bezier(.22,1,.36,1) 80ms,transform .86s cubic-bezier(.22,1,.36,1) 80ms}
-body.go .hero-headline{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,1,.36,1) 170ms,transform .94s cubic-bezier(.22,1,.36,1) 170ms}
-body.go .hero-tagline{opacity:1;transform:none;transition:opacity .88s cubic-bezier(.22,1,.36,1) 260ms,transform .92s cubic-bezier(.22,1,.36,1) 260ms}
-body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(.22,1,.36,1) 340ms,transform .88s cubic-bezier(.22,1,.36,1) 340ms}
-.hero.hero-out .hero-copy{opacity:0;transform:translate3d(0,-24px,0);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .82s cubic-bezier(.22,1,.36,1)}
+
+body:not(.go) .hero-lord-top{opacity:0;transform:translate3d(0,-28px,0)}
+body:not(.go) .hero-lord-side-left{opacity:0;transform:translate3d(-30px,0,0)}
+body:not(.go) .hero-lord-media-wrap{opacity:1;transform:none}
+body:not(.go) .hero-lord-side-right{opacity:0;transform:translate3d(30px,0,0)}
+body:not(.go) .hero-lord-bot{opacity:0;transform:translate3d(0,28px,0)}
+body:not(.go) .hero-philosophy-clean{opacity:0;transform:translate3d(0,20px,0)}
+
+body.go .hero-lord-top{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,1,.36,1) 80ms,transform .92s cubic-bezier(.22,1,.36,1) 80ms}
+body.go .hero-lord-side-left{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,1,.36,1) 180ms,transform .9s cubic-bezier(.22,1,.36,1) 180ms}
+body.go .hero-lord-media-wrap{opacity:1;transform:none}
+body.go .hero-lord-side-right{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,1,.36,1) 180ms,transform .9s cubic-bezier(.22,1,.36,1) 180ms}
+body.go .hero-lord-bot{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.22,1,.36,1) 240ms,transform .94s cubic-bezier(.22,1,.36,1) 240ms}
+body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s cubic-bezier(.22,1,.36,1) 320ms,transform .9s cubic-bezier(.22,1,.36,1) 320ms}
+.hero.hero-out .hero-lord-lockup{opacity:0;transform:translate3d(0,-24px,0);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .82s cubic-bezier(.22,1,.36,1)}
 
 .rv{
   opacity:0;
-  transform:translate3d(0,32px,0) scale(.98);
-  transition:opacity .88s cubic-bezier(.22,1,.36,1) var(--rv-d,0ms),
-             transform .92s cubic-bezier(.22,1,.36,1) var(--rv-d,0ms),
+  transform:translate3d(0,22px,0);
+  transition:opacity .75s cubic-bezier(.16,1,.3,1) var(--rv-d,0ms),
+             transform .8s cubic-bezier(.16,1,.3,1) var(--rv-d,0ms),
              border-color .35s ease,
              box-shadow .4s ease,
              background .3s ease,
-             padding .35s cubic-bezier(.22,1,.36,1),
+             padding .35s cubic-bezier(.16,1,.3,1),
              color .28s ease;
   will-change:opacity,transform;
 }
-.rv.rv-above{transform:translate3d(0,-24px,0) scale(.98)}
-.rv.in{opacity:1;transform:translate3d(0,0,0) scale(1)}
+.rv.rv-above{transform:translate3d(0,0,0);opacity:1}
+.rv.in{opacity:1;transform:translate3d(0,0,0)}
 
 .card.rv.in:hover{
   transform:translate3d(0,-12px,0);
@@ -2836,43 +3185,47 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
     min-height: auto;
     width: 100%;
     max-width: 100%;
-    padding: 90px 20px 28px;
+    padding: 80px 16px 28px;
   }
   .hero-inner {
+    width: 100%;
+    max-width: 100%;
+  }
+  .hero-display-top {
+    font-size: clamp(3.0rem, 13.5vw, 5.2rem);
+  }
+  .hero-row-mid {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 20px;
+    gap: 12px;
+    margin: 10px auto;
+  }
+  .hero-subline {
+    justify-content: center;
     width: 100%;
-    max-width: 100%;
   }
-  .hero-copy {
-    width: 100%;
-    max-width: 100%;
+  .hero-sub-text {
+    font-size: clamp(1.35rem, 5vw, 1.85rem);
   }
-  .hero-headline {
-    font-size: clamp(3.9rem, 15.8vw, 5.4rem);
-    line-height: 0.9;
-    max-width: 100%;
+  .hero-sub-rule {
+    max-width: 32px;
   }
-  .hero-headline .hero-what-if {
-    font-size: clamp(3.6rem, 14.6vw, 5.0rem);
+  .hero-center-stage {
+    width: min(88vw, 340px);
+  }
+  .hero-display-bot {
+    font-size: clamp(3.2rem, 14.5vw, 5.6rem);
   }
   .hero-cue {
     font-size: clamp(7.5px, 2.25vw, 9.5px);
     letter-spacing: 0.03em;
     white-space: nowrap;
   }
-  .hero-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    max-width: 100%;
-  }
   .hero-tagline {
-    font-size: 15.5px;
+    font-size: 15px;
     max-width: 100%;
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .xp {
     padding-top: 44px;
@@ -3102,12 +3455,6 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 }
 
 /* 3. TABLETS & IPADS (iPad Mini, iPad Air, iPad Pro: 641px - 1024px) */
-@media (max-width: 960px) and (min-width: 641px) {
-  .hero-inner {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
-  }
-}
 @media (min-width: 641px) and (max-width: 1024px) {
   header {
     padding: 16px clamp(20px, 4vw, 36px);
@@ -3116,11 +3463,17 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
     gap: 10px;
     font-size: 12px;
   }
-  .hero-headline {
-    font-size: clamp(3.6rem, 7vw, 5.2rem);
+  .hero-display-top {
+    font-size: clamp(3.8rem, 8.4vw, 6.2rem);
   }
-  .hero-headline .hero-what-if {
-    font-size: clamp(4.4rem, 8.2vw, 6.2rem);
+  .hero-display-bot {
+    font-size: clamp(4.0rem, 8.8vw, 6.6rem);
+  }
+  .hero-sub-text {
+    font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+  }
+  .hero-center-stage {
+    width: clamp(260px, 32vw, 340px);
   }
   .cards {
     grid-template-columns: repeat(3, minmax(220px, 1fr));
@@ -3149,11 +3502,11 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 
 /* 4. LAPTOPS & MACBOOKS (1025px - 1440px) */
 @media (min-width: 1025px) and (max-width: 1440px) {
-  .hero-headline {
-    font-size: clamp(4.5rem, 6.8vw, 6.8rem);
+  .hero-display-top {
+    font-size: clamp(4.8rem, 7.8vw, 7.8rem);
   }
-  .hero-headline .hero-what-if {
-    font-size: clamp(5.2rem, 8vw, 8rem);
+  .hero-display-bot {
+    font-size: clamp(5.0rem, 8.4vw, 8.4rem);
   }
   .cards {
     grid-template-columns: repeat(3, 1fr);
@@ -3177,22 +3530,127 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
     margin-right: auto;
   }
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv,.intro-tool,body:not(.go) header,body:not(.go) .hero-eyebrow,body:not(.go) .hero-headline,body:not(.go) .hero-tagline,body:not(.go) .hero-cue,.hero.hero-out .hero-copy{opacity:1!important;transform:none!important}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv,.intro-tool,body:not(.go) header,body:not(.go) .hero-lord-top,body:not(.go) .hero-lord-side-left,body:not(.go) .hero-lord-media-wrap,body:not(.go) .hero-lord-side-right,body:not(.go) .hero-lord-bot,body:not(.go) .hero-philosophy-clean{opacity:1!important;transform:none!important}}
+
+
+/* ==========================================================================
+   BUTTERY SMOOTH MOTION & GPU ACCELERATION SYSTEM
+   ========================================================================== */
+html {
+  scroll-behavior: auto !important; /* Lenis drives buttery momentum */
+}
+
+/* GPU Composited Layers for Zero Repaint Stutter */
+.curated-card,
+.card,
+.mono-sketch-card,
+.pcad-large-frame-wrap,
+.mono-sketch-img-wrap,
+.pnext,
+.c-nav-btn,
+.hero-btn-primary,
+.hero-btn-secondary,
+.cv-btn,
+.mail-btn,
+#cad-cursor,
+.cad-crosshair,
+.cad-pill,
+.cad-reticle {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Luxurious Organic Cubic Easing for All Cards */
+.curated-card {
+  transition: transform .38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .38s cubic-bezier(0.16, 1, 0.3, 1), border-color .3s ease !important;
+}
+
+.card {
+  transition: transform .38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .38s cubic-bezier(0.16, 1, 0.3, 1), border-color .3s ease !important;
+}
+
+.mono-sketch-card {
+  transition: transform .36s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .36s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Interactive Buttons: Velvet Click & Hover Dynamics */
+.c-nav-btn {
+  transition: transform .32s cubic-bezier(0.16, 1, 0.3, 1), background-color .22s ease, border-color .22s ease, color .22s ease, box-shadow .32s ease !important;
+}
+.c-nav-btn:hover {
+  transform: scale(1.05) translateZ(0) !important;
+}
+.c-nav-btn:active {
+  transform: scale(0.94) translateZ(0) !important;
+}
+
+.hero-btn-primary, .hero-btn-secondary {
+  transition: transform .32s cubic-bezier(0.16, 1, 0.3, 1), background-color .22s ease, color .22s ease, border-color .22s ease, box-shadow .32s ease !important;
+}
+.hero-btn-primary:active, .hero-btn-secondary:active, .cv-btn:active, .mail-btn:active, .pback:active, .pnext:active {
+  transform: scale(0.97) translateZ(0) !important;
+}
+
+/* Modal Smoothness: Gentle Glide Transitions */
+#img-lightbox .lb-img {
+  will-change: transform, opacity;
+  transform: scale(0.95) translateZ(0);
+  transition: transform .48s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+#img-lightbox.open .lb-img {
+  transform: scale(1) translateZ(0) !important;
+}
+
+#cv-modal .cv-preview-sheet {
+  will-change: transform, opacity;
+  transform: translateY(18px) scale(0.98) translateZ(0);
+  transition: transform .52s cubic-bezier(0.16, 1, 0.3, 1), opacity .45s ease !important;
+}
+#cv-modal.open .cv-preview-sheet {
+  transform: translateY(0) scale(1) translateZ(0) !important;
+}
+
 </style>
 </head>
 <body>
-<div id="pre" aria-hidden="true"><small>Loading the studio</small><span id="pct">00%</span></div>
+<div id="pre" aria-hidden="true" class="done" style="display:none;"></div>
 
 <header><a class="brand" href="#top" aria-label="Back to top"><b>Riddhi Bhambere</b></a><nav><a href="#about">About</a><a href="#experience">Experience</a><a href="#curated">Curated If’s</a><a href="#work">Random If’s</a><a href="#contact">Collaboration</a></nav></header>
 
 <main>
 <section class="hero pad" id="top">
+  <canvas id="heroStardustCanvas" class="hero-stardust-canvas"></canvas>
   <div class="hero-inner">
-    <div class="hero-copy">
-      <div class="hero-eyebrow">Giving imagination an address.</div>
-      <h1 class="hero-headline"><span class="hero-design-line" data-cursor-pill="Defaults are just unasked questions.">I Design</span><span class="hero-what-if">“What If?”</span></h1>
-      <p class="hero-tagline" data-cursor-pill="Overthinking spaces professionally.">Curiosity is the starting point of my design process, pushing me to question what exists, explore what it could be, and experiment with ideas until they evolve into meaningful spatial experiences.</p>
-      <div class="hero-cue" data-cursor-pill="Over-analyzing chair heights for fun."><span>Every “what if?” becomes a different perspective of design.</span></div>
+    <!-- Top Right: Curiosity Description + Live What If Tag -->
+    <div class="hero-top-row">
+      <div class="hero-top-right">
+        <p class="hero-curiosity-desc" data-cursor-pill="Overthinking spaces professionally.">Curiosity is the starting point of my design process, pushing me to question what exists, explore what it could be, and experiment with ideas until they evolve into meaningful spatial experiences.</p>
+        <div class="hero-whatif-tag" data-cursor-pill="Over-analyzing chair heights for fun.">
+          <span class="hero-whatif-dot"></span>
+          <span class="hero-whatif-text">Every “what if?” becomes a different perspective of design.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom: Left Headline + Address Subtitle + CTAs; Right Scroll Cue -->
+    <div class="hero-bottom-row">
+      <div class="hero-bottom-left">
+        <div class="hero-kicker-tag">SPATIAL &amp; INTERIOR DESIGN</div>
+        <h1 class="hero-display-title" data-cursor-pill="Defaults are just unasked questions.">
+          <span class="hero-title-line">I DESIGN</span>
+          <span class="hero-title-line">WHAT IF?</span>
+        </h1>
+        <p class="hero-address-subtitle">Giving imaginations an address.</p>
+        <div class="hero-cta-group">
+          <a href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf" target="_blank" class="hero-btn-primary" data-cursor-pill="The official story (with zero fluff).">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Download CV</span>
+          </a>
+        </div>
+      </div>
+      
     </div>
   </div>
 </section>
@@ -3214,7 +3672,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
             <span class="intro-tool" data-cursor-pill="Vector perfectionist mode." title="Adobe Illustrator" aria-label="Adobe Illustrator">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#1B1918"/><text x="12" y="16" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="10.5" font-weight="700">Ai</text></svg>
             </span>
-            <span class="intro-tool" data-cursor-pill="Spinning wheel of death survivor." title="Adobe InDesign" aria-label="Adobe InDesign">
+            <span class="intro-tool" data-cursor-pill="OCD with alignment glitchs" title="Adobe InDesign" aria-label="Adobe InDesign">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#1B1918"/><text x="12" y="16" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="10.5" font-weight="700">Id</text></svg>
             </span>
             <span class="intro-tool" data-cursor-pill="Ctrl+S every 4 seconds." title="Autodesk AutoCAD" aria-label="Autodesk AutoCAD">
@@ -3229,7 +3687,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
             <span class="intro-tool" data-cursor-pill="Fixing client revisions in post." title="Adobe Photoshop" aria-label="Adobe Photoshop">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="4.5" fill="#1B1918"/><text x="12" y="16" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans,sans-serif" font-size="10.2" font-weight="700">Ps</text></svg>
             </span>
-            <span class="intro-tool" data-cursor-pill="Because making moodboards in AutoCAD is illegal." title="Figma" aria-label="Figma">
+            <span class="intro-tool" data-cursor-pill="well, i just know!" title="Figma" aria-label="Figma">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 2h3.5v6.5H8.5a3.25 3.25 0 0 1 0-6.5zm3.5 0h3.5a3.25 3.25 0 0 1 0 6.5H12V2zm0 6.5h3.5a3.25 3.25 0 1 1 0 6.5 3.25 3.25 0 0 1-3.5-3.25V8.5zm-3.5 0H12V15H8.5a3.25 3.25 0 0 1 0-6.5zm0 6.5H12v3.25A3.25 3.25 0 1 1 8.5 15z" fill="#1B1918"/></svg>
             </span>
             <span class="intro-tool" data-cursor-pill="Push, pull, pray it doesn’t freeze." title="SketchUp" aria-label="SketchUp">
@@ -3268,14 +3726,21 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 
 <section class="curated-section pad" id="curated">
 <div class="curated-head">
-<div>
-<span class="tag">Curated If's</span>
-<h2 class="curated-title">Spatial queries transformed into <span class="curated-accent"><b>built reality</b>.</span></h2>
-</div>
+  <div>
+    <span class="tag">Curated If's</span>
+    <h2 class="curated-title">Spatial queries transformed into <span class="curated-accent"><b>built reality</b>.</span></h2>
+  </div>
+  <div class="curated-controls">
+    <div class="curated-hint"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Drag or Scroll</div>
+    <div class="curated-nav-btns">
+      <button class="c-nav-btn" id="cPrev" aria-label="Previous curated project">←</button>
+      <button class="c-nav-btn" id="cNext" aria-label="Next curated project">→</button>
+    </div>
+  </div>
 </div>
 
 <div class="curated-track-wrap" id="curatedWrap">
-<div class="curated-row" id="curatedRow">
+<div class="curated-row" id="curatedRow" data-lenis-prevent>
 
 <article class="curated-card" data-id="independent-joy" role="button" tabindex="0" aria-label="Open Independent Joy">
 <div class="plan-viewport">
@@ -3294,7 +3759,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="card-year">Now · 2026</span>
 <span class="card-type">Thesis Project</span>
 </div>
-<h3 class="card-title" data-cursor-pill="Architecture you feel in the dark.">Independent Joy</h3>
+<h3 class="card-title" data-cursor-pill="Freedom you feel in the dark.">Independent Joy</h3>
 <p class="card-desc">Tactile spatial thesis exploring emotional independence through curved acoustic studio pods, private sanctuaries, and an intimate central courtyard.</p>
 <div class="card-action">
 <span class="action-txt">Explore Project Brief</span>
@@ -3346,7 +3811,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 <span class="card-year">2026 · Uttar Pradesh</span>
 <span class="card-type">Institution Design</span>
 </div>
-<h3 class="card-title" data-cursor-pill="Built for kids who can’t sit still.">क ख ग पाठशाला</h3>
+<h3 class="card-title" data-cursor-pill="Curved corridors so kids stop running into walls.">क ख ग पाठशाला</h3>
 <p class="card-desc">A preschool responsive to climate and designed for children aged 3–6, integrating spatial planning centred around young learners, cooling courtyards, and active learning environments.</p>
 <div class="card-action">
 <span class="action-txt">Explore Project Brief</span>
@@ -3384,7 +3849,6 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 </div>
 </div>
 </section>
-
 <section class="cl pad" id="work">
 <span class="tag">Random If’s</span>
 <h2 class="rv">Spaces for <b>people</b> who care how things <b>feel</b>.</h2>
@@ -3464,7 +3928,7 @@ body.go .hero-cue{opacity:1;transform:none;transition:opacity .85s cubic-bezier(
 
 <section class="con pad" id="contact">
 <span class="tag">Let’s collaborate</span>
-<h2 data-cursor-pill="Tell me your budget, honestly.">Let’s discuss<br><b>“What next?”</b></h2>
+<h2 data-cursor-pill="Made it to the end? IMPRESSED?">Let’s discuss<br><b>“What next?”</b></h2>
 <div class="cc">
 <div>
 <div class="mail-row">
@@ -3484,18 +3948,54 @@ Download CV
 <ul>
 <li><a href="https://www.instagram.com/riddhi_bhambere?cplk=MWsycXZsYmY1MGE1Yw==" target="_blank" rel="noopener noreferrer" data-cursor-pill="Where I drop the professional filter.">Instagram <span>↗</span></a></li>
 <li><a href="https://www.linkedin.com/in/bhambere-riddhi-9b8a4a411?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" data-cursor-pill="Let’s skip the small talk and build something.">LinkedIn <span>↗</span></a></li>
-<li><a href="https://www.behance.net/riddhibhamber" target="_blank" rel="noopener noreferrer" data-cursor-pill="Where my laptop fan came to suffer in 4K.">Behance <span>↗</span></a></li>
+<li><a href="https://www.behance.net/riddhibhamber" target="_blank" rel="noopener noreferrer" data-cursor-pill="Get detailed project brief.">Behance <span>↗</span></a></li>
 </ul>
 </div>
 </section>
-<div class="foot pad"><span>© Riddhi Bhambere_Interior Designer</span><span>India</span></div>
+<div class="foot pad"><span>© Riddhi Bhambere · Interior Designer</span><span>India</span></div>
 </main>
-<div id="proj" role="dialog" aria-modal="true" aria-label="Project brief" aria-hidden="true"><div class="pbar pad"><button class="pback" id="pback" type="button">← Back</button><span id="pcount"></span></div><div id="pbody"></div></div>
-<div id="cv-modal" role="dialog" aria-modal="true" aria-label="Curriculum Vitae Preview" aria-hidden="true"><div class="cv-modal-header pad"><button class="cv-modal-close" id="cvModalClose" type="button">← Back to Portfolio</button><span class="cv-modal-title">Riddhi Bhambere · Curriculum Vitae</span><a class="cv-modal-dl" href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download PDF</a></div><div class="cv-modal-body"><img class="cv-preview-sheet" src="/assets/Riddhi_Bhambere_CV_preview.png" alt="Riddhi Bhambere Interior Design Curriculum Vitae Preview"></div></div>
-<div id="img-lightbox" role="dialog" aria-modal="true" aria-label="High Resolution Image Viewer" aria-hidden="true"><div class="lb-backdrop"></div><div class="lb-container"><div class="lb-topbar"><div class="lb-actions"><a class="lb-dl-btn" href="#" download title="Download full-resolution photo" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>Download</span></a><button class="lb-close-btn" id="lbCloseBtn" type="button" aria-label="Close high-res viewer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div></div><div class="lb-img-wrap" id="lbImgWrap"><img class="lb-img" id="lbImg" src="" alt="High resolution view"></div><div class="lb-hint">Click outside or press Esc to close</div></div></div>
+<div id="proj" role="dialog" aria-modal="true" aria-label="Project brief" aria-hidden="true" data-lenis-prevent><div class="pbar pad"><button class="pback" id="pback" type="button">← Back</button><span id="pcount"></span></div><div id="pbody"></div></div>
+<div id="cv-modal" role="dialog" aria-modal="true" aria-label="Curriculum Vitae Preview" aria-hidden="true" data-lenis-prevent><div class="cv-modal-header pad"><button class="cv-modal-close" id="cvModalClose" type="button">← Back to Portfolio</button><span class="cv-modal-title">Riddhi Bhambere · Curriculum Vitae</span><a class="cv-modal-dl" href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download PDF</a></div><div class="cv-modal-body"><img class="cv-preview-sheet" src="/assets/Riddhi_Bhambere_CV_preview.png" alt="Riddhi Bhambere Interior Design Curriculum Vitae Preview"></div></div>
+<div id="img-lightbox" role="dialog" aria-modal="true" aria-label="High Resolution Image Viewer" aria-hidden="true" data-lenis-prevent><div class="lb-backdrop"></div><div class="lb-container"><div class="lb-topbar"><div class="lb-actions"><a class="lb-dl-btn" href="#" download title="Download full-resolution photo" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>Download</span></a><button class="lb-close-btn" id="lbCloseBtn" type="button" aria-label="Close high-res viewer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div></div><div class="lb-img-wrap" id="lbImgWrap"><img class="lb-img" id="lbImg" src="" alt="High resolution view"></div><div class="lb-hint">Click outside or press Esc to close</div></div></div>
 <div id="cad-cursor" aria-hidden="true"><div class="cad-crosshair" id="cadCrosshair"><span class="cad-reticle"></span><span class="cad-arm-l"></span><span class="cad-arm-r"></span><span class="cad-arm-t"></span><span class="cad-arm-b"></span><div class="cad-pill" id="cadPill"><span class="cad-pill-dot"></span><span class="cad-pill-text" id="cadPillText">Defaults are just unasked questions.</span></div></div></div>
 
 <script>
+// ==========================================================================
+// Silky Smooth Inertial Momentum Scrolling (Studio Freight Lenis)
+// ==========================================================================
+let lenis = null;
+if (typeof Lenis !== 'undefined') {
+  lenis = new Lenis({
+    lerp: 0.082,             // Ultra-smooth, velvety linear interpolation
+    smoothWheel: true,       // Native smooth wheel momentum
+    wheelMultiplier: 0.92,   // Pure fluid glide speed
+    touchMultiplier: 1.25,   // Silky touch response
+    infinite: false
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  window.lenis = lenis;
+
+  // Intercept anchor clicks for silky smooth glide with navbar offset
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href === '#' || href === '#!') return;
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      const navH = 68;
+      lenis.scrollTo(target, { offset: -navH, duration: 1.25 });
+      if (history.pushState) history.pushState(null, null, href);
+    }
+  });
+}
 const C=[
   ["Forest Essentials","2025","Commercial Project","/assets/projects/forest-essentials/forest-essentials-overview.jpg","Smells like expensive sandalwood."],
   ["Giva","2024","Commercial Project","/assets/projects/giva/giva-window-display-box.jpg","Silver deserves golden hour too."],
@@ -3551,10 +4051,9 @@ if(m){
     tool.style.setProperty('--tool-i', idx);
   });
 
-  // Curated horizontal cards: fade in/out cleanly in sync with row vertical visibility
-  const curatedCards = Array.from(document.querySelectorAll('#curatedRow .curated-card'));
+  // Curated 3D orbit cards: fade in cleanly in sync with orbit container visibility
+  const curatedCards = Array.from(document.querySelectorAll('.curated-card'));
   curatedCards.forEach((card, idx) => {
-    card.classList.add('rv');
     card.style.setProperty('--rv-d', `${Math.min(idx * 110, 330)}ms`);
   });
 
@@ -3566,32 +4065,26 @@ if(m){
         if (entry.isIntersecting) {
           entry.target.classList.add('in');
           entry.target.classList.remove('rv-above');
-        } else {
-          entry.target.classList.remove('in');
-          entry.target.classList.toggle('rv-above', entry.boundingClientRect.top < 0);
+          io.unobserve(entry.target);
         }
       });
-    }, { threshold: [0, 0.04], rootMargin: '20px 0px -20px 0px' });
+    }, { threshold: 0.04, rootMargin: '0px 0px -20px 0px' });
 
     document.querySelectorAll('.rv:not(.curated-card)').forEach(el => io.observe(el));
 
-    const curatedRow = document.getElementById('curatedRow');
-    if (curatedRow && curatedCards.length) {
+    const curatedOrbit = document.getElementById('curatedOrbitWrap');
+    if (curatedOrbit && curatedCards.length) {
       const curatedObs = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          const isAbove = entry.boundingClientRect.top < 0;
-          curatedCards.forEach(card => {
-            if (entry.isIntersecting) {
+          if (entry.isIntersecting) {
+            curatedCards.forEach(card => {
               card.classList.add('in');
-              card.classList.remove('rv-above');
-            } else {
-              card.classList.remove('in');
-              card.classList.toggle('rv-above', isAbove);
-            }
-          });
+            });
+            curatedObs.unobserve(entry.target);
+          }
         });
-      }, { threshold: 0.06, rootMargin: '20px 0px -20px 0px' });
-      curatedObs.observe(curatedRow);
+      }, { threshold: 0.05 });
+      curatedObs.observe(curatedOrbit);
     }
 
     const heroEl = document.getElementById('top');
@@ -3643,9 +4136,1000 @@ if(m){
   };
 })();
 
-// preloader (double-rAF crisp entrance stagger into bright studio)
-const pre=document.getElementById('pre'),pct=document.getElementById('pct');
-if(pre&&pct){pct.textContent='100%';requestAnimationFrame(()=>requestAnimationFrame(()=>{pre.classList.add('done');document.body.classList.add('go')}));}
+// ==========================================================================
+// PRELOADER & HERO STAGE: Huy Nguyen Opening × LORD Multi-Project Showcase
+// ==========================================================================
+(function initHeroStageAndPreloader() {
+  const HERO_PROJECTS = [
+    {
+      title: "Parallel Business Hotel",
+      category: "Commercial / Hospitality",
+      image: "assets/projects/parallel-business-hotel/reception.jpg",
+      link: "#curated"
+    },
+    {
+      title: "Independent Joy",
+      category: "Bespoke Residence",
+      image: "assets/projects/independent-joy/cover.jpg",
+      link: "#curated"
+    },
+    {
+      title: "क ख ग पाठशाला",
+      category: "Institutional / School",
+      image: "assets/projects/kha-kha-ga/model-courtyard-mural.jpg",
+      link: "#curated"
+    },
+    {
+      title: "Volume 01",
+      category: "Interior Architecture",
+      image: "assets/projects/volume-01/cross-section-elevation.jpg",
+      link: "#curated"
+    },
+    {
+      title: "3BHK Interior",
+      category: "Residential Architecture",
+      image: "assets/projects/3bhk-interior/cover.jpg",
+      link: "#experience"
+    },
+    {
+      title: "FLH: Feels Like Home",
+      category: "Hospitality Living",
+      image: "assets/projects/flh/cover.jpg",
+      link: "#experience"
+    },
+    {
+      title: "Khushburat",
+      category: "Retail Boutique",
+      image: "assets/projects/khushburat/cover.jpg",
+      link: "#experience"
+    },
+    {
+      title: "Forest Essentials",
+      category: "Sensory Retail Experience",
+      image: "assets/projects/forest-essentials/forest-essentials-overview.jpg",
+      link: "#work"
+    },
+    {
+      title: "GIVA Jewellery",
+      category: "Luxury Retail Store",
+      image: "assets/projects/giva/giva-spotlit-collection.jpg",
+      link: "#work"
+    },
+    {
+      title: "Reflective Partition",
+      category: "Spatial Installation",
+      image: "assets/projects/reflective-partition/reflective-partition-perspective.jpg",
+      link: "#work"
+    },
+    {
+      title: "Lego Bleachers",
+      category: "Modular Furniture Design",
+      image: "assets/projects/staircase-design/staircase-atrium-daylight-bleachers.jpg",
+      link: "#work"
+    }
+  ];
+
+  // --- Huy Nguyen Stacking Card Flip Sequence (GSAP) ---
+  const preEl = document.getElementById('pre');
+  const pctEl = document.getElementById('pct');
+  const preItems = [...document.querySelectorAll('.pre-flip-item')];
+
+  // --- Buttery Smooth Hero Interactions & Motion ---
+  function initHeroButteryInteractions() {
+    const heroLeft = document.querySelector('.hero-bottom-left');
+    const heroRight = document.querySelector('.hero-top-right');
+    const ctaButtons = document.querySelectorAll('.hero-btn-primary, .hero-btn-secondary');
+
+    // Text & panels remain completely stationary and calm (no mouse parallax drift)
+    if (heroLeft) heroLeft.style.transform = 'none';
+    if (heroRight) heroRight.style.transform = 'none';
+
+    // 1. Magnetic Pull on CTA Buttons
+    ctaButtons.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - (rect.left + rect.width / 2);
+        const y = e.clientY - (rect.top + rect.height / 2);
+        btn.style.transform = `translate3d(${x * 0.25}px, ${y * 0.25}px, 0) scale(1.02)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate3d(0, 0, 0) scale(1)';
+      });
+    });
+
+    // 3. Staggered Entrance Animation when Preloader completes
+    window.revealHeroElements = function() {
+      if (window.liftHeroStardust) {
+        window.liftHeroStardust();
+      }
+      if (window.gsap) {
+        gsap.fromTo('.hero-curiosity-desc, .hero-whatif-tag', 
+          { y: -18, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, stagger: 0.12, ease: 'power3.out' }
+        );
+        gsap.fromTo('.hero-kicker-tag, .hero-title-line, .hero-address-subtitle, .hero-cta-group, .hero-scroll-cue',
+          { y: 26, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.0, stagger: 0.07, ease: 'power3.out', delay: 0.06 }
+        );
+      }
+    };
+  }
+
+  initHeroButteryInteractions();
+
+  // ==========================================================================
+  // HERO STARDUST ARCHITECTURE: Solution 1 - Architectural CAD Wireframe & Node Particles
+  // 1. Continuous ultra-fine architectural hairlines provide instant structural clarity
+  // 2. Luminous warm terracotta (#c85a32) & black node particles pulse along vertices
+  // 3. Spans the entire hero canvas in clean, elegant architectural perspective
+  // 4. Smooth, purposeful morphing between 4 interior spaces: Workspace -> Hotel -> Exhibition -> Retail
+  // ==========================================================================
+  function initHeroStardustArchitecture() {
+    const canvas = document.getElementById('heroStardustCanvas');
+    const heroEl = document.getElementById('top');
+    if (!canvas || !heroEl) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const TOTAL_PARTICLES = 650;  // Delicate luminous node specks along lines & vertices
+    const ROOM_INTERVAL = 950;    // 0.95 seconds per space (high-speed dynamic spatial morphing)
+
+    let width = 0, height = 0, dpr = 1;
+    let isVisible = true;
+    let hasLifted = false;
+    let currentRoom = 0;
+    let roomTimer = 0;
+    let mouseX = 0, mouseY = 0, curRotX = 0, curRotY = 0;
+
+    // --- Delicate Luminous Sprite Stamps (Whisper-soft, non-overpowering) ---
+    function createStamp(r, g, b, coreAlpha, haloAlpha, size) {
+      const s = document.createElement('canvas');
+      s.width = size;
+      s.height = size;
+      const sCtx = s.getContext('2d');
+      const half = size / 2;
+      const grad = sCtx.createRadialGradient(half, half, 0, half, half, half);
+      grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${coreAlpha})`);
+      grad.addColorStop(0.38, `rgba(${r}, ${g}, ${b}, ${coreAlpha * 0.85})`);
+      grad.addColorStop(0.72, `rgba(${r}, ${g}, ${b}, ${haloAlpha})`);
+      grad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+      sCtx.fillStyle = grad;
+      sCtx.beginPath();
+      sCtx.arc(half, half, half, 0, Math.PI * 2);
+      sCtx.fill();
+      return s;
+    }
+
+    // Ultra-subtle architectural palette: Whisper Terracotta (#c85a32) + Faint Graphite Definition
+    const STAMPS = [
+      createStamp(200, 90, 50, 0.16, 0.04, 18), // 0: Terracotta Core Node (#c85a32) - subtle
+      createStamp(200, 90, 50, 0.10, 0.02, 18), // 1: Terracotta Ambient Dust - ethereal
+      createStamp(20, 18, 17, 0.15, 0.03, 18)    // 2: Faint Graphite Definition Node (#141211)
+    ];
+
+    // --- Line Helpers ---
+    function rectLines(x, y, w, h, isBlack) {
+  return [
+    [x, y, x + w, y, isBlack ? 1 : 0],
+    [x + w, y, x + w, y + h, isBlack ? 1 : 0],
+    [x + w, y + h, x, y + h, isBlack ? 1 : 0],
+    [x, y + h, x, y, isBlack ? 1 : 0]
+  ];
+}
+
+function circleLines(cx, cy, r, segments, isBlack) {
+  const l = [];
+  for (let i = 0; i < segments; i++) {
+    const a0 = (i / segments) * Math.PI * 2;
+    const a1 = ((i + 1) / segments) * Math.PI * 2;
+    l.push([
+      cx + Math.cos(a0) * r,
+      cy + Math.sin(a0) * r,
+      cx + Math.cos(a1) * r,
+      cy + Math.sin(a1) * r,
+      isBlack ? 1 : 0
+    ]);
+  }
+  return l;
+}
+
+function ellipseLines(cx, cy, rx, ry, segments, isBlack) {
+  const l = [];
+  for (let i = 0; i < segments; i++) {
+    const a0 = (i / segments) * Math.PI * 2;
+    const a1 = ((i + 1) / segments) * Math.PI * 2;
+    l.push([
+      cx + Math.cos(a0) * rx,
+      cy + Math.sin(a0) * ry,
+      cx + Math.cos(a1) * rx,
+      cy + Math.sin(a1) * ry,
+      isBlack ? 1 : 0
+    ]);
+  }
+  return l;
+}
+
+function arcLines(cx, cy, rx, ry, startA, endA, segments, isBlack) {
+  const l = [];
+  for (let i = 0; i < segments; i++) {
+    const a0 = startA + (i / segments) * (endA - startA);
+    const a1 = startA + ((i + 1) / segments) * (endA - startA);
+    l.push([
+      cx + Math.cos(a0) * rx,
+      cy + Math.sin(a0) * ry,
+      cx + Math.cos(a1) * rx,
+      cy + Math.sin(a1) * ry,
+      isBlack ? 1 : 0
+    ]);
+  }
+  return l;
+}
+
+function planterLines(cx, bFloorY, potW, potH, plantH, isTall = false) {
+  const lines = [];
+  const potTopY = bFloorY - potH;
+  lines.push([cx - potW * 0.4, bFloorY, cx - potW * 0.5, potTopY, 1]);
+  lines.push([cx + potW * 0.4, bFloorY, cx + potW * 0.5, potTopY, 1]);
+  lines.push([cx - potW * 0.4, bFloorY, cx + potW * 0.4, bFloorY, 1]);
+  lines.push(...ellipseLines(cx, potTopY, potW * 0.5, 6, 10, true));
+  [-0.25, 0, 0.25].forEach(t => {
+    lines.push([cx + potW * t * 0.8, bFloorY - 2, cx + potW * t, potTopY + 3, 0]);
+  });
+  const stemBaseY = potTopY;
+  lines.push([cx, stemBaseY, cx - 8, stemBaseY - plantH * 0.5, 1]);
+  lines.push([cx - 8, stemBaseY - plantH * 0.5, cx - 18, stemBaseY - plantH, 1]);
+  lines.push([cx, stemBaseY, cx + 14, stemBaseY - plantH * 0.4, 0]);
+  lines.push([cx + 14, stemBaseY - plantH * 0.4, cx + 28, stemBaseY - plantH * 0.85, 0]);
+  lines.push([cx - 4, stemBaseY, cx - 22, stemBaseY - plantH * 0.35, 0]);
+  lines.push([cx - 22, stemBaseY - plantH * 0.35, cx - 35, stemBaseY - plantH * 0.7, 0]);
+  lines.push(...ellipseLines(cx - 18, stemBaseY - plantH, 14, 7, 8, true));
+  lines.push(...ellipseLines(cx + 28, stemBaseY - plantH * 0.85, 15, 8, 8, false));
+  lines.push(...ellipseLines(cx - 35, stemBaseY - plantH * 0.7, 13, 6, 8, false));
+  if (isTall) {
+    lines.push(...ellipseLines(cx + 10, stemBaseY - plantH * 0.62, 11, 5, 6, false));
+    lines.push(...ellipseLines(cx - 15, stemBaseY - plantH * 0.45, 10, 5, 6, false));
+  }
+  return lines;
+}
+
+function armchairLines(cx, cy, scale = 1.0) {
+  const lines = [];
+  const armW = 56 * scale;
+  const armD = 42 * scale;
+  lines.push(...ellipseLines(cx, cy + 10, armW * 0.5, armD * 0.36, 12, true));
+  lines.push(...ellipseLines(cx, cy + 18, armW * 0.48, armD * 0.34, 10, false));
+  lines.push(...arcLines(cx, cy - 8, armW * 0.55, armD * 0.48, Math.PI * 0.75, Math.PI * 2.25, 12, true));
+  lines.push(...arcLines(cx, cy, armW * 0.52, armD * 0.44, Math.PI * 0.78, Math.PI * 2.22, 10, false));
+  lines.push([cx - armW * 0.4, cy + 18, cx - armW * 0.48, cy + 52, 1]);
+  lines.push([cx + armW * 0.4, cy + 18, cx + armW * 0.48, cy + 52, 1]);
+  lines.push([cx - armW * 0.22, cy + 14, cx - armW * 0.28, cy + 44, 0]);
+  lines.push([cx + armW * 0.22, cy + 14, cx + armW * 0.28, cy + 44, 0]);
+  return lines;
+}
+
+let ROOM_DATA = [];
+
+    function buildRoomData(w, h) {
+      const vpX = w * 0.52;
+      const vpY = h * 0.48;
+      const floorY = h * 0.98;
+      const ceilY = h * 0.02;
+
+      function getBaseShellLines() {
+  const lines = [];
+  const floorSteps = 16;
+  for (let i = 0; i <= floorSteps; i++) {
+    const fx = (w * i) / floorSteps;
+    lines.push([vpX, vpY + 28, fx, floorY, 0]);
+  }
+  [0.18, 0.36, 0.56, 0.78, 0.96].forEach(t => {
+    const py = (vpY + 28) + (floorY - (vpY + 28)) * t;
+    const lx = vpX - vpX * t;
+    const rx = vpX + (w - vpX) * t;
+    lines.push([lx, py, rx, py, 0]);
+  });
+  const ceilSteps = 14;
+  for (let i = 0; i <= ceilSteps; i++) {
+    const cx = (w * i) / ceilSteps;
+    lines.push([vpX, vpY - 32, cx, ceilY, 0]);
+  }
+  [0.22, 0.48, 0.78].forEach(t => {
+    const py = (vpY - 32) - ((vpY - 32) - ceilY) * t;
+    const lx = vpX - vpX * t;
+    const rx = vpX + (w - vpX) * t;
+    lines.push([lx, py, rx, py, 0]);
+  });
+  lines.push([vpX, vpY - 32, 0, ceilY, 1]);
+  lines.push([vpX, vpY - 32, w, ceilY, 1]);
+  lines.push([vpX, vpY + 28, 0, floorY, 1]);
+  lines.push([vpX, vpY + 28, w, floorY, 1]);
+  return lines;
+}
+
+// 1. Curated Living Salon with Planters & Multiple Lounge Chairs
+function getLivingSalonLines() {
+  const lines = [...getBaseShellLines()];
+  const sofaCenterX = vpX - 10;
+  const sofaCenterY = h * 0.68;
+  const sofaW = w * 0.44;
+  const sofaD = h * 0.16;
+
+  // Curved modular sofa
+  lines.push(...arcLines(sofaCenterX, sofaCenterY - 30, sofaW * 0.52, sofaD * 0.45, Math.PI * 0.92, Math.PI * 2.08, 16, true));
+  lines.push(...arcLines(sofaCenterX, sofaCenterY - 14, sofaW * 0.50, sofaD * 0.42, Math.PI * 0.94, Math.PI * 2.06, 16, false));
+  lines.push(...ellipseLines(sofaCenterX, sofaCenterY + 16, sofaW * 0.48, sofaD * 0.38, 18, true));
+  lines.push(...ellipseLines(sofaCenterX, sofaCenterY + 28, sofaW * 0.46, sofaD * 0.36, 16, false));
+  [-0.24, 0, 0.24].forEach(offset => {
+    const cx = sofaCenterX + sofaW * offset;
+    lines.push([cx, sofaCenterY - 22, cx, sofaCenterY + 24, 0]);
+  });
+
+  // Coffee Table
+  const tblX = sofaCenterX + 25;
+  const tblY = sofaCenterY + 65;
+  lines.push(...ellipseLines(tblX, tblY, 75, 28, 14, true));
+  lines.push(...ellipseLines(tblX, tblY + 12, 73, 27, 14, false));
+  lines.push(...circleLines(tblX - 22, tblY - 8, 9, 8, false));
+  lines.push([tblX - 22, tblY - 8, tblX - 22, tblY - 24, 0]);
+  lines.push(...rectLines(tblX + 12, tblY - 10, 26, 16, false));
+
+  // Chair 1 (Right): Curved Acoustic Shell Chair
+  const chairX = w * 0.74;
+  const chairY = h * 0.72;
+  lines.push(...ellipseLines(chairX, chairY, 52, 34, 14, true));
+  lines.push(...arcLines(chairX - 8, chairY - 16, 44, 30, Math.PI * 0.7, Math.PI * 1.8, 10, true));
+  lines.push([chairX, chairY + 24, chairX, floorY - 25, 1]);
+  lines.push(...circleLines(chairX, floorY - 25, 24, 10, false));
+
+  // Chair 2 (Left Foreground): Iconic Sculptural Armchair
+  const chair2X = w * 0.26;
+  const chair2Y = h * 0.74;
+  lines.push(...armchairLines(chair2X, chair2Y, 1.15));
+
+  // Drum Timber Side Table beside Chair 2
+  lines.push(...ellipseLines(chair2X + 58, chair2Y + 22, 18, 10, 10, true));
+  lines.push([chair2X + 40, chair2Y + 22, chair2X + 40, floorY - 28, 1]);
+  lines.push([chair2X + 76, chair2Y + 22, chair2X + 76, floorY - 28, 1]);
+  lines.push(...circleLines(chair2X + 58, chair2Y + 14, 4, 6, false));
+
+  // Architectural Floor Planter (Left beside Crittall partition)
+  lines.push(...planterLines(w * 0.22, floorY - 10, 48, 54, 95, true));
+
+  // Cantilevered Arched Floor Lamp (Arco style over sofa)
+  const lampBaseX = w * 0.78;
+  const lampBaseY = floorY - 30;
+  lines.push(...rectLines(lampBaseX - 16, lampBaseY - 32, 32, 32, true));
+  lines.push(...arcLines(lampBaseX - 140, lampBaseY - 180, 150, 220, Math.PI * 1.35, Math.PI * 2.05, 16, 1));
+  const domeX = lampBaseX - 170;
+  const domeY = h * 0.44;
+  lines.push(...arcLines(domeX, domeY, 20, 14, Math.PI, Math.PI * 2, 8, true));
+  lines.push([domeX - 20, domeY, domeX + 20, domeY, 0]);
+
+  // Mobile Chandelier
+  const chandX = vpX;
+  const chandY = h * 0.26;
+  lines.push([chandX, ceilY + 15, chandX, chandY, 1]);
+  lines.push([chandX - 95, chandY - 14, chandX + 75, chandY + 12, 1]);
+  lines.push([chandX - 130, chandY + 20, chandX + 110, chandY - 18, 1]);
+  lines.push([chandX - 95, chandY - 14, chandX - 105, chandY + 12, 0]);
+  lines.push(...circleLines(chandX - 105, chandY + 12, 7, 6, true));
+  lines.push(...circleLines(chandX + 75, chandY + 12, 8, 6, true));
+  lines.push(...circleLines(chandX + 110, chandY - 18, 7, 6, true));
+
+  // Right Wall: Fluted Wood Millwork & Integrated Display Niche
+  const wallRightX = w * 0.84;
+  const wallRightW = w * 0.15;
+  const wallTopY = h * 0.16;
+  const wallBotY = h * 0.88;
+  lines.push(...rectLines(wallRightX, wallTopY, wallRightW, wallBotY - wallTopY, true));
+  for (let fx = wallRightX + 10; fx <= wallRightX + wallRightW - 10; fx += 14) {
+    lines.push([fx, wallTopY, fx, wallBotY, 0]);
+  }
+  const nicheY = h * 0.32;
+  const nicheH = h * 0.38;
+  lines.push(...rectLines(wallRightX + 18, nicheY, wallRightW - 36, nicheH, true));
+  [0.32, 0.68].forEach(t => {
+    const sy = nicheY + nicheH * t;
+    lines.push([wallRightX + 18, sy, wallRightX + wallRightW - 18, sy, 1]);
+    lines.push(...circleLines(wallRightX + wallRightW * 0.5, sy - 14, 8, 6, false));
+  });
+
+  // Left Wall: Crittall Pivot Door
+  const crittallX = w * 0.04;
+  const crittallW = w * 0.16;
+  const crittallTopY = h * 0.15;
+  const crittallBotY = h * 0.90;
+  lines.push(...rectLines(crittallX, crittallTopY, crittallW, crittallBotY - crittallTopY, true));
+  lines.push([crittallX + crittallW * 0.48, crittallTopY, crittallX + crittallW * 0.48, crittallBotY, 1]);
+  [0.22, 0.45, 0.68, 0.85].forEach(t => {
+    const my = crittallTopY + (crittallBotY - crittallTopY) * t;
+    lines.push([crittallX, my, crittallX + crittallW, my, 0]);
+  });
+  lines.push([crittallX + crittallW * 0.45, h * 0.48, crittallX + crittallW * 0.45, h * 0.58, 1]);
+  lines.push(...arcLines(sofaCenterX, sofaCenterY + 45, sofaW * 0.64, sofaD * 0.62, 0, Math.PI * 2, 22, false));
+  return lines;
+}
+
+// 2. Hospitality Atrium & Bar with Twin Pedestal Planters & Lounge Chairs
+function getHotelLines() {
+  const lines = [...getBaseShellLines()];
+  const barY = h * 0.66;
+  const barW = w * 0.46;
+  const barLeft = vpX - barW * 0.5;
+
+  lines.push(...rectLines(barLeft, barY, barW, h * 0.18, true));
+  lines.push([barLeft - 12, barY, barLeft + barW + 12, barY, 1]);
+  lines.push([barLeft - 12, barY + 8, barLeft + barW + 12, barY + 8, 0]);
+  lines.push([barLeft + 15, barY + h * 0.18 - 8, barLeft + barW - 15, barY + h * 0.18 - 8, 0]);
+  for (let bx = barLeft + 20; bx <= barLeft + barW - 20; bx += 18) {
+    lines.push([bx, barY + 12, bx, barY + h * 0.18 - 8, 0]);
+  }
+
+  // Twin Grand Pedestal Planters flanking the bar
+  lines.push(...planterLines(barLeft - 45, floorY - 15, 36, 48, 85, true));
+  lines.push(...planterLines(barLeft + barW + 45, floorY - 15, 36, 48, 85, true));
+
+  // Back-bar colonnade
+  const archW = 60;
+  const archH = 110;
+  const archTop = h * 0.22;
+  [-1.2, 0, 1.2].forEach(pos => {
+    const ax = vpX + pos * (archW + 18) - archW * 0.5;
+    lines.push([ax, archTop + 30, ax, archTop + archH, 1]);
+    lines.push([ax + archW, archTop + 30, ax + archW, archTop + archH, 1]);
+    lines.push(...arcLines(ax + archW * 0.5, archTop + 30, archW * 0.5, 30, Math.PI, Math.PI * 2, 10, true));
+    [0.4, 0.7].forEach(t => {
+      const sy = archTop + 30 + (archH - 30) * t;
+      lines.push([ax, sy, ax + archW, sy, 0]);
+      lines.push(...circleLines(ax + archW * 0.5, sy - 8, 6, 6, false));
+    });
+  });
+
+  // Suspended Brass Gantry
+  const gantryY = h * 0.34;
+  lines.push(...rectLines(barLeft - 8, gantryY, barW + 16, 26, true));
+  lines.push([barLeft + 40, gantryY, barLeft + 40, ceilY + 35, 0]);
+  lines.push([barLeft + barW - 40, gantryY, barLeft + barW - 40, ceilY + 35, 0]);
+
+  // Bar Stools
+  [-0.34, 0, 0.34].forEach(offset => {
+    const sx = vpX + barW * offset;
+    lines.push(...circleLines(sx, barY + h * 0.18 + 15, 18, 10, true));
+    lines.push([sx, barY + h * 0.18 + 15, sx, floorY - 15, 1]);
+    lines.push([sx - 12, floorY - 15, sx + 12, floorY - 15, 0]);
+  });
+
+  // Foreground Lounge Seating (Left): Cocktail Table & Armchair
+  const bistroX = w * 0.18;
+  const bistroY = h * 0.78;
+  lines.push(...circleLines(bistroX, bistroY, 26, 12, true));
+  lines.push([bistroX, bistroY, bistroX, floorY - 18, 1]);
+  lines.push(...circleLines(bistroX, floorY - 18, 18, 8, 0));
+  lines.push(...armchairLines(bistroX - 45, bistroY + 8, 0.9));
+
+  return lines;
+}
+
+// 3. Penthouse Master Suite with Bedroom Reading Lounge & Olive Tree Planter
+function getMasterSuiteLines() {
+  const lines = [...getBaseShellLines()];
+  const bedW = w * 0.44;
+  const bedY = h * 0.65;
+  const bedLeft = vpX - bedW * 0.5;
+
+  lines.push(...rectLines(bedLeft, bedY, bedW, h * 0.18, true));
+  lines.push(...rectLines(bedLeft + 25, bedY + h * 0.18, bedW - 50, 16, false));
+
+  // Channel-Tufted Headboard Wall
+  const hbTop = h * 0.18;
+  lines.push(...rectLines(bedLeft - 30, hbTop, bedW + 60, bedY - hbTop, true));
+  for (let hbx = bedLeft - 20; hbx <= bedLeft + bedW + 20; hbx += 22) {
+    lines.push([hbx, hbTop, hbx, bedY, 0]);
+  }
+
+  // Nightstands
+  [-bedW * 0.5 - 35, bedW * 0.5 + 10].forEach(nx => {
+    const nX = vpX + nx;
+    lines.push(...rectLines(nX, bedY + 25, 38, 18, true));
+    lines.push([nX + 19, bedY + 10, nX + 19, bedY - 35, 1]);
+    lines.push(...circleLines(nX + 19, bedY - 35, 10, 8, true));
+  });
+
+  // Architectural Planter (Right beside Drapery Window: Indoor Olive Tree)
+  lines.push(...planterLines(w * 0.82, floorY - 20, 46, 52, 105, true));
+
+  // Reading Corner (Left Foreground): Lounge Armchair, Ottoman, Reading Lamp
+  const readX = w * 0.24;
+  const readY = h * 0.74;
+  lines.push(...armchairLines(readX, readY, 1.1));
+  lines.push(...ellipseLines(readX + 50, readY + 28, 24, 14, 10, true));
+  lines.push([readX + 50, readY + 36, readX + 50, floorY - 25, 0]);
+  lines.push([readX - 42, floorY - 20, readX - 42, h * 0.48, 1]);
+  lines.push([readX - 42, h * 0.48, readX - 25, h * 0.50, 1]);
+  lines.push(...circleLines(readX - 25, h * 0.50, 7, 6, true));
+
+  // Vanity & Mirror
+  const mirX = w * 0.06;
+  const mirW = 55;
+  const mirTop = h * 0.28;
+  lines.push([mirX, mirTop + 30, mirX, mirTop + 130, 1]);
+  lines.push([mirX + mirW, mirTop + 30, mirX + mirW, mirTop + 130, 1]);
+  lines.push(...arcLines(mirX + mirW * 0.5, mirTop + 30, mirW * 0.5, 30, Math.PI, Math.PI * 2, 12, true));
+  lines.push(...rectLines(mirX - 8, mirTop + 130, mirW + 16, 22, true));
+
+  // Drapery Wall
+  const dX = w * 0.88;
+  lines.push([dX, ceilY + 20, w * 0.98, ceilY + 20, 1]);
+  for (let px = dX; px <= w * 0.98; px += 14) {
+    lines.push([px, ceilY + 20, px, floorY - 20, 0]);
+  }
+
+  return lines;
+}
+
+// 4. Dining Pavilion with Host Armchairs, Side Planter, & Credenza
+function getDiningPavilionLines() {
+  const lines = [...getBaseShellLines()];
+  const tableY = h * 0.67;
+  const tableW = w * 0.48;
+  const tableLeft = vpX - tableW * 0.5;
+
+  lines.push(...rectLines(tableLeft, tableY, tableW, 16, true));
+  lines.push([tableLeft - 10, tableY, tableLeft + tableW + 10, tableY, 1]);
+
+  const p1X = tableLeft + tableW * 0.25;
+  const p2X = tableLeft + tableW * 0.75;
+  [p1X, p2X].forEach(px => {
+    lines.push(...rectLines(px - 30, tableY + 16, 60, floorY - (tableY + 36), true));
+    for (let fl = px - 22; fl <= px + 22; fl += 10) {
+      lines.push([fl, tableY + 16, fl, floorY - 20, 0]);
+    }
+  });
+
+  // Side Dining Chairs
+  [-0.30, -0.10, 0.10, 0.30].forEach(offset => {
+    const cx = vpX + tableW * offset;
+    lines.push(...arcLines(cx, tableY - 14, 22, 16, Math.PI * 0.8, Math.PI * 2.2, 10, true));
+    lines.push([cx, tableY - 14, cx, tableY, 0]);
+    lines.push([cx - 18, tableY, cx - 18, tableY + 28, 1]);
+    lines.push([cx + 18, tableY, cx + 18, tableY + 28, 1]);
+    lines.push([cx - 18, tableY + 28, cx + 18, tableY + 28, 0]);
+    lines.push([cx - 18, tableY + 28, cx - 18, floorY - 20, 0]);
+    lines.push([cx + 18, tableY + 28, cx + 18, floorY - 20, 0]);
+  });
+
+  // Host Armchair 1 (Left Head of Table)
+  lines.push(...armchairLines(tableLeft - 38, tableY + 12, 0.95));
+
+  // Host Armchair 2 (Right Head of Table)
+  lines.push(...armchairLines(tableLeft + tableW + 38, tableY + 12, 0.95));
+
+  // Architectural Dining Planter (Foreground Right)
+  lines.push(...planterLines(w * 0.84, floorY - 15, 45, 52, 98, true));
+
+  // Suspended Linear Chandelier
+  const pendY = h * 0.28;
+  lines.push([tableLeft + 20, pendY, tableLeft + tableW - 20, pendY, 1]);
+  lines.push([tableLeft + 20, pendY + 6, tableLeft + tableW - 20, pendY + 6, 0]);
+  lines.push([tableLeft + tableW * 0.3, pendY, tableLeft + tableW * 0.3, ceilY + 30, 0]);
+  lines.push([tableLeft + tableW * 0.7, pendY, tableLeft + tableW * 0.7, ceilY + 30, 0]);
+
+  // Back Wall Wine Joinery
+  const credW = tableW * 0.9;
+  const credLeft = vpX - credW * 0.5;
+  const credTop = h * 0.24;
+  lines.push(...rectLines(credLeft, credTop, credW, h * 0.36, true));
+  for (let gx = credLeft + 24; gx <= credLeft + credW - 24; gx += 26) {
+    lines.push([gx, credTop, gx, credTop + h * 0.36, 0]);
+  }
+  for (let gy = credTop + 24; gy <= credTop + h * 0.36 - 24; gy += 24) {
+    lines.push([credLeft, gy, credLeft + credW, gy, 0]);
+  }
+
+  return lines;
+}
+
+
+      // Convert line sets into equal length arrays
+      const rawSets = [
+        getLivingSalonLines(),
+        getHotelLines(),
+        getMasterSuiteLines(),
+        getDiningPavilionLines()
+      ];
+
+      const maxLen = Math.max(...rawSets.map(s => s.length));
+
+      function padLines(lArr, targetLen) {
+        const res = [];
+        for (let i = 0; i < targetLen; i++) {
+          const src = lArr[i % lArr.length];
+          res.push([src[0], src[1], src[2], src[3], src[4]]);
+        }
+        return res;
+      }
+
+      ROOM_DATA = rawSets.map(s => padLines(s, maxLen));
+
+      // Build Node Particles from Lines
+      buildNodeParticles(ROOM_DATA[0]);
+    }
+
+    // --- Dynamic Interpolating Line Segments ---
+    let currentLines = [];
+    let targetLines = [];
+    let nodeParticles = [];
+
+    function buildNodeParticles(lines) {
+      nodeParticles = [];
+      const ptsPerLine = Math.max(1, Math.floor(TOTAL_PARTICLES / lines.length));
+      for (let li = 0; li < lines.length; li++) {
+        const line = lines[li];
+        const isBlack = line[4] === 1;
+        for (let p = 0; p < ptsPerLine; p++) {
+          const t = ptsPerLine > 1 ? p / (ptsPerLine - 1) : 0.5;
+          const stampIdx = isBlack ? 2 : (p === 0 || p === ptsPerLine - 1 ? 0 : 1);
+          nodeParticles.push({
+            lineIdx: li,
+            t: t,
+            stampIdx: stampIdx,
+            size: (isBlack ? 1.0 : 0.85) + Math.random() * 0.7,
+            twinklePhase: Math.random() * Math.PI * 2,
+            twinkleSpeed: 1.5 + Math.random() * 2.0
+          });
+        }
+      }
+    }
+
+    // --- Baseline Coordinates Underneath CTA Buttons ---
+    function getBaselineCoords() {
+      const cta = document.querySelector('.hero-cta-group');
+      if (!cta || !heroEl) {
+        return {
+          startX: width * 0.06,
+          endX: width * 0.40,
+          y: height * 0.74
+        };
+      }
+      const cRect = cta.getBoundingClientRect();
+      const hRect = heroEl.getBoundingClientRect();
+      return {
+        startX: cRect.left - hRect.left,
+        endX: (cRect.right - hRect.left) + 140,
+        y: (cRect.bottom - hRect.top) + 18
+      };
+    }
+
+    // --- Triangular Halftone Lattice Genesis Engine ---
+    // Mathematically reproduces the user's uploaded reference image:
+    // Pure architectural lines forming an equilateral triangular lattice with diagonal density gradient.
+    // Dense in the upper-right quadrant, dispersing diagonally toward bottom-left into geometric apex nodes.
+    let genesisActive = false;
+    let genesisStartTime = 0;
+    const GENESIS_DURATION = 1350; // 1.35s smooth architectural unfold
+    let genesisStartLines = [];
+
+    function buildTriangularHalftoneLines(w, h, count) {
+      const lines = [];
+      const targetTriCount = Math.floor(count / 3); // ~73 triangles
+
+      // Responsive isometric lattice grid
+      const cols = 12;
+      const s = w / cols;
+      const hRow = s * (Math.sqrt(3) / 2);
+      const rows = Math.ceil(h / hRow);
+
+      const triangles = [];
+
+      for (let r = 0; r <= rows; r++) {
+        const yCenter = r * hRow;
+        const isOdd = r % 2 === 1;
+        const xOffset = isOdd ? s / 2 : 0;
+
+        for (let c = 0; c <= cols; c++) {
+          const xCenter = c * s + xOffset;
+
+          const nx = xCenter / w;
+          const ny = yCenter / h;
+
+          // Bottom-right cutoff: matches the clean white triangular cutoff in the reference image
+          if (nx * 0.70 + ny * 0.82 > 1.25) continue;
+
+          // Halftone density gradient:
+          // Strongest in top-right (nx=1, ny=0 -> 1.0)
+          // Dispersing diagonally towards bottom-left
+          const gradient = Math.max(0.18, (nx * 0.58) + ((1 - ny) * 0.42));
+          const scale = Math.max(0.24, Math.min(0.96, Math.pow(gradient, 1.15)));
+
+          const side = s * scale * 0.94;
+          const triH = side * (Math.sqrt(3) / 2);
+          const pointUp = (c + r) % 2 === 0;
+
+          let p1, p2, p3;
+          if (pointUp) {
+            p1 = [xCenter, yCenter - (2 / 3) * triH];
+            p2 = [xCenter - side / 2, yCenter + (1 / 3) * triH];
+            p3 = [xCenter + side / 2, yCenter + (1 / 3) * triH];
+          } else {
+            p1 = [xCenter, yCenter + (2 / 3) * triH];
+            p2 = [xCenter - side / 2, yCenter - (1 / 3) * triH];
+            p3 = [xCenter + side / 2, yCenter - (1 / 3) * triH];
+          }
+
+          triangles.push({ p1, p2, p3, scale, gradient, cx: xCenter, cy: yCenter });
+        }
+      }
+
+      // Evenly sample triangles across the entire field from top to bottom
+      const selected = [];
+      const step = triangles.length / targetTriCount;
+      for (let i = 0; i < targetTriCount; i++) {
+        const idx = Math.min(triangles.length - 1, Math.floor(i * step));
+        selected.push(triangles[idx]);
+      }
+
+      for (let i = 0; i < selected.length; i++) {
+        const tri = selected[i];
+        // Ink lines (1 = black definition), with occasional terracotta accents (0)
+        const isAccent = (i % 9 === 0);
+        const cIdx = isAccent ? 0 : 1;
+        lines.push([tri.p1[0], tri.p1[1], tri.p2[0], tri.p2[1], cIdx]);
+        lines.push([tri.p2[0], tri.p2[1], tri.p3[0], tri.p3[1], cIdx]);
+        lines.push([tri.p3[0], tri.p3[1], tri.p1[0], tri.p1[1], cIdx]);
+      }
+
+      // Complete remaining lines with connecting lattice diagonals
+      let idx = 0;
+      while (lines.length < count && idx < selected.length - 1) {
+        const a = selected[idx];
+        const b = selected[idx + 1];
+        lines.push([a.p1[0], a.p1[1], b.p1[0], b.p1[1], 1]);
+        idx++;
+      }
+
+      while (lines.length < count) {
+        const base = lines[lines.length % lines.length];
+        lines.push([base[0], base[1], base[2], base[3], base[4]]);
+      }
+
+      return lines.slice(0, count);
+    }
+
+    function setupInitialBaselineLines() {
+      const count = ROOM_DATA[0] ? ROOM_DATA[0].length : 221;
+      const latticeLines = buildTriangularHalftoneLines(width, height, count);
+      currentLines = [];
+      targetLines = [];
+
+      for (let i = 0; i < count; i++) {
+        const l = latticeLines[i];
+        currentLines.push([l[0], l[1], l[2], l[3], l[4]]);
+        targetLines.push([l[0], l[1], l[2], l[3], l[4]]);
+      }
+    }
+
+    function startGenesisMorph() {
+      if (hasLifted || genesisActive) return;
+      if (!ROOM_DATA.length || !ROOM_DATA[0]) return;
+      genesisActive = true;
+      genesisStartTime = performance.now();
+      genesisStartLines = currentLines.map(l => [l[0], l[1], l[2], l[3], l[4]]);
+      targetLines = ROOM_DATA[0];
+    }
+    window.startGenesisMorph = startGenesisMorph;
+    window.liftHeroStardust = startGenesisMorph;
+
+    function switchRoom(roomIdx) {
+      if (!ROOM_DATA.length) return;
+      targetLines = ROOM_DATA[roomIdx];
+    }
+
+    // --- Lift Trigger: Morph from Triangular Halftone Matrix into First Hero Structure ---
+    function liftHeroStardust() {
+      if (hasLifted) return;
+      hasLifted = true;
+      currentRoom = 0;
+      roomTimer = 0;
+      switchRoom(currentRoom);
+    }
+    window.liftHeroStardust = liftHeroStardust;
+
+    // Subtle Mouse Breeze
+    heroEl.addEventListener('pointermove', (e) => {
+      const rect = heroEl.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    }, { passive: true });
+
+    function onResize() {
+      const rect = heroEl.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      buildRoomData(width, height);
+
+      if (!hasLifted) {
+        setupInitialBaselineLines();
+      } else {
+        switchRoom(currentRoom);
+      }
+    }
+    window.addEventListener('resize', onResize, { passive: true });
+    onResize();
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isVisible = entry.isIntersecting;
+        });
+      }, { threshold: 0.05 });
+      io.observe(heroEl);
+    }
+
+    let lastTime = performance.now();
+
+    function render(now) {
+      requestAnimationFrame(render);
+      if (!isVisible) return;
+
+      const dt = Math.min(now - lastTime, 40);
+      lastTime = now;
+      const timeSec = now * 0.001;
+
+      const ambientTime = timeSec * 1.6;
+      const targetRotY = (mouseX * 12) + Math.sin(ambientTime) * 14;
+      const targetRotX = (mouseY * 8) + Math.cos(ambientTime * 0.75) * 8;
+      curRotY += (targetRotY - curRotY) * 0.12;
+      curRotX += (targetRotX - curRotX) * 0.12;
+
+      const baseline = getBaselineCoords();
+      ctx.clearRect(0, 0, width, height);
+
+      // Baseline resting hairline
+      if (!hasLifted) {
+        ctx.beginPath();
+        ctx.moveTo(baseline.startX - 10, baseline.y);
+        ctx.lineTo(baseline.endX + 10, baseline.y);
+        ctx.strokeStyle = 'rgba(200, 90, 50, 0.08)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Room Cycle Timer
+      if (hasLifted) {
+        roomTimer += dt;
+        if (roomTimer >= ROOM_INTERVAL) {
+          roomTimer = 0;
+          currentRoom = (currentRoom + 1) % 4;
+          switchRoom(currentRoom);
+        }
+      }
+
+      // Architectural Line Transit & Genesis Morphing
+      const numLines = Math.min(currentLines.length, targetLines.length);
+
+      if (genesisActive) {
+        const elapsed = now - genesisStartTime;
+        const t = Math.min(1.0, elapsed / GENESIS_DURATION);
+        // Luxurious cubic easeInOut for fluid, architectural unfold
+        const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+        for (let i = 0; i < numLines; i++) {
+          const start = genesisStartLines[i];
+          const tgt = targetLines[i];
+          currentLines[i][0] = start[0] + (tgt[0] - start[0]) * ease;
+          currentLines[i][1] = start[1] + (tgt[1] - start[1]) * ease;
+          currentLines[i][2] = start[2] + (tgt[2] - start[2]) * ease;
+          currentLines[i][3] = start[3] + (tgt[3] - start[3]) * ease;
+          currentLines[i][4] = tgt[4];
+        }
+
+        if (t >= 0.52 && !document.body.classList.contains('go')) {
+          document.body.classList.add('go');
+          if (window.revealHeroElements) window.revealHeroElements();
+        }
+
+        if (t >= 1.0) {
+          genesisActive = false;
+          hasLifted = true;
+          currentRoom = 0;
+          roomTimer = 0;
+        }
+      } else if (hasLifted) {
+        const easeSpeed = 0.24;
+        for (let i = 0; i < numLines; i++) {
+          const cur = currentLines[i];
+          const tgt = targetLines[i];
+          cur[0] += (tgt[0] - cur[0]) * easeSpeed;
+          cur[1] += (tgt[1] - cur[1]) * easeSpeed;
+          cur[2] += (tgt[2] - cur[2]) * easeSpeed;
+          cur[3] += (tgt[3] - cur[3]) * easeSpeed;
+          cur[4] = tgt[4];
+        }
+      }
+
+      // Continuous CAD Hairlines
+      ctx.lineWidth = 1.0;
+
+      // Contrast: During initial lattice & genesis morph, lines are high-contrast crisp architectural ink (0.75) and terracotta (0.70)
+      // Once settled in 3D wireframe room, lines take the refined perspective contrast
+      const inkAlpha = hasLifted ? 0.22 : 0.75;
+      const terraAlpha = hasLifted ? 0.16 : 0.70;
+
+      // Terracotta hairlines
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(200, 90, 50, ' + terraAlpha + ')';
+      for (let i = 0; i < numLines; i++) {
+        const l = currentLines[i];
+        if (l[4] === 0) {
+          ctx.moveTo(l[0] + curRotY * 0.3, l[1] + curRotX * 0.3);
+          ctx.lineTo(l[2] + curRotY * 0.3, l[3] + curRotX * 0.3);
+        }
+      }
+      ctx.stroke();
+
+      // Architectural Black Definition Lines
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(20, 18, 17, ' + inkAlpha + ')';
+      for (let i = 0; i < numLines; i++) {
+        const l = currentLines[i];
+        if (l[4] === 1) {
+          ctx.moveTo(l[0] + curRotY * 0.3, l[1] + curRotX * 0.3);
+          ctx.lineTo(l[2] + curRotY * 0.3, l[3] + curRotX * 0.3);
+        }
+      }
+      ctx.stroke();
+
+      // 2. Draw Luminous Node Particles along Lines & Vertices
+      for (let i = 0; i < nodeParticles.length; i++) {
+        const np = nodeParticles[i];
+        if (np.lineIdx >= numLines) continue;
+
+        const l = currentLines[np.lineIdx];
+        const px = l[0] + (l[2] - l[0]) * np.t + curRotY * 0.3;
+        const py = l[1] + (l[3] - l[1]) * np.t + curRotX * 0.3;
+
+        const twinkle = 0.82 + 0.18 * Math.sin(timeSec * np.twinkleSpeed + np.twinklePhase);
+        const stamp = STAMPS[np.stampIdx];
+        const r = np.size * twinkle;
+
+        ctx.drawImage(stamp, px - r, py - r, r * 2, r * 2);
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  initHeroStardustArchitecture();
+
+  function runHuyNguyenPreloader() {
+    const preEl = document.getElementById('pre');
+    if (preEl) preEl.classList.add('done');
+
+    // Resting phase: pristine architectural triangular lattice visible on screen
+    // Then smoothly starts genesis morph at 420ms
+    setTimeout(() => {
+      if (window.startGenesisMorph) {
+        window.startGenesisMorph();
+      }
+    }, 420);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runHuyNguyenPreloader);
+  } else {
+    runHuyNguyenPreloader();
+  }
+})();
+
+
+
 // Global utility placeholder for legacy hooks
 window.clearCadSelection = () => {};
 
@@ -3733,12 +5217,20 @@ txt:[
 
 {id:'independent-joy',list:'Curated If’s',t:'Independent Joy',y:'Now',type:'Thesis Project',loc:'Ahmedabad',subType:'Space Planning',coverImg:'/assets/projects/independent-joy/cover.jpg',
 imgs:[
+  '/assets/projects/independent-joy/site-photos/1.jpeg',
+  '/assets/projects/independent-joy/site-photos/2.jpeg',
+  '/assets/projects/independent-joy/site-photos/3.jpeg',
+  '/assets/projects/independent-joy/site-photos/4.jpeg',
   '/assets/projects/independent-joy/Behind Briefs-15.jpg',
   '/assets/projects/independent-joy/Behind Briefs-13.jpg',
   '/assets/projects/independent-joy/Behind Briefs-14.jpg',
   '/assets/projects/independent-joy/Behind Briefs-16.jpg'
 ],
 alts:[
+  'Independent Joy — Actual Site Overview',
+  'Independent Joy — Field Observation 01',
+  'Independent Joy — Field Observation 02',
+  'Independent Joy — Site Context & Terrain',
   'Independent Joy — Research Demographics & Thesis Objectives',
   'Independent Joy — Sensory Observation & Field Research Diary',
   'Independent Joy — Sensory Landscape Concept Plan',
@@ -4033,8 +5525,41 @@ function renderParallelHotelMonograph(p, i, n) {
       ]
     )}
 
-    <!-- Chapter 02: Ideation Sketches -->
-    <section class="mono-chapter" id="mono-ch-2">
+    <!-- Chapter 02: Context · Site Documentation -->
+    <section class="mono-chapter" id="mono-ch-hotel-site-photos">
+      <span class="mono-ch-tag">Context · Site Documentation</span>
+      <h2 class="mono-ch-title" style="margin-bottom: 12px;">Actual Site Photographs</h2>
+      <p style="font-size: 14.5px; line-height: 1.62; color: var(--dim); margin: 0 0 24px; max-width: 76ch;">
+        Located in the historic heart of Old Ahmedabad, this abandoned institutional building was formerly the RC College of Commerce. Surrounded by dense commercial and retail markets, re-adapting the structure into a business hotel revitalizes the heritage architecture while catering directly to the area’s high volume of business travelers.
+      </p>
+
+      <!-- 2 below 2 Grid (Matching Concept & Spatial Diagrams) -->
+      <div class="mono-ideation-grid" style="margin-top: 24px;">
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/parallel-business-hotel/site-photos/_DSC6311.jpg', 'Parallel Business Hotel · RC Commerce College Existing Structure')" title="Click to view full photo">
+            <img class="mono-sketch-img" src="/assets/projects/parallel-business-hotel/site-photos/_DSC6311.jpg" alt="Parallel Business Hotel · RC Commerce College Existing Structure" loading="lazy">
+          </div>
+        </div>
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/parallel-business-hotel/site-photos/_DSC6319.jpg', 'Parallel Business Hotel · Structural Details & Corridor')" title="Click to view full photo">
+            <img class="mono-sketch-img" src="/assets/projects/parallel-business-hotel/site-photos/_DSC6319.jpg" alt="Parallel Business Hotel · Structural Details & Corridor" loading="lazy">
+          </div>
+        </div>
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/parallel-business-hotel/site-photos/_DSC6338.jpg', 'Parallel Business Hotel · Interior Volume & Spatial Bones')" title="Click to view full photo">
+            <img class="mono-sketch-img" src="/assets/projects/parallel-business-hotel/site-photos/_DSC6338.jpg" alt="Parallel Business Hotel · Interior Volume & Spatial Bones" loading="lazy">
+          </div>
+        </div>
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/parallel-business-hotel/site-photos/_DSC6355.jpg', 'Parallel Business Hotel · Courtyard Colonnade & Daylight Well')" title="Click to view full photo">
+            <img class="mono-sketch-img" src="/assets/projects/parallel-business-hotel/site-photos/_DSC6355.jpg" alt="Parallel Business Hotel · Courtyard Colonnade & Daylight Well" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 03: Process · Ideation Sketches -->
+    <section class="mono-chapter" id="mono-ch-sec-1">
       <span class="mono-ch-tag">Process · Ideation Sketches</span>
       <h2 class="mono-ch-title">Concept & Spatial Diagrams</h2>
 
@@ -4050,8 +5575,8 @@ function renderParallelHotelMonograph(p, i, n) {
       </div>
     </section>
 
-    <!-- Chapter 03: Architectural Resolution & Working Drawings -->
-    <section class="mono-chapter" id="mono-ch-3">
+    <!-- Chapter 04: Architectural Resolution & Working Drawings -->
+    <section class="mono-chapter" id="mono-ch-sec-2">
       <span class="mono-ch-tag">Technical · Drawings</span>
       <h2 class="mono-ch-title" style="margin-bottom: 24px;">Working Drawings & Sections</h2>
 
@@ -4059,8 +5584,8 @@ function renderParallelHotelMonograph(p, i, n) {
       ${cadSectionHtml}
     </section>
 
-    <!-- Chapter 04: Realized Interior Atmosphere & Materiality -->
-    <section class="mono-chapter" id="mono-ch-4">
+    <!-- Chapter 05: Realized Interior Atmosphere & Materiality -->
+    <section class="mono-chapter" id="mono-ch-sec-3">
       <span class="mono-ch-tag">Realization · Views</span>
       <h2 class="mono-ch-title" style="margin-bottom: 28px;">Interior Renders</h2>
 
@@ -4182,8 +5707,41 @@ function renderIndependentJoyMonograph(p, i, n) {
       `<p style="color: var(--hi); font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 22px; display: inline-flex; align-items: center; gap: 7px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--hi);"></span>The project is in the making</p>`
     )}
 
-    <!-- Chapter 02: Sensory Research & Ideation -->
-    <section class="mono-chapter" id="mono-ch-2">
+    <!-- Chapter 02: Context · Site Documentation -->
+    <section class="mono-chapter" id="mono-ch-site-photos">
+      <span class="mono-ch-tag">Context · Site Documentation</span>
+      <h2 class="mono-ch-title" style="margin-bottom: 12px;">Actual Site Photographs</h2>
+      <p style="font-size: 14.5px; line-height: 1.62; color: var(--dim); margin: 0 0 24px; max-width: 76ch;">
+        Located near Sabarmati Ashram in Ahmedabad, the long-abandoned Jai Jagat Theatre was originally envisioned as a public space “for the people.” Tucked away from high-rise buildings in a quiet, peaceful setting, the site offers an ideal grounded environment for an inclusive sensory play landscape.
+      </p>
+
+      <!-- 2 below 2 Grid (Matching Concept & Spatial Diagrams) -->
+      <div class="mono-ideation-grid" style="margin-top: 24px;">
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/independent-joy/site-photos/1.jpeg', 'Independent Joy · Site Overview & Landscape')" title="Click to view full photo">
+            <img class="mono-sketch-img" style="object-position: center bottom;" src="/assets/projects/independent-joy/site-photos/1.jpeg" alt="Independent Joy · Site Overview & Landscape" loading="lazy">
+          </div>
+        </div>
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/independent-joy/site-photos/2.jpeg', 'Independent Joy · Field Observation 01')" title="Click to view full photo">
+            <img class="mono-sketch-img" src="/assets/projects/independent-joy/site-photos/2.jpeg" alt="Independent Joy · Field Observation 01" loading="lazy">
+          </div>
+        </div>
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/independent-joy/site-photos/3.jpeg', 'Independent Joy · Field Observation 02')" title="Click to view full photo">
+            <img class="mono-sketch-img" src="/assets/projects/independent-joy/site-photos/3.jpeg" alt="Independent Joy · Field Observation 02" loading="lazy">
+          </div>
+        </div>
+        <div class="mono-sketch-card">
+          <div class="mono-sketch-img-wrap" onclick="window.openLightbox('/assets/projects/independent-joy/site-photos/4.jpeg', 'Independent Joy · Site Context & Terrain Scale')" title="Click to view full photo">
+            <img class="mono-sketch-img" src="/assets/projects/independent-joy/site-photos/4.jpeg" alt="Independent Joy · Site Context & Terrain Scale" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 03: Process · Sensory Research & Ideation -->
+    <section class="mono-chapter" id="mono-ch-sec-4">
       <span class="mono-ch-tag">Process · Research Sheets</span>
       <h2 class="mono-ch-title">Sensory & Empathy Mapping</h2>
 
@@ -4199,10 +5757,10 @@ function renderIndependentJoyMonograph(p, i, n) {
       </div>
     </section>
 
-    <!-- Chapter 03: Master Plan & Working Drawing -->
-    <section class="mono-chapter" id="mono-ch-3">
-      <span class="mono-ch-tag">Technical · Master Plan</span>
-      <h2 class="mono-ch-title" style="margin-bottom: 24px;">Playground Layout & Sections</h2>
+    <!-- Chapter 04: Master Plan & Working Drawing -->
+    <section class="mono-chapter" id="mono-ch-sec-5">
+      <span class="mono-ch-tag">Technical · Working Drawings</span>
+      <h2 class="mono-ch-title" style="margin-bottom: 24px;">Tactile Playground Master Plan & Sections</h2>
 
       <!-- Interactive CAD Working Drawing Desk -->
       ${cadSectionHtml}
@@ -4318,7 +5876,7 @@ function renderKhaKhaGaMonograph(p, i, n) {
     )}
 
     <!-- Chapter 02: Ideation Sketches -->
-    <section class="mono-chapter" id="mono-ch-2">
+    <section class="mono-chapter" id="mono-ch-sec-6">
       <span class="mono-ch-tag">Process · Ideation Sketches</span>
       <h2 class="mono-ch-title">Concept & Studies at Child Scale</h2>
 
@@ -4335,7 +5893,7 @@ function renderKhaKhaGaMonograph(p, i, n) {
     </section>
 
     <!-- Chapter 03: Architectural Drawings & Classroom Layouts -->
-    <section class="mono-chapter" id="mono-ch-3">
+    <section class="mono-chapter" id="mono-ch-sec-7">
       <span class="mono-ch-tag">Technical · Drawings</span>
       <h2 class="mono-ch-title" style="margin-bottom: 24px;">Working Drawings & Classroom Layouts</h2>
 
@@ -4344,7 +5902,7 @@ function renderKhaKhaGaMonograph(p, i, n) {
     </section>
 
     <!-- Chapter 04: Physical Architectural Models -->
-    <section class="mono-chapter" id="mono-ch-4">
+    <section class="mono-chapter" id="mono-ch-sec-8">
       <span class="mono-ch-tag">Realization · Physical Models</span>
       <h2 class="mono-ch-title" style="margin-bottom: 28px;">Scale Models</h2>
 
@@ -4493,7 +6051,7 @@ function renderVolume01Monograph(p, i, n) {
     )}
 
     <!-- Chapter 02: Ideation Sketches -->
-    <section class="mono-chapter" id="mono-ch-2">
+    <section class="mono-chapter" id="mono-ch-sec-9">
       <span class="mono-ch-tag">Process · Ideation Sketches</span>
       <h2 class="mono-ch-title">Spatial Zoning & Volume Studies</h2>
 
@@ -4510,7 +6068,7 @@ function renderVolume01Monograph(p, i, n) {
     </section>
 
     <!-- Chapter 03: Architectural Drawings & Joinery Craft -->
-    <section class="mono-chapter" id="mono-ch-3">
+    <section class="mono-chapter" id="mono-ch-sec-10">
       <span class="mono-ch-tag">Technical · Working Drawings</span>
       <h2 class="mono-ch-title" style="margin-bottom: 24px;">Joinery, Kitchen & Millwork Details</h2>
 
@@ -4519,7 +6077,7 @@ function renderVolume01Monograph(p, i, n) {
     </section>
 
     <!-- Chapter 04: Realized Interior Atmosphere & Materiality -->
-    <section class="mono-chapter" id="mono-ch-4">
+    <section class="mono-chapter" id="mono-ch-sec-11">
       <span class="mono-ch-tag">Documentation · Plans & Sections</span>
       <h2 class="mono-ch-title" style="margin-bottom: 28px;">Furniture Layouts & Section Elevations</h2>
 
@@ -4640,7 +6198,7 @@ function renderForestEssentialsMonograph(p, i, n) {
     )}
 
     <!-- Chapter 03: Spatial Walkthrough & Material Detailing -->
-    <section class="mono-chapter" id="mono-ch-3">
+    <section class="mono-chapter" id="mono-ch-sec-12">
       <span class="mono-ch-tag">Realization · Views</span>
       <h2 class="mono-ch-title" style="margin-bottom: 28px;">Atmosphere, Materials & Light</h2>
 
@@ -4767,7 +6325,7 @@ function renderGivaMonograph(p, i, n) {
     )}
 
     <!-- Chapter 03: Visual Merchandising Walkthrough -->
-    <section class="mono-chapter" id="mono-ch-3">
+    <section class="mono-chapter" id="mono-ch-sec-13">
       <span class="mono-ch-tag">Realization · Window Views</span>
       <h2 class="mono-ch-title" style="margin-bottom: 28px;">Framing, Texture & Dramatic Lighting</h2>
 
@@ -4874,7 +6432,7 @@ function renderStaircaseMonograph(p, i, n) {
     )}
 
     <!-- Chapter 03: Visual Showcase -->
-    <section class="mono-chapter" id="mono-ch-3">
+    <section class="mono-chapter" id="mono-ch-sec-14">
       <span class="mono-ch-tag">Realization · Views</span>
       <h2 class="mono-ch-title" style="margin-bottom: 28px;">The Stepped Collaboration Topography</h2>
 
@@ -4972,7 +6530,7 @@ function renderReflectivePartitionMonograph(p, i, n) {
     )}
 
     <!-- Chapter 03: Architectural Anatomy & Showcase -->
-    <section class="mono-chapter" id="mono-ch-3">
+    <section class="mono-chapter" id="mono-ch-sec-15">
       <span class="mono-ch-tag">Realization · Views</span>
       <h2 class="mono-ch-title" style="margin-bottom: 28px;">Drawings, Form & Atmospheric Light</h2>
 
@@ -6034,20 +7592,30 @@ const CAD_PROJECT_DATA = {
   },
 
   'independent-joy': {
-    tag: 'WORKING DRAWING',
-    title: 'Playground Master Plan',
+    tag: 'TECHNICAL WORKING DRAWINGS',
+    title: 'Tactile Playground Master Plan & Sections',
     scale: '1:50',
     datum: 'Ground Plan',
     drawings: [
       { 
         id: 'plan', 
-        label: 'Playground Plan', 
+        label: 'Master Plan', 
         title: 'Tactile Playground Master Plan', 
         scale: '1:50', 
-        datum: 'Ground Level', 
+        datum: 'Ground Level · Ahmedabad', 
         img: '/assets/projects/independent-joy/working-drawings/plan.png', 
-        pdf: '/assets/projects/independent-joy/working-drawings/Plan.pdf',
+        pdf: '/assets/projects/independent-joy/working-drawings/PLAN.pdf',
         notes: 'Maps the textured walkway network, acoustic pod clusters, and protective green buffers designed for safe, self-guided navigation.'
+      },
+      { 
+        id: 'sections', 
+        label: 'Sections', 
+        title: 'Playground Cross-Sections & Spatial Elevations', 
+        scale: '1:50', 
+        datum: 'Section AA’ & BB’ · Height Profiles', 
+        img: '/assets/projects/independent-joy/working-drawings/sections.png', 
+        pdf: '/assets/projects/independent-joy/working-drawings/SECTIONS.pdf',
+        notes: 'Detailed cross-sections revealing height datums, tactile transition mounds, acoustic ceiling baffles, and protective perimeter buffers.'
       }
     ]
   }
@@ -6470,6 +8038,7 @@ function initCadLoupe(p, pb) {
 function openP(id,push,from){
  const i=PJ.findIndex(p=>p.id===id);if(i<0)return;
  if(window.clearCadSelection)window.clearCadSelection();
+ if(window.lenis) window.lenis.stop();
  inPeek=false;stopPeek();proj.classList.remove('pk');
  pb.innerHTML=tpl(PJ[i],i);
  initCadLoupe(PJ[i], pb);
@@ -6488,7 +8057,8 @@ function openP(id,push,from){
     setTimeout(()=>{
      const exp=document.getElementById('experience');
      if(exp){
-      exp.scrollIntoView({behavior:'smooth',block:'start'});
+      if(window.lenis) window.lenis.scrollTo(exp, { offset: -68, duration: 1.25 });
+      else exp.scrollIntoView({behavior:'smooth',block:'start'});
      }
     },50);
    };
@@ -6503,6 +8073,7 @@ function closeP(){
  inPeek=false;stopPeek();proj.classList.remove('pk');
  pb.querySelectorAll('video').forEach(v=>{ try{ v.pause(); }catch(e){} });
  document.body.classList.remove('po');proj.setAttribute('aria-hidden','true');
+ if(window.lenis) window.lenis.start();
  try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
  if(lastRow)lastRow.focus({preventScroll:true});
 }
@@ -7244,12 +8815,12 @@ document.querySelectorAll('.curated-card').forEach((card, index) => {
   }
 
   function loop() {
-    const k = 0.085;
+    const k = 0.22;
     state.pitch += (state.targetPitch - state.pitch) * k;
     state.height += (state.targetHeight - state.height) * k;
 
     if (state.isHovered) {
-      state.yaw += 0.007;
+      state.yaw += 0.030;
       if (state.coordDisplay) {
         const degP = Math.round(state.pitch * (180 / Math.PI));
         const degY = Math.round((state.yaw % (Math.PI * 2)) * (180 / Math.PI));
@@ -7311,6 +8882,7 @@ document.querySelectorAll('.curated-card').forEach((card, index) => {
   const targetCardId = card.getAttribute('data-id') || (planData && planData.id);
 
   card.addEventListener('click', (e) => {
+    if (window.__curatedIsDragging) return;
     openP(targetCardId, true, card);
   });
 
@@ -7326,7 +8898,7 @@ document.querySelectorAll('.curated-card').forEach((card, index) => {
   fpControllers.push(state);
 });
 
-// Smooth horizontal glide wheel for Curated If's cards
+// Smooth horizontal glide wheel and drag for Curated If's cards
 const cRow = document.getElementById('curatedRow');
 const cPrev = document.getElementById('cPrev');
 const cNext = document.getElementById('cNext');
@@ -7334,19 +8906,26 @@ const cNext = document.getElementById('cNext');
 if (cRow) {
   let targetX = cRow.scrollLeft;
   let animId = null;
+  let isPointerDown = false;
+  let startX = 0;
+  let scrollStartX = 0;
 
   function syncX() {
-    if (!animId) targetX = cRow.scrollLeft;
+    if (!animId && !isPointerDown) targetX = cRow.scrollLeft;
   }
   cRow.addEventListener('scroll', syncX, { passive: true });
+
+  let lastDragTime = 0;
+  let lastDragClientX = 0;
+  let dragVelocity = 0;
 
   function step() {
     const maxScroll = cRow.scrollWidth - cRow.clientWidth;
     targetX = Math.max(0, Math.min(maxScroll, targetX));
     const diff = targetX - cRow.scrollLeft;
 
-    if (Math.abs(diff) > 0.4) {
-      cRow.scrollLeft += diff * 0.16;
+    if (Math.abs(diff) > 0.35) {
+      cRow.scrollLeft += diff * 0.11;
       animId = requestAnimationFrame(step);
     } else {
       cRow.scrollLeft = targetX;
@@ -7361,6 +8940,48 @@ if (cRow) {
     if (!animId) animId = requestAnimationFrame(step);
   }
 
+  // Pointer drag with momentum fling for mouse and touch
+  cRow.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('button') || e.target.closest('a')) return;
+    isPointerDown = true;
+    startX = e.clientX;
+    scrollStartX = cRow.scrollLeft;
+    lastDragClientX = e.clientX;
+    lastDragTime = performance.now();
+    dragVelocity = 0;
+    window.__curatedIsDragging = false;
+  });
+
+  window.addEventListener('pointermove', (e) => {
+    if (!isPointerDown) return;
+    const now = performance.now();
+    const dt = Math.max(1, now - lastDragTime);
+    const clientX = e.clientX;
+    dragVelocity = (lastDragClientX - clientX) / dt;
+    lastDragClientX = clientX;
+    lastDragTime = now;
+
+    const dx = clientX - startX;
+    if (Math.abs(dx) > 6) {
+      window.__curatedIsDragging = true;
+    }
+    cRow.scrollLeft = scrollStartX - dx;
+    targetX = cRow.scrollLeft;
+  });
+
+  const stopDrag = () => {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+    // Apply velvet momentum fling on release
+    if (Math.abs(dragVelocity) > 0.15) {
+      const flingDistance = dragVelocity * 280;
+      glideTo(targetX + flingDistance);
+    }
+    setTimeout(() => { window.__curatedIsDragging = false; }, 80);
+  };
+  window.addEventListener('pointerup', stopDrag);
+  window.addEventListener('pointercancel', stopDrag);
+
   cRow.addEventListener('wheel', (e) => {
     // If native trackpad horizontal swipe, let it pass through
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
@@ -7372,21 +8993,15 @@ if (cRow) {
     const atStart = cRow.scrollLeft <= 4;
 
     if (e.deltaY > 0) {
-      // User is scrolling down
       if (!atEnd) {
-        // Projects have room to scroll right: smoothly glide
         e.preventDefault();
         glideTo(targetX + e.deltaY * 1.5);
       }
-      // When at end: don't preventDefault -> browser smoothly scrolls down page naturally
     } else if (e.deltaY < 0) {
-      // User is scrolling up
       if (!atStart) {
-        // Projects have room to scroll left: smoothly glide
         e.preventDefault();
         glideTo(targetX + e.deltaY * 1.5);
       }
-      // When at start: don't preventDefault -> browser smoothly scrolls up page naturally
     }
   }, { passive: false });
 
@@ -7400,6 +9015,7 @@ if (cRow) {
     };
   }
 }
+
 
 // Enable clicking on Experience section cards to open project brief
 document.querySelectorAll('#experience .card').forEach((card, k) => {
@@ -7457,6 +9073,7 @@ function openCvPreview(e) {
 
   // 2. Open in-site preview modal simultaneously
   if (cvModal) {
+    if (window.lenis) window.lenis.stop();
     cvModal.classList.add('open');
     cvModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -7468,9 +9085,14 @@ function closeCvPreview() {
     cvModal.classList.remove('open');
     cvModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (window.lenis) window.lenis.start();
   }
 }
 
+const heroCvBtn = document.querySelector('.hero-btn-primary');
+if (heroCvBtn) {
+  heroCvBtn.addEventListener('click', openCvPreview);
+}
 if (cvBtn) {
   cvBtn.addEventListener('click', openCvPreview);
 }
@@ -7507,6 +9129,7 @@ window.openLightbox = function(src, caption) {
     const filename = src.split('/').pop().split('?')[0] || 'project-high-res.jpg';
     dl.setAttribute('download', filename);
   }
+  if (window.lenis) window.lenis.stop();
   lb.classList.add('open');
   lb.setAttribute('aria-hidden', 'false');
 };
@@ -7516,6 +9139,7 @@ window.closeLightbox = function() {
   if (!lb || !lb.classList.contains('open')) return;
   lb.classList.remove('open');
   lb.setAttribute('aria-hidden', 'true');
+  if (window.lenis) window.lenis.start();
   setTimeout(() => {
     const img = document.getElementById('lbImg');
     if (img && !lb.classList.contains('open')) img.src = '';
@@ -7611,6 +9235,7 @@ window.toggleFlhVolume = function(btn) {
   }
 
   window.addEventListener('scroll', updateActiveNav, { passive: true });
+  if (window.lenis) window.lenis.on('scroll', updateActiveNav);
   window.addEventListener('resize', updateActiveNav, { passive: true });
   updateActiveNav();
 })();
@@ -7851,81 +9476,7 @@ window.toggleFlhVolume = function(btn) {
 })();
 
 (function initHeroHeadlineEdge() {
-  const headline = document.querySelector('.hero-headline');
-  const designLine = headline && headline.querySelector('.hero-design-line');
-  const whatIf = headline && headline.querySelector('.hero-what-if');
-  const tagline = document.querySelector('.hero-tagline');
-  const cue = document.querySelector('.hero-cue');
-  const cueSpan = cue && cue.querySelector('span');
-
-  function getMaxLineWidth(el) {
-    if (!el || !el.firstChild || el.firstChild.nodeType !== 3) return el ? el.getBoundingClientRect().width : 0;
-    const tn = el.firstChild;
-    const text = tn.textContent || '';
-    const range = document.createRange();
-    let maxW = 0;
-    let lineStart = 0;
-    let prevLines = 1;
-    const measureTrimmed = (s, e) => {
-      while (e > s && /\s/.test(text[e - 1])) e--;
-      if (e <= s) return 0;
-      range.setStart(tn, s);
-      range.setEnd(tn, e);
-      return range.getBoundingClientRect().width;
-    };
-    for (let i = 1; i <= text.length; i++) {
-      range.setStart(tn, lineStart);
-      range.setEnd(tn, i);
-      const rects = range.getClientRects();
-      if (rects.length > prevLines) {
-        maxW = Math.max(maxW, measureTrimmed(lineStart, i - 1));
-        lineStart = i - 1;
-        while (lineStart < text.length && /\s/.test(text[lineStart])) lineStart++;
-        prevLines = 1;
-      }
-    }
-    maxW = Math.max(maxW, measureTrimmed(lineStart, text.length));
-    return maxW || el.getBoundingClientRect().width;
-  }
-
-  function fitHeroEdgeToEdge() {
-    if (designLine && whatIf) {
-      designLine.style.fontSize = '';
-      for (let pass = 0; pass < 2; pass++) {
-        const targetW = whatIf.getBoundingClientRect().width;
-        const curW = designLine.getBoundingClientRect().width;
-        const curFs = parseFloat(getComputedStyle(designLine).fontSize);
-        if (!targetW || !curW || !curFs) break;
-        designLine.style.fontSize = (curFs * (targetW / curW)).toFixed(2) + 'px';
-      }
-    }
-    if (tagline && cueSpan) {
-      cueSpan.style.letterSpacing = '';
-      const targetW = getMaxLineWidth(tagline);
-      const curW = cueSpan.getBoundingClientRect().width;
-      const len = (cueSpan.textContent || '').trim().length;
-      if (targetW && curW && len > 2) {
-        const baseLs = parseFloat(getComputedStyle(cueSpan).letterSpacing) || 0;
-        const step = (targetW - curW) / len;
-        cueSpan.style.letterSpacing = (baseLs + step).toFixed(3) + 'px';
-        const rem = targetW - cueSpan.getBoundingClientRect().width;
-        if (Math.abs(rem) > 0.25) {
-          cueSpan.style.letterSpacing = (baseLs + step + rem / len).toFixed(3) + 'px';
-        }
-      }
-    }
-  }
-
-  fitHeroEdgeToEdge();
-  requestAnimationFrame(fitHeroEdgeToEdge);
-  window.addEventListener('load', fitHeroEdgeToEdge, { passive: true });
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(fitHeroEdgeToEdge);
-  }
-  if (window.ResizeObserver && tagline) {
-    new ResizeObserver(fitHeroEdgeToEdge).observe(tagline);
-  }
-  window.addEventListener('resize', fitHeroEdgeToEdge, { passive: true });
+  // Handled responsively via CSS clamp for the new split lockup
 })();
 
 (function initAutoCadCursor() {
@@ -7941,9 +9492,15 @@ window.toggleFlhVolume = function(btn) {
   const DRAG_SEL = '.pk-c';
   const DARK_SEL = '#img-lightbox, #pre, .cv-btn, .mail-btn, .phero.ph, .lb-dl-btn, .lb-close-btn';
 
-  let lastX = -200;
-  let lastY = -200;
+  let targetX = -200;
+  let targetY = -200;
+  let curX = -200;
+  let curY = -200;
   let visible = false;
+  let lastTarget = null;
+  let cachedPillW = 240;
+  let lastPillMsg = '';
+  let cursorRaf = null;
 
   function updateContextClasses(target) {
     const el = target && target.nodeType === 1 ? target : null;
@@ -7954,33 +9511,52 @@ window.toggleFlhVolume = function(btn) {
     const pillEl = el && el.closest('[data-cursor-pill]');
     if (pillEl) {
       const msg = pillEl.getAttribute('data-cursor-pill');
-      if (msg && pillText) pillText.textContent = msg;
+      if (msg && msg !== lastPillMsg) {
+        lastPillMsg = msg;
+        if (pillText) pillText.textContent = msg;
+        // Measure cached width only when text changes (zero forced reflows during pointer movement)
+        requestAnimationFrame(() => {
+          if (pill) cachedPillW = pill.offsetWidth || 240;
+        });
+      }
       root.classList.add('has-pill');
     } else {
       root.classList.remove('has-pill');
     }
   }
 
-  function showAt(x, y, target) {
-    lastX = x;
-    lastY = y;
-    cross.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  function loop() {
+    cursorRaf = null;
+    if (!visible) return;
+
+    // High performance direct positioning on composite layer
+    cross.style.transform = 'translate3d(' + targetX + 'px, ' + targetY + 'px, 0)';
     if (pill) {
-      const pW = pill.offsetWidth || 220;
-      pill.classList.toggle('flip-left', x + pW + 28 > window.innerWidth);
+      pill.classList.toggle('flip-left', targetX + cachedPillW + 28 > window.innerWidth);
     }
+  }
+
+  function queueMove(x, y, target) {
+    targetX = x;
+    targetY = y;
     if (!visible) {
       visible = true;
       root.classList.add('is-visible');
     }
-    if (target) updateContextClasses(target);
+    if (target && target !== lastTarget) {
+      lastTarget = target;
+      updateContextClasses(target);
+    }
+    if (!cursorRaf) {
+      cursorRaf = requestAnimationFrame(loop);
+    }
   }
 
   window.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'touch') return;
     if (fineQuery && !fineQuery.matches) return;
     document.documentElement.classList.remove('cad-touch');
-    showAt(e.clientX, e.clientY, e.target);
+    queueMove(e.clientX, e.clientY, e.target);
   }, { passive: true });
 
   window.addEventListener('pointerdown', (e) => {
@@ -7988,17 +9564,22 @@ window.toggleFlhVolume = function(btn) {
     if (fineQuery && !fineQuery.matches) return;
     document.documentElement.classList.remove('cad-touch');
     root.classList.add('is-down');
-    showAt(e.clientX, e.clientY, e.target);
+    queueMove(e.clientX, e.clientY, e.target);
   }, { passive: true });
 
   window.addEventListener('pointerup', () => {
     root.classList.remove('is-down');
   }, { passive: true });
 
+  let scrollThrottle = false;
   window.addEventListener('scroll', () => {
-    if (!visible) return;
-    const under = document.elementFromPoint(lastX, lastY);
-    if (under) updateContextClasses(under);
+    if (!visible || scrollThrottle) return;
+    scrollThrottle = true;
+    requestAnimationFrame(() => {
+      scrollThrottle = false;
+      const under = document.elementFromPoint(targetX, targetY);
+      if (under) updateContextClasses(under);
+    });
   }, { passive: true });
 
   document.addEventListener('mouseleave', () => {
@@ -8018,7 +9599,106 @@ window.toggleFlhVolume = function(btn) {
   }, { passive: true });
 })();
 
+// ==========================================================================
+// Silky Smooth Inertial Momentum Scrolling inside Project Monograph (#proj)
+// ==========================================================================
+(function initProjSmoothScroll() {
+  const projEl = document.getElementById('proj');
+  if (!projEl) return;
+
+  let targetScrollY = 0;
+  let currentScrollY = 0;
+  let isScrolling = false;
+  let rafId = null;
+
+  function update() {
+    const maxScroll = projEl.scrollHeight - projEl.clientHeight;
+    targetScrollY = Math.max(0, Math.min(maxScroll, targetScrollY));
+    const diff = targetScrollY - currentScrollY;
+
+    if (Math.abs(diff) > 0.4) {
+      currentScrollY += diff * 0.11;
+      projEl.scrollTop = currentScrollY;
+      rafId = requestAnimationFrame(update);
+    } else {
+      currentScrollY = targetScrollY;
+      projEl.scrollTop = currentScrollY;
+      isScrolling = false;
+      rafId = null;
+    }
+  }
+
+  projEl.addEventListener('wheel', (e) => {
+    // If inside a zoomed CAD drawing viewport, let CAD zoom/pan handle it
+    if (e.target.closest('.pcad-viewport')) return;
+
+    const maxScroll = projEl.scrollHeight - projEl.clientHeight;
+    if (maxScroll <= 2) return;
+
+    // Silk momentum glide
+    e.preventDefault();
+    if (!isScrolling) {
+      currentScrollY = projEl.scrollTop;
+      targetScrollY = currentScrollY;
+    }
+    targetScrollY += e.deltaY * 0.92;
+    targetScrollY = Math.max(0, Math.min(maxScroll, targetScrollY));
+    isScrolling = true;
+    if (!rafId) rafId = requestAnimationFrame(update);
+  }, { passive: false });
+
+  projEl.addEventListener('scroll', () => {
+    if (!isScrolling) {
+      currentScrollY = projEl.scrollTop;
+      targetScrollY = currentScrollY;
+    }
+  }, { passive: true });
+})();
+
+
 const h0=location.hash.slice(1);if(PJ.some(p=>p.id===h0))openP(h0,false);
+
+  // --- Edge-to-Edge Alignment: Curiosity Statement with Navigation (About to Collaboration) ---
+  function syncCuriosityWithNav() {
+    const nav = document.querySelector('header nav');
+    const curiosity = document.querySelector('.hero-top-right');
+    if (!nav || !curiosity) return;
+    const navRect = nav.getBoundingClientRect();
+    curiosity.style.width = navRect.width + 'px';
+    curiosity.style.maxWidth = navRect.width + 'px';
+    curiosity.style.minWidth = navRect.width + 'px';
+  }
+  window.addEventListener('resize', syncCuriosityWithNav);
+  window.addEventListener('load', syncCuriosityWithNav);
+  if (window.ResizeObserver) {
+    const navEl = document.querySelector('header nav');
+    if (navEl) new ResizeObserver(syncCuriosityWithNav).observe(navEl);
+  }
+  syncCuriosityWithNav();
+
+  // --- Edge-to-Edge Alignment: "I DESIGN" with "WHAT IF?" ---
+  function syncHeroTitleEdgeToEdge() {
+    const lines = document.querySelectorAll('.hero-display-title .hero-title-line');
+    if (lines.length >= 2) {
+      const l1 = lines[0];
+      const l2 = lines[1];
+      l1.style.letterSpacing = '0.02em';
+      const r1 = l1.getBoundingClientRect();
+      const r2 = l2.getBoundingClientRect();
+      const diff = r2.width - r1.width;
+      const fs = parseFloat(getComputedStyle(l1).fontSize);
+      if (fs > 0) {
+        const addLs = (diff / 7) / fs;
+        l1.style.letterSpacing = (0.02 + addLs) + 'em';
+      }
+    }
+  }
+  window.addEventListener('resize', syncHeroTitleEdgeToEdge);
+  window.addEventListener('load', syncHeroTitleEdgeToEdge);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncHeroTitleEdgeToEdge);
+  }
+  syncHeroTitleEdgeToEdge();
 </script>
 </body>
 </html>
