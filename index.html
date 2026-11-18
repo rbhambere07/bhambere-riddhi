@@ -2949,7 +2949,7 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     inset:0;
     overflow:hidden;
     pointer-events:none;
-    z-index:9999;
+    z-index:99999;
     opacity:0;
     transition:opacity .16s ease;
   }
@@ -2964,59 +2964,56 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     height:0;
     transform:translate3d(-200px,-200px,0);
     will-change:transform;
-    --cad-arm-ink:rgba(27,25,24,.9);
-    --cad-halo:rgba(255,255,255,.38);
-    --cad-box-ink:rgba(27,25,24,.9);
+    --cad-box-ink:rgba(27,25,24,.95);
+    --cad-arm-ink:rgba(27,25,24,.95);
   }
-  .cad-reticle{
+  .cad-svg{
     position:absolute;
-    left:0;
-    top:0;
-    width:10px;
-    height:10px;
-    transform:translate(-50%,-50%);
-    border:2px solid var(--cad-box-ink);
-    box-shadow:0 0 0 .5px var(--cad-halo);
-    transition:width .14s cubic-bezier(.16,1,.3,1),height .14s cubic-bezier(.16,1,.3,1),border-color .14s ease,background-color .14s ease;
+    left:-27.5px;
+    top:-27.5px;
+    width:55px;
+    height:55px;
+    overflow:visible;
+    shape-rendering:crispEdges;
+    pointer-events:none;
+    transform-origin:27.5px 27.5px;
+    transition:transform .12s cubic-bezier(.16,1,.3,1);
   }
-  .cad-arm-l,.cad-arm-r{
-    position:absolute;
-    top:0;
-    height:2px;
-    transform:translateY(-50%);
+  .cad-svg-box{
+    fill:none;
+    stroke:var(--cad-box-ink);
+    stroke-width:1;
+    vector-effect:non-scaling-stroke;
+    transition:stroke .14s ease, fill .14s ease;
   }
-  .cad-arm-t,.cad-arm-b{
-    position:absolute;
-    left:0;
-    width:2px;
-    transform:translateX(-50%);
+  .cad-svg-arm{
+    stroke:var(--cad-arm-ink);
+    stroke-width:1;
+    stroke-linecap:square;
+    vector-effect:non-scaling-stroke;
+    transition:stroke .14s ease;
   }
-  .cad-arm-l{right:7px;width:32px;background:var(--cad-arm-ink);box-shadow:0 0 0 .5px var(--cad-halo)}
-  .cad-arm-r{left:7px;width:32px;background:var(--cad-arm-ink);box-shadow:0 0 0 .5px var(--cad-halo)}
-  .cad-arm-t{bottom:7px;height:32px;background:var(--cad-arm-ink);box-shadow:0 0 0 .5px var(--cad-halo)}
-  .cad-arm-b{top:7px;height:32px;background:var(--cad-arm-ink);box-shadow:0 0 0 .5px var(--cad-halo)}
 
+  /* Interactive Hover Accent */
   #cad-cursor.is-hover .cad-crosshair{
     --cad-box-ink:var(--hi,#D94326);
     --cad-arm-ink:var(--hi,#D94326);
   }
-  #cad-cursor.is-hover .cad-reticle{
-    width:14px;
-    height:14px;
-    background:rgba(217,67,38,.08);
+  #cad-cursor.is-hover .cad-svg{
+    transform:scale(1.08);
   }
   #cad-cursor.is-drag .cad-crosshair{
     --cad-box-ink:var(--cobalt,#2338A8);
     --cad-arm-ink:var(--cobalt,#2338A8);
   }
-  #cad-cursor.is-down .cad-reticle{
-    width:6px;
-    height:6px;
+  #cad-cursor.is-down .cad-svg{
+    transform:scale(0.88);
   }
+
+  /* Dark Background Theme Adaptation */
   #cad-cursor.on-dark .cad-crosshair{
-    --cad-arm-ink:rgba(255,255,255,.92);
-    --cad-box-ink:rgba(255,255,255,.92);
-    --cad-halo:rgba(0,0,0,.35);
+    --cad-arm-ink:rgba(255,255,255,.95);
+    --cad-box-ink:rgba(255,255,255,.95);
   }
   #cad-cursor.on-dark.is-hover .cad-crosshair{
     --cad-box-ink:#FE5E32;
@@ -3026,7 +3023,7 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
   /* Narrative Pill Badge (e.g. Hovering 'I Design' -> 'Defaults are just unasked questions.') */
   .cad-pill{
     position:absolute;
-    left:22px;
+    left:36px;
     top:-20px;
     display:inline-flex;
     align-items:center;
@@ -3052,7 +3049,7 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
   }
   .cad-pill.flip-left{
     left:auto;
-    right:22px;
+    right:36px;
     transform-origin:right center;
   }
   .cad-pill-dot{
@@ -3077,22 +3074,12 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     visibility:visible;
     transform:translate3d(0,0,0) scale(1);
   }
-  #cad-cursor.has-pill .cad-reticle{
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:var(--cobalt,#2338A8);
-    border:2px solid #FFFFFF;
-    box-shadow:0 0 0 4px rgba(35,56,168,0.35), 0 0 14px rgba(35,56,168,0.6);
-    transition:width .2s ease,height .2s ease,background-color .2s ease;
+  #cad-cursor.has-pill .cad-crosshair{
+    --cad-box-ink:var(--cobalt,#2338A8);
+    --cad-arm-ink:var(--cobalt,#2338A8);
   }
-  #cad-cursor.has-pill .cad-arm-l,
-  #cad-cursor.has-pill .cad-arm-r,
-  #cad-cursor.has-pill .cad-arm-t,
-  #cad-cursor.has-pill .cad-arm-b{
-    opacity:0;
-    transform:scale(0.2);
-    transition:opacity .2s ease,transform .2s ease;
+  #cad-cursor.has-pill .cad-svg-box{
+    fill:rgba(35,56,168,0.14);
   }
 
 
@@ -3129,37 +3116,56 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
   }
   header {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 20px 8px;
-    gap: 6px;
+    align-items: stretch;
+    padding: 12px 18px 8px;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(27, 25, 24, 0.06);
   }
   header b {
-    font-size: 15px;
-    white-space: nowrap;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #1B1918;
+    letter-spacing: -0.01em;
   }
   header nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 6px;
     width: 100%;
-    max-width: 100%;
-    font-size: clamp(10.5px, 2.75vw, 12px);
-    white-space: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    padding: 2px 0;
+    padding: 2px 0 4px;
+    margin: 0;
   }
   header nav::-webkit-scrollbar { display: none; }
   header nav a {
-    padding: 2px 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #4A4643;
+    background: rgba(27, 25, 24, 0.04);
+    border: 1px solid rgba(27, 25, 24, 0.06);
+    border-radius: 9999px;
+    white-space: nowrap;
+    text-decoration: none;
     flex-shrink: 0;
+    transition: background .2s ease, color .2s ease;
+  }
+  header nav a:active {
+    background: var(--hi);
+    color: #FFFFFF;
   }
   .intro-section {
-    padding-top: 44px;
-    padding-bottom: 48px;
-    scroll-margin-top: 78px;
+    padding-top: 56px;
+    padding-bottom: 52px;
+    scroll-margin-top: 84px;
   }
   .intro-lead h2 {
     max-width: min(100%, 270px);
@@ -3181,51 +3187,137 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     width: 30px;
     height: 30px;
   }
+  /* Full Viewport Immersive Mobile Hero */
   .hero {
-    min-height: auto;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
     width: 100%;
     max-width: 100%;
-    padding: 80px 16px 28px;
-  }
-  .hero-inner {
-    width: 100%;
-    max-width: 100%;
-  }
-  .hero-display-top {
-    font-size: clamp(3.0rem, 13.5vw, 5.2rem);
-  }
-  .hero-row-mid {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin: 10px auto;
+    justify-content: space-between;
+    padding: calc(88px + env(safe-area-inset-top, 0px)) clamp(16px, 5vw, 24px) calc(22px + env(safe-area-inset-bottom, 0px)) !important;
+    overflow: hidden;
+    position: relative;
+    background: #FFFFFF;
   }
-  .hero-subline {
-    justify-content: center;
+  /* 3D Wireframe Canvas: Soft, ethereal ambient background on mobile */
+  .hero-stardust-canvas {
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0.2) 75%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0.2) 75%, transparent 100%);
+  }
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     width: 100%;
-  }
-  .hero-sub-text {
-    font-size: clamp(1.35rem, 5vw, 1.85rem);
-  }
-  .hero-sub-rule {
-    max-width: 32px;
-  }
-  .hero-center-stage {
-    width: min(88vw, 340px);
-  }
-  .hero-display-bot {
-    font-size: clamp(3.2rem, 14.5vw, 5.6rem);
-  }
-  .hero-cue {
-    font-size: clamp(7.5px, 2.25vw, 9.5px);
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-  }
-  .hero-tagline {
-    font-size: 15px;
     max-width: 100%;
+    margin: 0;
+    gap: 14px;
+  }
+  /* Visual Hierarchy: 1. Main Display Headline First */
+  .hero-bottom-row {
+    order: 1;
     width: 100%;
-    margin-bottom: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin: 0;
+  }
+  .hero-bottom-left {
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+  }
+  .hero-kicker-tag {
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    color: var(--hi);
+    margin-bottom: 6px;
+  }
+  .hero-display-title {
+    font-size: clamp(34px, 10vw, 46px);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .hero-title-line {
+    white-space: nowrap;
+    letter-spacing: -0.01em !important;
+  }
+  .hero-address-subtitle {
+    font-size: clamp(15.5px, 4.4vw, 18px);
+    margin: 8px 0 0 0;
+    line-height: 1.35;
+    color: #55524E;
+  }
+  /* Visual Hierarchy: 2. Curiosity Statement + What If Tag Second */
+  .hero-top-row {
+    order: 2;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 0;
+    margin: 0;
+  }
+  .hero-top-right {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 10px;
+  }
+  .hero-curiosity-desc {
+    font-size: clamp(12.5px, 3.4vw, 14px);
+    line-height: 1.5;
+    color: #383431;
+    max-width: 100%;
+  }
+  .hero-whatif-tag {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    background: rgba(208, 90, 63, 0.05);
+    border: 1px solid rgba(208, 90, 63, 0.16);
+    border-radius: 10px;
+  }
+  .hero-whatif-dot {
+    width: 6px;
+    height: 6px;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .hero-whatif-text {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--hi);
+    font-weight: 600;
+  }
+  /* Visual Hierarchy: 3. Action CTA Third */
+  .hero-cta-group {
+    order: 3;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .hero-btn-primary {
+    width: 100%;
+    justify-content: center;
+    height: 46px;
+    box-sizing: border-box;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(208, 90, 63, 0.25);
   }
   .xp {
     padding-top: 44px;
@@ -3555,7 +3647,7 @@ html {
 #cad-cursor,
 .cad-crosshair,
 .cad-pill,
-.cad-reticle {
+.cad-svg {
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -3957,7 +4049,7 @@ Download CV
 <div id="proj" role="dialog" aria-modal="true" aria-label="Project brief" aria-hidden="true" data-lenis-prevent><div class="pbar pad"><button class="pback" id="pback" type="button">← Back</button><span id="pcount"></span></div><div id="pbody"></div></div>
 <div id="cv-modal" role="dialog" aria-modal="true" aria-label="Curriculum Vitae Preview" aria-hidden="true" data-lenis-prevent><div class="cv-modal-header pad"><button class="cv-modal-close" id="cvModalClose" type="button">← Back to Portfolio</button><span class="cv-modal-title">Riddhi Bhambere · Curriculum Vitae</span><a class="cv-modal-dl" href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Download PDF</a></div><div class="cv-modal-body"><img class="cv-preview-sheet" src="/assets/Riddhi_Bhambere_CV_preview.png" alt="Riddhi Bhambere Interior Design Curriculum Vitae Preview"></div></div>
 <div id="img-lightbox" role="dialog" aria-modal="true" aria-label="High Resolution Image Viewer" aria-hidden="true" data-lenis-prevent><div class="lb-backdrop"></div><div class="lb-container"><div class="lb-topbar"><div class="lb-actions"><a class="lb-dl-btn" href="#" download title="Download full-resolution photo" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><span>Download</span></a><button class="lb-close-btn" id="lbCloseBtn" type="button" aria-label="Close high-res viewer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div></div><div class="lb-img-wrap" id="lbImgWrap"><img class="lb-img" id="lbImg" src="" alt="High resolution view"></div><div class="lb-hint">Click outside or press Esc to close</div></div></div>
-<div id="cad-cursor" aria-hidden="true"><div class="cad-crosshair" id="cadCrosshair"><span class="cad-reticle"></span><span class="cad-arm-l"></span><span class="cad-arm-r"></span><span class="cad-arm-t"></span><span class="cad-arm-b"></span><div class="cad-pill" id="cadPill"><span class="cad-pill-dot"></span><span class="cad-pill-text" id="cadPillText">Defaults are just unasked questions.</span></div></div></div>
+<div id="cad-cursor" aria-hidden="true"><div class="cad-crosshair" id="cadCrosshair"><svg class="cad-svg" viewBox="0 0 55 55" width="55" height="55" aria-hidden="true"><rect class="cad-svg-box" x="18.5" y="18.5" width="18" height="18"/><line class="cad-svg-arm" x1="27.5" y1="0.5" x2="27.5" y2="18.5"/><line class="cad-svg-arm" x1="27.5" y1="36.5" x2="27.5" y2="54.5"/><line class="cad-svg-arm" x1="0.5" y1="27.5" x2="18.5" y2="27.5"/><line class="cad-svg-arm" x1="36.5" y1="27.5" x2="54.5" y2="27.5"/></svg><div class="cad-pill" id="cadPill"><span class="cad-pill-dot"></span><span class="cad-pill-text" id="cadPillText">Defaults are just unasked questions.</span></div></div></div>
 
 <script>
 // ==========================================================================
@@ -5012,7 +5104,7 @@ function getDiningPavilionLines() {
       }
 
       // Architectural Line Transit & Genesis Morphing
-      const numLines = Math.min(currentLines.length, targetLines.length);
+      const numLines = Math.min(currentLines.length, targetLines.length, (genesisStartLines ? genesisStartLines.length : 0));
 
       if (genesisActive) {
         const elapsed = now - genesisStartTime;
@@ -5023,6 +5115,7 @@ function getDiningPavilionLines() {
         for (let i = 0; i < numLines; i++) {
           const start = genesisStartLines[i];
           const tgt = targetLines[i];
+          if (!start || !tgt || !currentLines[i]) continue;
           currentLines[i][0] = start[0] + (tgt[0] - start[0]) * ease;
           currentLines[i][1] = start[1] + (tgt[1] - start[1]) * ease;
           currentLines[i][2] = start[2] + (tgt[2] - start[2]) * ease;
@@ -9663,16 +9756,28 @@ const h0=location.hash.slice(1);if(PJ.some(p=>p.id===h0))openP(h0,false);
     const nav = document.querySelector('header nav');
     const curiosity = document.querySelector('.hero-top-right');
     if (!nav || !curiosity) return;
+    if (window.innerWidth <= 768) {
+      curiosity.style.width = '';
+      curiosity.style.maxWidth = '';
+      curiosity.style.minWidth = '';
+      return;
+    }
     const navRect = nav.getBoundingClientRect();
     curiosity.style.width = navRect.width + 'px';
     curiosity.style.maxWidth = navRect.width + 'px';
     curiosity.style.minWidth = navRect.width + 'px';
   }
-  window.addEventListener('resize', syncCuriosityWithNav);
+  window.addEventListener('resize', () => {
+    window.requestAnimationFrame(syncCuriosityWithNav);
+  }, { passive: true });
   window.addEventListener('load', syncCuriosityWithNav);
   if (window.ResizeObserver) {
     const navEl = document.querySelector('header nav');
-    if (navEl) new ResizeObserver(syncCuriosityWithNav).observe(navEl);
+    if (navEl) {
+      new ResizeObserver(() => {
+        window.requestAnimationFrame(syncCuriosityWithNav);
+      }).observe(navEl);
+    }
   }
   syncCuriosityWithNav();
 
@@ -9682,6 +9787,10 @@ const h0=location.hash.slice(1);if(PJ.some(p=>p.id===h0))openP(h0,false);
     if (lines.length >= 2) {
       const l1 = lines[0];
       const l2 = lines[1];
+      if (window.innerWidth <= 768) {
+        l1.style.letterSpacing = '';
+        return;
+      }
       l1.style.letterSpacing = '0.02em';
       const r1 = l1.getBoundingClientRect();
       const r2 = l2.getBoundingClientRect();
@@ -9693,7 +9802,9 @@ const h0=location.hash.slice(1);if(PJ.some(p=>p.id===h0))openP(h0,false);
       }
     }
   }
-  window.addEventListener('resize', syncHeroTitleEdgeToEdge);
+  window.addEventListener('resize', () => {
+    window.requestAnimationFrame(syncHeroTitleEdgeToEdge);
+  }, { passive: true });
   window.addEventListener('load', syncHeroTitleEdgeToEdge);
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(syncHeroTitleEdgeToEdge);
