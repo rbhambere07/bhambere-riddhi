@@ -555,42 +555,53 @@ body.go .hero-inner {
   50% { transform: translateY(4px); }
 }
 
-/* Responsive Scaling on Mobile & Tablets */
-@media (max-width: 860px) {
+/* Responsive Scaling on Tablets (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
   .hero {
-    height: auto;
-    max-height: none;
-    min-height: auto;
-    padding: 88px 24px 56px;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
+    padding: calc(76px + env(safe-area-inset-top, 0px)) clamp(24px, 5vw, 48px) clamp(24px, 3.5vh, 40px) !important;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
   }
   .hero-inner {
-    height: auto;
-    gap: 48px;
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
   }
   .hero-top-row {
-    justify-content: flex-start;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   }
   .hero-top-right {
-    max-width: 100%;
+    max-width: clamp(280px, 45vw, 420px);
   }
   .hero-bottom-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
   }
   .hero-bottom-left {
-    max-width: 100%;
+    max-width: clamp(340px, 60vw, 520px);
   }
   .hero-display-title {
-    font-size: clamp(38px, 10vw, 64px);
+    font-size: clamp(48px, 6.8vw, 68px) !important;
+    line-height: 0.94;
+    font-family: 'Bricolage Grotesque', sans-serif !important;
   }
-  .hero-bottom-right {
-    display: none;
-  }
-  .pre-card-box {
-    width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
+  .hero-title-line {
+    white-space: nowrap;
+    font-family: 'Bricolage Grotesque', sans-serif !important;
   }
 }
 
@@ -1114,11 +1125,38 @@ body.go .hero-inner {
 
 /* experience folder cards — warm rag limestone & architectural specimen folders */
 .xp{padding-top:clamp(56px,8.5vh,96px);padding-bottom:clamp(64px,10vh,112px)}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:20px;margin-top:0;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x mandatory;padding-top:18px;padding-bottom:24px}
-.cards::-webkit-scrollbar{display:none}
-.cards .card{scroll-snap-align:start}
-@media (min-width: 1025px) {
-  .cards{overflow:visible}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:24px;
+  margin-top:0;
+  padding-top:18px;
+  padding-bottom:24px;
+}
+@media (max-width: 1024px) {
+  .cards {
+    display: flex !important;
+    gap: 18px !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-left: calc(-1 * clamp(20px, 4.5vw, 64px)) !important;
+    margin-right: calc(-1 * clamp(20px, 4.5vw, 64px)) !important;
+    padding: 14px clamp(20px, 4.5vw, 64px) 28px !important;
+  }
+  .cards::-webkit-scrollbar { display: none !important; }
+  .cards .card {
+    flex: 0 0 clamp(290px, 44vw, 360px) !important;
+    min-height: 410px !important;
+    scroll-snap-align: start !important;
+  }
+}
+@media (max-width: 640px) {
+  .cards .card {
+    flex: 0 0 clamp(260px, 78vw, 310px) !important;
+    min-height: 380px !important;
+  }
 }
 .card{
   position:relative;
@@ -3109,110 +3147,251 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
   }
 }
 
-/* 2. MOBILE PHONES (iPhone & Android: portrait <= 640px) */
-@media (max-width: 640px) {
+
+/* ==========================================================================
+   MOBILE NAVIGATION DRAWER & TOGGLE SYSTEM
+   ========================================================================== */
+.mobile-nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(27, 25, 24, 0.05);
+  border: 1px solid rgba(27, 25, 24, 0.12);
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.mobile-nav-toggle:active {
+  background: rgba(27, 25, 24, 0.1);
+  transform: scale(0.96);
+}
+.mnt-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+  width: 14px;
+}
+.mnt-b1, .mnt-b2 {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--hi);
+  border-radius: 2px;
+}
+.mobile-nav-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 24px calc(24px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s 0.32s;
+}
+body.mobile-nav-open .mobile-nav-drawer {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s 0s;
+}
+body.mobile-nav-open {
+  overflow: hidden !important;
+}
+.mnd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.mnd-header .brand b {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.mnd-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(27, 25, 24, 0.05);
+  border: 1px solid rgba(27, 25, 24, 0.1);
+  color: var(--ink);
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.mnd-close:active {
+  background: rgba(27, 25, 24, 0.12);
+  transform: scale(0.95);
+}
+.mnd-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 0;
+}
+.mnd-link {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.06);
+}
+.mnd-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--hi);
+  letter-spacing: 0.14em;
+}
+.mnd-text {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(24px, 6.8vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.mnd-link:active .mnd-text {
+  color: var(--hi);
+  transform: translateX(6px);
+}
+.mnd-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.mnd-cv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--hi);
+  color: #FFFFFF;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(var(--hi-rgb), 0.25);
+  transition: transform 0.2s ease;
+}
+.mnd-cv-btn:active {
+  transform: scale(0.98);
+}
+.mnd-email {
+  text-align: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  color: var(--dim);
+  text-decoration: none;
+}
+
+/* 2. MOBILE PHONES (iPhone & Android: portrait <= 767px) */
+@media (max-width: 767px) {
   html, body {
     overflow-x: clip;
     width: 100%;
     max-width: 100%;
   }
   .pad {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: clamp(18px, 4.5vw, 24px);
+    padding-right: clamp(18px, 4.5vw, 24px);
   }
   header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 12px 18px 8px;
-    gap: 8px;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: calc(10px + env(safe-area-inset-top, 0px)) clamp(18px, 4.5vw, 24px) 10px !important;
+    height: 54px !important;
+    box-sizing: border-box !important;
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(27, 25, 24, 0.06);
   }
   header b {
-    font-size: 15.5px;
-    font-weight: 700;
-    color: #1B1918;
-    letter-spacing: -0.01em;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #1B1918 !important;
+    letter-spacing: -0.02em !important;
   }
   header nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    padding: 2px 0 4px;
-    margin: 0;
+    display: none !important;
   }
-  header nav::-webkit-scrollbar { display: none; }
-  header nav a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 12px;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #4A4643;
-    background: rgba(27, 25, 24, 0.04);
-    border: 1px solid rgba(27, 25, 24, 0.06);
-    border-radius: 9999px;
-    white-space: nowrap;
-    text-decoration: none;
-    flex-shrink: 0;
-    transition: background .2s ease, color .2s ease;
-  }
-  header nav a:active {
-    background: var(--hi);
-    color: #FFFFFF;
+  .mobile-nav-toggle {
+    display: inline-flex !important;
   }
   .intro-section {
-    padding-top: 56px;
-    padding-bottom: 52px;
-    scroll-margin-top: 84px;
+    padding-top: 52px;
+    padding-bottom: 48px;
+    scroll-margin-top: 64px;
   }
   .intro-lead h2 {
-    max-width: min(100%, 270px);
+    max-width: 100% !important;
   }
   .intro-meta li {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 14px 0;
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+    padding: 12px 0 !important;
   }
   .intro-tools {
-    row-gap: 16px;
-    column-gap: 12px;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
   }
   .intro-tool {
-    width: 30px;
-    height: 30px;
+    width: 32px !important;
+    height: 32px !important;
   }
   .intro-tool svg {
-    width: 30px;
-    height: 30px;
+    width: 32px !important;
+    height: 32px !important;
   }
-  /* Full Viewport Immersive Mobile Hero */
+  /* Full Viewport Immersive Mobile Hero with Generous Breathing Room */
   .hero {
     height: 100svh !important;
     min-height: 100svh !important;
     max-height: 100svh !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    max-height: 100dvh !important;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: calc(118px + env(safe-area-inset-top, 0px)) clamp(16px, 5vw, 24px) calc(22px + env(safe-area-inset-bottom, 0px)) !important;
+    padding: calc(64px + env(safe-area-inset-top, 0px)) clamp(18px, 4.5vw, 24px) calc(20px + env(safe-area-inset-bottom, 0px)) !important;
     overflow: hidden;
     position: relative;
     background: #FFFFFF;
   }
-  /* 3D Wireframe Canvas: Soft, ethereal ambient background on mobile */
   .hero-stardust-canvas {
     opacity: 0.35;
     mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.9) 25%, rgba(0,0,0,0.2) 75%, transparent 100%);
@@ -3226,9 +3405,8 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     width: 100%;
     max-width: 100%;
     margin: 0;
-    gap: 14px;
+    gap: 12px;
   }
-  /* Visual Hierarchy: 1. Main Display Headline First */
   .hero-bottom-row {
     order: 1;
     width: 100%;
@@ -3243,18 +3421,18 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     align-items: flex-start;
   }
   .hero-kicker-tag {
-    font-size: 11px;
+    font-size: 10.5px;
     letter-spacing: 0.16em;
     font-weight: 700;
     color: var(--hi);
-    margin-top: 4px;
-    margin-bottom: 8px;
+    margin-top: 2px;
+    margin-bottom: 6px;
     line-height: 1.3;
     display: block;
   }
   .hero-display-title {
-    font-size: clamp(34px, 10vw, 46px);
-    line-height: 0.95;
+    font-size: clamp(34px, 9.4vw, 44px) !important;
+    line-height: 0.94;
     letter-spacing: -0.015em;
     margin: 0;
     font-family: 'Bricolage Grotesque', sans-serif !important;
@@ -3265,12 +3443,11 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     font-family: 'Bricolage Grotesque', sans-serif !important;
   }
   .hero-address-subtitle {
-    font-size: clamp(15.5px, 4.4vw, 18px);
-    margin: 8px 0 0 0;
+    font-size: clamp(14px, 3.8vw, 16px);
+    margin: 6px 0 10px 0;
     line-height: 1.35;
     color: #55524E;
   }
-  /* Visual Hierarchy: 2. Curiosity Statement + What If Tag Second */
   .hero-top-row {
     order: 2;
     width: 100%;
@@ -3282,11 +3459,11 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
-    gap: 10px;
+    gap: 8px;
   }
   .hero-curiosity-desc {
-    font-size: clamp(12.5px, 3.4vw, 14px);
-    line-height: 1.5;
+    font-size: clamp(12px, 3.2vw, 13.5px);
+    line-height: 1.48;
     color: #383431;
     max-width: 100%;
   }
@@ -3296,35 +3473,35 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     gap: 8px;
     width: 100%;
     box-sizing: border-box;
-    padding: 8px 12px;
+    padding: 7px 11px;
     background: rgba(208, 90, 63, 0.05);
     border: 1px solid rgba(208, 90, 63, 0.16);
-    border-radius: 10px;
+    border-radius: 9px;
   }
   .hero-whatif-dot {
-    width: 6px;
-    height: 6px;
+    width: 5.5px;
+    height: 5.5px;
     margin-top: 5px;
     flex-shrink: 0;
   }
   .hero-whatif-text {
-    font-size: 12px;
-    line-height: 1.4;
+    font-size: 11.5px;
+    line-height: 1.38;
     color: var(--hi);
     font-weight: 600;
   }
-  /* Visual Hierarchy: 3. Action CTA Third */
   .hero-cta-group {
     order: 3;
     width: 100%;
     display: flex;
     gap: 10px;
     margin-top: 4px;
+    margin-bottom: 2px;
   }
   .hero-btn-primary {
     width: 100%;
     justify-content: center;
-    height: 46px;
+    height: 44px;
     box-sizing: border-box;
     font-size: 13.5px;
     font-weight: 600;
@@ -3557,36 +3734,82 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
   }
 }
 
-/* 3. TABLETS & IPADS (iPad Mini, iPad Air, iPad Pro: 641px - 1024px) */
-@media (min-width: 641px) and (max-width: 1024px) {
+/* 3. TABLETS & IPADS (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .mobile-nav-toggle, .mobile-nav-drawer {
+    display: none !important;
+  }
   header {
-    padding: 16px clamp(20px, 4vw, 36px);
+    padding: 16px clamp(24px, 4.5vw, 44px) !important;
   }
   header nav {
-    gap: 10px;
-    font-size: 12px;
+    display: flex !important;
+    gap: 18px !important;
+    font-size: 13px !important;
   }
-  .hero-display-top {
-    font-size: clamp(3.8rem, 8.4vw, 6.2rem);
+  .hero {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: 100svh !important;
+    padding: calc(76px + env(safe-area-inset-top, 0px)) clamp(24px, 5vw, 48px) clamp(24px, 3.5vh, 40px) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    box-sizing: border-box;
   }
-  .hero-display-bot {
-    font-size: clamp(4.0rem, 8.8vw, 6.6rem);
+  .hero-inner {
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
   }
-  .hero-sub-text {
-    font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+  .hero-top-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   }
-  .hero-center-stage {
-    width: clamp(260px, 32vw, 340px);
+  .hero-top-right {
+    max-width: clamp(280px, 45vw, 420px);
+  }
+  .hero-bottom-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  .hero-bottom-left {
+    max-width: clamp(340px, 60vw, 520px);
+  }
+  .hero-display-title {
+    font-size: clamp(48px, 6.8vw, 68px) !important;
+    line-height: 0.94;
+    font-family: 'Bricolage Grotesque', sans-serif !important;
   }
   .cards {
-    grid-template-columns: repeat(3, minmax(220px, 1fr));
-    gap: 14px;
+    display: flex !important;
+    gap: 18px !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin: 0 calc(-1 * clamp(20px, 4.5vw, 64px)) !important;
+    padding: 14px clamp(20px, 4.5vw, 64px) 28px !important;
+  }
+  .cards::-webkit-scrollbar { display: none !important; }
+  .cards .card {
+    flex: 0 0 clamp(300px, 44vw, 360px) !important;
+    min-height: 420px !important;
+    scroll-snap-align: start !important;
   }
   .curated-card {
-    flex: 0 0 clamp(320px, 40vw, 390px);
+    flex: 0 0 clamp(320px, 44vw, 390px);
   }
   .pinfo {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   .mono-facts {
     grid-template-columns: repeat(2, 1fr);
@@ -3720,7 +3943,42 @@ html {
 <body class="hero-loading">
 <div id="pre" aria-hidden="true" class="done" style="display:none;"></div>
 
-<header><a class="brand" href="#top" aria-label="Back to top"><b>Riddhi Bhambere</b></a><nav><a href="#about">About</a><a href="#experience">Experience</a><a href="#curated">Curated If’s</a><a href="#work">Random If’s</a><a href="#contact">Collaboration</a></nav></header>
+<header>
+  <a class="brand" href="#top" aria-label="Back to top"><b>Riddhi Bhambere</b></a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#curated">Curated If’s</a>
+    <a href="#work">Random If’s</a>
+    <a href="#contact">Collaboration</a>
+  </nav>
+  <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span>Menu</span>
+    <span class="mnt-bars"><span class="mnt-b1"></span><span class="mnt-b2"></span></span>
+  </button>
+</header>
+
+<!-- Fullscreen Architectural Mobile Navigation Drawer -->
+<div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+  <div class="mnd-header">
+    <a class="brand" href="#top" onclick="closeMobileNav()"><b>Riddhi Bhambere</b></a>
+    <button class="mnd-close" id="mobileNavClose" type="button" aria-label="Close navigation">✕</button>
+  </div>
+  <nav class="mnd-links">
+    <a href="#about" class="mnd-link"><span class="mnd-num">01</span><span class="mnd-text">About</span></a>
+    <a href="#experience" class="mnd-link"><span class="mnd-num">02</span><span class="mnd-text">Experience</span></a>
+    <a href="#curated" class="mnd-link"><span class="mnd-num">03</span><span class="mnd-text">Curated If’s</span></a>
+    <a href="#work" class="mnd-link"><span class="mnd-num">04</span><span class="mnd-text">Random If’s</span></a>
+    <a href="#contact" class="mnd-link"><span class="mnd-num">05</span><span class="mnd-text">Collaboration</span></a>
+  </nav>
+  <div class="mnd-footer">
+    <a href="/assets/Riddhi_Bhambere_CV.pdf" download="Riddhi_Bhambere_CV.pdf" target="_blank" class="mnd-cv-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Download CV</span>
+    </a>
+    <a href="mailto:riddhibhambere@gmail.com" class="mnd-email">riddhibhambere@gmail.com</a>
+  </div>
+</div>
 
 <main>
 <section class="hero pad" id="top">
@@ -9793,6 +10051,47 @@ window.toggleFlhVolume = function(btn) {
   }, { passive: true });
 })();
 
+
+
+// Mobile navigation drawer toggle & auto-close
+function openMobileNav() {
+  document.body.classList.add('mobile-nav-open');
+  const toggle = document.getElementById('mobileNavToggle');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  if (drawer) drawer.setAttribute('aria-hidden', 'false');
+}
+function closeMobileNav() {
+  document.body.classList.remove('mobile-nav-open');
+  const toggle = document.getElementById('mobileNavToggle');
+  const drawer = document.getElementById('mobileNavDrawer');
+  if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  if (drawer) drawer.setAttribute('aria-hidden', 'true');
+}
+window.closeMobileNav = closeMobileNav;
+window.openMobileNav = openMobileNav;
+
+const mobileToggle = document.getElementById('mobileNavToggle');
+const mobileClose = document.getElementById('mobileNavClose');
+if (mobileToggle) mobileToggle.addEventListener('click', openMobileNav);
+if (mobileClose) mobileClose.addEventListener('click', closeMobileNav);
+document.querySelectorAll('.mnd-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    closeMobileNav();
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        if (window.lenis) {
+          window.lenis.scrollTo(target, { offset: -60, duration: 1.1 });
+        } else {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  });
+});
 
 const h0=location.hash.slice(1);if(PJ.some(p=>p.id===h0))openP(h0,false);
 
