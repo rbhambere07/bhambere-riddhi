@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Riddhi Bhambere — Interior Designer</title>
 <meta name="theme-color" content="#FFFFFF">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Caveat:wght@600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@400;500;600&family=Noto+Serif+Devanagari:wght@600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&family=Noto+Serif+Devanagari:wght@600;700&display=swap" rel="stylesheet">
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/lenis.min.js"></script>
 <style>
@@ -95,10 +97,14 @@ body{
   background-color:var(--bg);
   background-image:none;
   color:var(--ink);
-  font:400 18px/1.64 'Plus Jakarta Sans','Inter',system-ui,sans-serif;
+  font:400 18px/1.64 'Plus Jakarta Sans',system-ui,sans-serif;
   overflow-x:hidden;
   max-width:100%;
   transition:background-color .42s cubic-bezier(.16,1,.3,1),color .35s ease;
+}
+body.hero-loading {
+  overflow: hidden !important;
+  touch-action: none !important;
 }
 main { overflow-x: clip; max-width: 100%; }
 body::before{
@@ -109,7 +115,7 @@ a{color:inherit;text-decoration:none}
 h1,h2,h3{margin:0;font-family:'Bricolage Grotesque','Noto Serif Devanagari',sans-serif;font-weight:800;letter-spacing:-.035em;line-height:0.94}
 .dim{color:var(--dim)}
 header b,.mail,.hist b{font-family:'Bricolage Grotesque',sans-serif}
-#pre span,.q blockquote{font-family:'Instrument Serif',Georgia,serif}
+#pre span,.q blockquote{font-family:'Bricolage Grotesque',sans-serif}
 #pre span{color:var(--hi)}
 .pad{padding:0 clamp(20px,4.5vw,64px)}
 .tag{
@@ -428,7 +434,7 @@ body.go .hero-inner {
 }
 
 .hero-display-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: 'Bricolage Grotesque', sans-serif !important;
   font-size: clamp(44px, 6.6vw, 98px);
   font-weight: 800;
   line-height: 0.96;
@@ -444,6 +450,7 @@ body.go .hero-inner {
 .hero-title-line {
   display: block;
   white-space: nowrap;
+  font-family: 'Bricolage Grotesque', sans-serif !important;
 }
 .hero-title-line:first-child {
   /* Edge-to-edge baseline justification with 'WHAT IF?' */
@@ -451,10 +458,10 @@ body.go .hero-inner {
 }
 
 .hero-address-subtitle {
-  font-family: 'Newsreader', Georgia, serif;
-  font-size: clamp(17px, 1.7vw, 26px);
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(16px, 1.6vw, 24px);
+  font-style: normal;
+  font-weight: 500;
   line-height: 1.35;
   color: #55524E;
   margin: clamp(10px, 1.8vh, 18px) 0 clamp(16px, 2.5vh, 26px) 0;
@@ -627,9 +634,9 @@ body.go .hero-inner {
 }
 .intro-lead h2 b.il-line,
 .manifesto-corner h2 b.il-line {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-style: normal;
+  font-weight: 800;
   line-height: 0.96;
   margin-top: 0.14em;
   padding-right: 0.03em;
@@ -758,7 +765,7 @@ body.go .hero-inner {
 /* experience */
 .exp{padding-bottom:clamp(64px,10vh,112px)}
 .exp h2,.cl h2,.say h2{font-size:clamp(2.8rem,5.8vw,5.2rem);max-width:16ch;letter-spacing:-.035em;line-height:0.96}
-.exp h2 b,.cl h2 b{font-family:'Instrument Serif',Georgia,serif;color:var(--hi);font-style:italic;font-weight:400;font-size:1.12em}
+.exp h2 b,.cl h2 b,.say h2 b{font-family:'Bricolage Grotesque','Noto Serif Devanagari',sans-serif;color:var(--hi);font-style:normal;font-weight:800;font-size:1em}
 .exp h2,.cl h2{color:var(--ink)}
 .hist{list-style:none;margin:0;padding:0}
 .hist li{
@@ -1026,7 +1033,7 @@ body.go .hero-inner {
   color:var(--hi);
 }
 .cv-modal-title{
-  font-family:'Playfair Display', Georgia, serif;
+  font-family:'Bricolage Grotesque', sans-serif;
   font-size:clamp(15px, 1.8vw, 19px);
   font-weight:700;
   color:var(--ink);
@@ -1083,7 +1090,7 @@ body.go .hero-inner {
 #img-lightbox .lb-topbar{display:flex;justify-content:flex-end;align-items:center;gap:16px;pointer-events:auto;margin-bottom:12px;color:#fff;opacity:0;transform:translate3d(0,-14px,0);transition:opacity .55s ease,transform .65s cubic-bezier(.22,1,.36,1)}
 #img-lightbox.open .lb-topbar{opacity:1;transform:translate3d(0,0,0)}
 #img-lightbox .lb-actions{display:flex;align-items:center;gap:12px}
-#img-lightbox .lb-dl-btn{display:inline-flex;align-items:center;gap:7px;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:8px 16px;border-radius:6px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.24);transition:background .2s,transform .15s;cursor:pointer}
+#img-lightbox .lb-dl-btn{display:inline-flex;align-items:center;gap:7px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:8px 16px;border-radius:6px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.24);transition:background .2s,transform .15s;cursor:pointer}
 #img-lightbox .lb-dl-btn:hover{background:rgba(255,255,255,.26);transform:translateY(-1px)}
 #img-lightbox .lb-close-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .15s}
 #img-lightbox .lb-close-btn:hover{background:var(--hi,#FE5E32);border-color:var(--hi,#FE5E32);transform:scale(1.08)}
@@ -1097,7 +1104,7 @@ body.go .hero-inner {
 .con .em a{font-weight:600;border-bottom:1px solid currentColor}
 .con li:last-child a{border-bottom:1.5px solid var(--line)}
 .con h2{font-size:clamp(3rem,7vw,6rem);color:var(--ink);margin-top:8px;letter-spacing:-.035em;line-height:0.94}
-.con h2 b{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;font-size:1.12em;color:var(--hi)}
+.con h2 b{font-family:'Bricolage Grotesque',sans-serif;font-style:normal;font-weight:800;font-size:1em;color:var(--hi)}
 .con ul{list-style:none;margin:0;padding:0;display:grid;gap:0}
 .con ul a{display:flex;justify-content:space-between;align-items:center;padding:20px 8px;border-top:1.5px solid var(--line);font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(1.55rem,2.4vw,2.05rem);letter-spacing:-.025em;color:var(--ink);transition:padding .3s,color .25s,background .25s}
 .con ul a span{color:var(--cobalt)}
@@ -1174,12 +1181,11 @@ body.go .hero-inner {
 .card:hover .fold::after{background:#FFFFFF}
 .card .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
 .card .n{
-  font-family:'Instrument Serif',Georgia,serif;
-  font-style:italic;
-  font-weight:400;
-  font-size:clamp(2.35rem,3.2vw,3rem);
-  line-height:0.85;
-  letter-spacing:-.01em;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:800;
+  font-size:clamp(2rem,2.8vw,2.6rem);
+  line-height:0.9;
+  letter-spacing:-.03em;
   color:var(--hi);
 }
 .card .ar{
@@ -1239,7 +1245,7 @@ body.go .hero-inner {
 .curated-section .tag::before{background:var(--hi)}
 .curated-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:40px;flex-wrap:wrap}
 .curated-title{font-size:clamp(2.8rem,5.5vw,4.8rem);max-width:17ch;color:var(--ink);letter-spacing:-.035em;line-height:0.96}
-.curated-title b{color:var(--hi);font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;font-size:1.12em}
+.curated-title b{color:var(--hi);font-family:'Bricolage Grotesque',sans-serif;font-style:normal;font-weight:800;font-size:1em}
 .curated-title .curated-accent{white-space:nowrap}
 .curated-controls{display:flex;align-items:center;gap:20px}
 .curated-hint{font-family:'Plus Jakarta Sans',sans-serif;font-size:11.5px;color:var(--dim);display:flex;align-items:center;gap:8px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
@@ -1290,7 +1296,7 @@ body.go .hero-inner {
   background-size:24px 24px;
 }
 .plan-hud-top{position:absolute;top:14px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;font-family:'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--dim);pointer-events:none;z-index:2}
-.hud-num{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;font-size:22px;color:var(--hi);line-height:1}
+.hud-num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;color:var(--hi);line-height:1}
 .hud-scale{text-transform:uppercase;padding:2px 8px;border:1px solid rgba(var(--ink-rgb),0.15);border-radius:4px;background:rgba(255,255,255,0.92);color:var(--ink)}
 .hud-compass{display:inline-flex;align-items:center;gap:4px;font-weight:700;color:var(--cobalt)}
 .hud-compass .north-arrow-svg,.pcad-meta-item .north-arrow-svg{width:14px;height:14px;display:inline-block;vertical-align:middle;flex-shrink:0}
@@ -1643,7 +1649,7 @@ body.go .hero-inner {
 }
 
 .pcad-sheet-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
   font-size: clamp(1.2rem, 1.8vw, 1.5rem);
   letter-spacing: -.01em;
@@ -1688,7 +1694,7 @@ body.go .hero-inner {
   border: 1px solid var(--line);
   background: var(--bg);
   color: var(--dim);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
   font-size: 12.5px;
   font-weight: 500;
   cursor: pointer;
@@ -1921,7 +1927,7 @@ body.go .hero-inner {
   margin-bottom: 6px;
 }
 .pcad-note-card h4 {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
   font-size: 15px;
   font-weight: 600;
   color: var(--ink);
@@ -1956,7 +1962,7 @@ body.po{overflow:hidden}
 .pinfo>div{padding:28px 16px;text-align:center;border-right:1px solid var(--line)}
 .pinfo>div:last-child{border-right:0}
 .pinfo small{display:block;color:var(--dim);font-size:13px;margin-bottom:6px}
-.pinfo b{font-family:'Playfair Display','Noto Serif Devanagari',Georgia,serif;font-weight:600;font-size:clamp(1.1rem,1.8vw,1.5rem)}
+.pinfo b{font-family:'Bricolage Grotesque','Noto Serif Devanagari',sans-serif;font-weight:700;font-size:clamp(1.1rem,1.8vw,1.5rem)}
 .todo{opacity:.55;font-style:italic}
 .ptx{max-width:760px;margin:0 auto;padding:10vh clamp(20px,4vw,56px) 4vh}
 .ptx h2{font-size:clamp(1.6rem,2.4vw,2.2rem);margin-bottom:14px}
@@ -1965,7 +1971,7 @@ body.po{overflow:hidden}
 .pbar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding-top:14px;padding-bottom:14px;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);font-size:13.5px;color:var(--dim)}
 .pbrief-header{padding:clamp(40px,6vw,72px) clamp(20px,4vw,56px) 24px;border-bottom:1px solid var(--line);background:#fff}
 .pbrief-meta{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hi);margin-bottom:16px}
-.pbrief-title{font-family:'Playfair Display','Noto Serif Devanagari',Georgia,serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.8rem);line-height:1.08;letter-spacing:-.01em;margin:0 0 14px;color:var(--ink)}
+.pbrief-title{font-family:'Bricolage Grotesque','Noto Serif Devanagari',sans-serif;font-weight:800;font-size:clamp(2.4rem,6vw,4.8rem);line-height:1.02;letter-spacing:-.025em;margin:0 0 14px;color:var(--ink)}
 .pbrief-sub{font-size:clamp(1.05rem,1.5vw,1.3rem);color:var(--dim);margin:0;max-width:55ch;line-height:1.5}
 
 /* Unified Project Brief Gallery: 12-Column Responsive Editorial System */
@@ -2115,7 +2121,7 @@ body.po{overflow:hidden}
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 .mono-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Bricolage Grotesque', 'Noto Serif Devanagari', sans-serif;
   font-size: clamp(1.8rem, 3.2vw, 2.5rem); /* ~40px desktop, ~29px mobile */
   font-weight: 700;
   line-height: 1.1;
@@ -2161,7 +2167,7 @@ body.po{overflow:hidden}
   color: var(--dim);
 }
 .mono-fact-item b {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: clamp(0.94rem, 1.1vw, 1.05rem);
   font-weight: 600;
   color: var(--ink);
@@ -2184,7 +2190,7 @@ body.po{overflow:hidden}
   margin-bottom: 8px;
 }
 .mono-ch-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: clamp(1.3rem, 2vw, 1.65rem); /* ~26px desktop */
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -2230,10 +2236,10 @@ body.po{overflow:hidden}
   margin: 0 0 24px;
 }
 .mono-hook em {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.12em;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1em;
   color: var(--hi);
 }
 .mono-pillars {
@@ -2260,8 +2266,8 @@ body.po{overflow:hidden}
   margin-bottom: 8px;
 }
 .mono-pillar-num {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-style: normal;
   font-size: 1.35rem;
   line-height: 1;
   color: var(--hi);
@@ -2431,7 +2437,7 @@ body.po{overflow:hidden}
   margin-bottom: 6px;
 }
 .mono-render-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: clamp(1.15rem, 1.5vw, 1.35rem);
   font-weight: 700;
   color: var(--ink);
@@ -2741,8 +2747,8 @@ body.po{overflow:hidden}
 .pmotion-title{
   margin:0 auto 48px;
   max-width:22em;
-  font-family:'Playfair Display',Georgia,serif;
-  font-weight:600;
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:700;
   font-size:clamp(1.8rem,3.4vw,2.8rem);
   line-height:1.25;
   color:var(--ink);
@@ -2806,7 +2812,7 @@ body.po{overflow:hidden}
   align-items:center;
   gap:6px;
   cursor:pointer;
-  font-family:'Inter',system-ui,sans-serif;
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
   font-size:11px;
   font-weight:600;
   letter-spacing:.03em;
@@ -2848,8 +2854,8 @@ body.po{overflow:hidden}
 /* Next Project Section */
 .pnext{all:unset;box-sizing:border-box;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:4vh clamp(20px,4vw,44px);font-size:clamp(1.25rem,2vw,1.65rem);border-top:1px solid var(--line);transition:color .3s}
 .pnext:hover,.pnext:focus-visible{color:var(--hi)}
-.pnext small{display:block;font-family:'Inter',sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
-.pnext b{font-family:'Playfair Display','Noto Serif Devanagari',Georgia,serif;font-weight:700}
+.pnext small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.pnext b{font-family:'Bricolage Grotesque','Noto Serif Devanagari',sans-serif;font-weight:700}
 .pnext .pnext-arrow{font-size:1.8rem;line-height:1;transition:transform .25s ease}
 .pnext:hover .pnext-arrow{transform:translateX(6px)}
 .pnext.pnext-home:hover .pnext-arrow{transform:translateY(6px)}
@@ -3251,10 +3257,12 @@ body.go .hero-philosophy-clean{opacity:1;transform:none;transition:opacity .85s 
     line-height: 0.95;
     letter-spacing: -0.015em;
     margin: 0;
+    font-family: 'Bricolage Grotesque', sans-serif !important;
   }
   .hero-title-line {
     white-space: nowrap;
     letter-spacing: -0.01em !important;
+    font-family: 'Bricolage Grotesque', sans-serif !important;
   }
   .hero-address-subtitle {
     font-size: clamp(15.5px, 4.4vw, 18px);
@@ -3709,7 +3717,7 @@ html {
 
 </style>
 </head>
-<body>
+<body class="hero-loading">
 <div id="pre" aria-hidden="true" class="done" style="display:none;"></div>
 
 <header><a class="brand" href="#top" aria-label="Back to top"><b>Riddhi Bhambere</b></a><nav><a href="#about">About</a><a href="#experience">Experience</a><a href="#curated">Curated If’s</a><a href="#work">Random If’s</a><a href="#contact">Collaboration</a></nav></header>
@@ -3985,7 +3993,7 @@ html {
         </mask>
       </defs>
       <!-- Monochrome Z-fold WHAT IF staircase: lighter upright risers with subtle top-left lit bevel, slightly darker shaded flat treads -->
-      <g id="manifestoStairGroup" mask="url(#mcMistMask)" font-family="'Archivo Black', 'Bricolage Grotesque', sans-serif" font-size="136" letter-spacing="1">
+      <g id="manifestoStairGroup" mask="url(#mcMistMask)" font-family="'Bricolage Grotesque', sans-serif" font-weight="800" font-size="136" letter-spacing="1">
         <!-- Pair 6 (Bottom-left foreground dissolve) -->
         <text transform="matrix(1.16,0.58,-0.15,0.88,48,868)" fill="#F3F3F2" opacity="0.62">WHAT<tspan dx="18">IF</tspan></text>
         <text transform="matrix(1.16,0.58,-0.92,0.50,64,775)" fill="#EAEAE8" opacity="0.72">WHAT<tspan dx="18">IF</tspan></text>
@@ -4075,6 +4083,17 @@ if (typeof Lenis !== 'undefined') {
   requestAnimationFrame(raf);
 
   window.lenis = lenis;
+
+  // Hero Standalone Screen: Ensure page always begins at top on load
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+  lenis.scrollTo(0, { immediate: true });
+
+  if (document.body.classList.contains('hero-loading')) {
+    lenis.stop();
+  }
 
   // Intercept anchor clicks for silky smooth glide with navbar offset
   document.addEventListener('click', (e) => {
@@ -4348,6 +4367,28 @@ if(m){
         );
       }
     };
+
+    // Hero Individual Screen Scroll-Lock: Lock scroll while loading wireframe
+    function lockHeroScrollListener(e) {
+      if (document.body.classList.contains('hero-loading')) {
+        e.preventDefault();
+      }
+    }
+    window.addEventListener('wheel', lockHeroScrollListener, { passive: false });
+    window.addEventListener('touchmove', lockHeroScrollListener, { passive: false });
+
+    window.unlockHeroScroll = function() {
+      if (!document.body.classList.contains('hero-loading')) return;
+      document.body.classList.remove('hero-loading');
+      window.removeEventListener('wheel', lockHeroScrollListener);
+      window.removeEventListener('touchmove', lockHeroScrollListener);
+      if (window.lenis) {
+        window.lenis.start();
+      }
+    };
+
+    // Safety fallback: unlock scroll after 1.4s regardless of canvas state
+    setTimeout(window.unlockHeroScroll, 1400);
   }
 
   initHeroButteryInteractions();
@@ -5136,6 +5177,7 @@ function getDiningPavilionLines() {
           hasLifted = true;
           currentRoom = 0;
           roomTimer = 0;
+          if (window.unlockHeroScroll) window.unlockHeroScroll();
         }
       } else if (hasLifted) {
         const easeSpeed = 0.24;
@@ -6413,7 +6455,7 @@ function renderGivaMonograph(p, i, n) {
         ['03', 'Narrow Optics', 'Tight overhead pinspots strike cool sterling silver directly, making every piece radiate off the warm backdrop.']
       ],
       `<div class="mono-quote-card" style="margin: 0 0 28px 0; padding: 20px 24px; background: rgba(var(--ink-rgb), 0.03); border-left: 3px solid var(--ink); border-radius: 0 10px 10px 0;">
-        <p style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.1rem, 1.7vw, 1.3rem); font-style: italic; line-height: 1.4; color: var(--ink); margin: 0 0 6px 0;">
+        <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(1.05rem, 1.5vw, 1.2rem); font-style: italic; font-weight: 500; line-height: 1.45; color: var(--ink); margin: 0 0 6px 0;">
           “I want to bring emphasis on silver jewellery in a market dominated by gold.”
         </p>
         <span style="font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">— The Founder’s brief that sparked the window concept</span>

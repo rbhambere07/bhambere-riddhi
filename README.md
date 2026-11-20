@@ -30,7 +30,7 @@ Official portfolio website of **Riddhi Bhambere**, Spatial Designer & Interior A
 ## 🛠️ Tech Stack & Architecture
 
 - **Core:** Pure Semantic HTML5, Modern CSS3 (Grid, Flexbox, Custom Properties, Glassmorphism), Modular Vanilla JavaScript
-- **Typography:** Playfair Display, Inter, Noto Serif Devanagari
+- **Typography:** Bricolage Grotesque, Plus Jakarta Sans, Noto Serif Devanagari
 - **Hosting & Deployment:** Vercel Global Edge Network with custom domain SSL (`riddhibhambere.com`)
 - **Interactive Features:**
   - AutoCAD crosshair cursor & drag-box CAD selection
